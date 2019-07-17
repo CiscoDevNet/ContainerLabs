@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- jmx-configuration is the root element and can contain only one server element -->
+<!ELEMENT jmx-configuration (server)>
+
+<!-- a server element can contain one or more metric elements -->
+<!ELEMENT server (metric*) >
+
+<!-- metric element should contain attribute-counter-mapping -->
+<!ELEMENT metric (attribute-counter-mappings)>
+<!ATTLIST metric
+          mbean-name-pattern    CDATA #REQUIRED
+          category              CDATA #REQUIRED
+          bean-name             CDATA
+          query-attribute       CDATA
+          query-expression-type CDATA
+          query-value           CDATA
+          instance-identifier   CDATA
+          instance-name   CDATA
+          metric-path   CDATA          
+          >
+
+<!ELEMENT attribute-counter-mappings (attribute-counter-mapping*)>
+
+<!ELEMENT attribute-counter-mapping (attribute-name, counter-name, counter-type, time-rollup-type, cluster-rollup-type, field-name)>
+
+<!ELEMENT attribute-name (#PCDATA)>
+<!ELEMENT counter-name (#PCDATA)>
+
+<!-- used by agent to report the value. observation implies the last value input>
+<counter-type>average | sum | observation </counter-type> -->
+<!ELEMENT counter-type (#PCDATA)>
+
+<!-- used by controller to rollup metrics from 1min to 10 min and 10 min to 1 hour buckets
+<time-rollup-type>average | sum | current </time-rollup-type> -->
+<!ELEMENT time-rollup-type (#PCDATA)>
+
+<!--
+used by controller to roll up node level metrics to tier level metrics.
+INDIVIDUAL - aggregate the metric value by averaging the metric value across each node in the tier.
+COLLECTIVE - aggregate the metric value by adding up the metric value for each node in the tier
+<cluster-rollup-type>individual | collective</cluster-rollup-type> -->
+<!ELEMENT cluster-rollup-type (#PCDATA)>
+<!ELEMENT field-name (#PCDATA)>
+
+          

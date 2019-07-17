@@ -1,0 +1,126 @@
+<div>
+    <div id="prodOPAcc">
+        <h3>Where is your exit point?</h3>
+        <div>
+            <a href="help/prodOPexitpoint.html" target="helpFrame">Whats this?</a>
+            <p>
+                Match Type:
+                <select id="prodOPEPMatchType">
+                    <option value="MATCHES_CLASS">Matches Class</option>
+                    <option value="IMPLEMENTS_INTERFACE">Implements Interface</option>
+                    <option value="INHERITS_FROM_CLASS">Inherits From Class</option>
+                    <option value="HAS_CLASS_ANNOTATION">Has Class Annotation</option>
+                </select>
+            </p>
+            <p>Full Class Name: <input type="text" id="prodOPEPClassName" size="43"></p>
+            <p>Method Name: <input type="text" id="prodOPEPMethodName" size="45"></p>
+            <p>Comma Separated Method Parameters (Optional):<br>
+                <input type="text" id="prodOPEPMethodPars" size="60">
+            </p>
+        </div>
+        <h3>Is correlation on a different method?</h3>
+        <div>
+            <a href="help/prodOPcorrdiff.html" target="helpFrame">Whats this?</a>
+            <p>
+                Match Type:
+                <select id="prodOPCPMatchType">
+                    <option value="MATCHES_CLASS">Matches Class</option>
+                    <option value="IMPLEMENTS_INTERFACE">Implements Interface</option>
+                    <option value="INHERITS_FROM_CLASS">Inherits From Class</option>
+                    <option value="HAS_CLASS_ANNOTATION">Has Class Annotation</option>
+                </select>
+            </p>
+            <p>Full Class Name: <input type="text" id="prodOPCPClassName" size="43"></p>
+            <p>Method Name: <input type="text" id="prodOPCPMethodName" size="45"></p>
+            <p>Comma Separated Method Parameters (Optional):<br>
+                <input type="text" id="prodOPCPMethodPars" size="60">
+            </p>
+        </div>
+        <h3>Where is your payload?</h3>
+        <div>
+            <div id="prodOPTabs">
+            <ul>
+                <li><a href="#prodOPTabs-1">Payload Pointer</a></li>
+                <li><a href="#prodOPTabs-2">Payload Operation</a></li>
+            </ul>
+                <div id="prodOPTabs-1">
+                    <a href="help/prodpayloadpointer.html" target="helpFrame">Whats this?</a>
+                    <p>
+                        Collect Data From:
+                        <select id="prodOPCorrType">
+                            <option value="POSITION">Method Parameter at Position</option>
+                            <option value="INVOKED">Invoked Object</option>
+                            <option value="RETURN">Return Value</option>
+                        </select>
+                    </p>
+                    <p><label id="prodOPPosNoLabel">Position Number: </label><input type="text" id="prodOPPosNo" size="40"></p>
+                    <p>
+                        Operation on Method Parameter:
+                        <select id="prodOPTransformerType">
+                            <option value="GETTER_METHODS">Getter Chain</option>
+                            <option value="USER_DEFINED_NAME">User Defined Name</option>
+                            <option value="SIMPLE_CLASS_NAME">Simple Class Name</option>
+                            <option value="FIELD_NAME">Field Name</option>
+                            <option value="TO_STRING">ToString</option>
+                        </select>
+                    </p>
+                    <p><label id="prodOPGetterChainLabel">Getter Chain: </label><input type="text" id="prodOPGetterChain" size="40"></p>
+                </div>
+                <div id="prodOPTabs-2">
+                    <a href="help/prodpayloadoperation.html" target="helpFrame">Whats this?</a>
+                    <p>
+                        Access Type:
+                        <select name="prodOPAccessType" id="prodOPAccessType">
+                            <option value="field">field</option>
+                            <option value="method">method</option>
+                            <option value="getter-chain">getter-chain</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label id="prodOPParamTypeLabel">Parameter Type:</label>
+                        <label id="prodOPParamSelectLabel"><select id="prodOPParamType">
+                            <option>java.lang.String</option>
+                            <option>java.lang.Object</option>
+                            <option>java.io.Serializable</option>
+                            <option>java.lang.Integer</option>
+                            <option>String</option>
+                            <option>Object</option>
+                            <option>Serializable</option>
+                            <option>java.lang.String[]</option>
+                            <option>String[]</option>
+                            <option>Ljava.lang.String</option>
+                            <option>Ljava/lang/String</option>
+                        </select></label>
+                        <input type="text" name="prodOPParamTypes" id="prodOPParamTypes" size="40">
+                    </p>
+                    <p><label id="prodOPFieldAccessLabel">Field Name: </label><input type="text" id="prodOPFieldAccessName"></p>
+                </div>
+            </div>
+        </div>
+        <h3>Create Custom Exit Point</h3>
+        <div>
+            <a href="help/customexit.html" target="helpFrame">Whats this?</a>
+            <p>Name: <input type="text" id="customExitPointName" value="CustomExitPoint"></p>
+            <p>
+                Collect Data From:
+                <select id="customExitCorrType">
+                    <option value="POSITION">Method Parameter at Position</option>
+                    <option value="INVOKED">Invoked Object</option>
+                    <option value="RETURN">Return Value</option>
+                </select>
+            </p>
+            <p><label id="customExitPosNoLabel">Position Number: </label><input type="text" id="customExitPosNo" size="40"></p>
+            <p>
+                Operation on Method Parameter:
+                <select id="customExitTransformerType">
+                    <option value="GETTER_METHODS">Getter Chain</option>
+                    <option value="USER_DEFINED_NAME">User Defined Name</option>
+                    <option value="SIMPLE_CLASS_NAME">Simple Class Name</option>
+                    <option value="FIELD_NAME">Field Name</option>
+                    <option value="TO_STRING">ToString</option>
+                </select>
+            </p>
+            <p><label id="customExitGetterChainLabel">Getter Chain: </label><input type="text" id="customExitGetterChain" size="40"></p>
+        </div>
+    </div>
+</div>

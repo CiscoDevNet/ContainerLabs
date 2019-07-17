@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<style type="text/css">
+td.java, td.java-ln {vertical-align:top;}
+tt.java, tt.java-ln, pre.java, pre.java-ln {line-height:1em; margin-bottom:0em;}
+td.java-ln { text-align:right; }
+tt.java-ln, pre.java-ln { color:#888888 }
+/* Background       */ span.java0  { font-size: 10pt; color:#ffffff; }
+/* Line numbers       */ span.java1  { font-size: 10pt; color:#808080; }
+/* Multi-line comments       */ span.java2  { font-size: 10pt; color:#008000; }
+/* Single-line comments       */ span.java3  { font-size: 10pt; color:#008000; }
+/* Keywords       */ span.java4  { font-size: 10pt; color:#0000c0; font-weight:bold; }
+/* Strings       */ span.java5  { font-size: 10pt; color:#990000; }
+/* Character constants       */ span.java6  { font-size: 10pt; color:#990000; }
+/* Numeric constants       */ span.java7  { font-size: 10pt; color:#990000; }
+/* Parenthesis       */ span.java8  { font-size: 10pt; color:#000000; }
+/* Primitive Types       */ span.java9  { font-size: 10pt; color:#c00000; font-weight:bold; }
+/* Others       */ span.java10  { font-size: 10pt; color:#000000; }
+/* Javadoc keywords       */ span.java11  { font-size: 10pt; color:#005500; }
+/* Javadoc HTML tags       */ span.java12  { font-size: 10pt; color:#008000; }
+/* Javadoc links       */ span.java13  { font-size: 10pt; color:#008000; }
+/* Javadoc others       */ span.java14  { font-size: 10pt; color:#008000; }
+/* Undefined       */ span.java15  { font-size: 10pt; color:#ff6100; }
+/* Annotation       */ span.java16  { font-size: 10pt; color:#646464; }
+</style>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title></title>
+</head>
+<body>
+<div class="java"><code class="java"><span class="java4">package </span><span class="java10">com.appdynamics.sample.exitcall.async;<br />
+<br />
+</span><span class="java4">import </span><span class="java10">java.rmi.Remote;<br />
+</span><span class="java4">import </span><span class="java10">java.rmi.RemoteException;<br />
+<br />
+</span><span class="java14">/**<br />
+ * Copyright (c) AppDynamics Technologies<br />
+ *<br />
+ * </span><span class="java11">@author </span><span class="java14">manoj.acharya (macharya@appdynamics.com)<br />
+ * </span><span class="java11">@version </span><span class="java14">2.0<br />
+ * </span><span class="java11">@since </span><span class="java14">1.0<br />
+ */<br />
+</span><span class="java4">public interface </span><span class="java10">IAsyncServer </span><span class="java4">extends </span><span class="java10">Remote<br />
+</span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java9">void </span><span class="java10">sayHelloAsync</span><span class="java8">(</span><span class="java10">String appdynamicsCorrelationHeader, String name</span><span class="java8">) </span><span class="java4">throws </span><span class="java10">RemoteException;<br />
+</span><span class="java8">}</span></code></div></body>
+</html>

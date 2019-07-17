@@ -1,0 +1,22 @@
+FROM bitnami/php-fpm:7.1
+
+# Copy the php config file
+COPY ./webapp/docker/php/php-fpm.conf /etc/php/7.1/fpm/pool.d/www.conf
+
+COPY ./php-agent/ /opt/appdynamics/php-agent/
+
+COPY ./start.sh /opt/appdynamics/php-agent/start.sh
+
+RUN chmod +x /opt/appdynamics/php-agent/start.sh
+
+# Copy the application code
+COPY ./webapp /code
+
+
+VOLUME ["/code"]
+
+RUN chmod -R 755 /opt/appdynamics/php-agent/
+RUN chmod 777 /opt/appdynamics/php-agent/logs
+
+
+ENTRYPOINT ["/bin/bash", "/opt/appdynamics/php-agent/start.sh"]

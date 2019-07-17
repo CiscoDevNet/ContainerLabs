@@ -1,0 +1,26 @@
+Build:
+----------------------
+cd agent/sdk
+ant build
+
+This will create a index.html in build/ which when opened will show the custom correlation helper tool.
+It also creates a customcorrelationhelper.zip in dist/ file which contains the whole build dir. 
+
+To Make Changes To Custom Correlation Helper Tool:
+---------------------------------------------
+make changes in following html files as desired.
+
+Main Pages:
+index.token
+includes/produceroutofprocess.html
+includes/producerinprocess.html
+includes/consumeroutofprocess.html
+includes/consumerinprocess.html
+
+Help Pages:
+help/*.html
+help/examples.js
+
+Custom Correlation Java Script:
+js/customcorrelation.js
+

@@ -1,0 +1,122 @@
+<activities>
+    <!--
+    <naming-config>
+        <naming-rule priority="10">
+            <data-gatherer-config>
+                <data-gatherer-type>INVOKED|RETURN|POSITION</data-gatherer-type>
+                <field-name></field-name>
+                <user-defined-name></user-defined-name>
+                <getter-chain></getter-chain>
+                <position></position>
+                <transformer-type>TO_STRING|SIMPLE_CLASS_NAME|FIELD_NAME|GETTER_METHODS|USER_DEFINED_NAME
+                </transformer-type>
+            </data-gatherer-config>
+            <include-package>
+                <include-package match-type="" match-pattern=""/>
+            </include-package>
+            <exclude-package>
+                <exclude-package match-type="" match-pattern=""/>
+            </exclude-package>
+            <include-name>
+                <include-name match-type="" match-pattern=""/>
+            </include-name>
+            <exclude-name>
+                <exclude-name match-type="" match-pattern=""/>
+            </exclude-name>
+        </naming-rule>
+    </naming-config>
+
+    <producer enabled="true" priority="10" in-process="true" on-method-end="true"
+                  activity-type="Queue_Submit">
+            <instrumentation>
+                <class-name></class-name>
+                <method-name></method-name>
+                <match-type></match-type>
+                <param-types></param-types>
+                <match-no-args-only></match-no-args-only>
+            </instrumentation>
+            <identifiers>
+                <identifier>
+                    <name></name>
+                    <data-gatherer-type>INVOKED|RETURN|POSITION</data-gatherer-type>
+                    <field-name></field-name>
+                    <user-defined-name></user-defined-name>
+                    <getter-chain></getter-chain>
+                    <position></position>
+                    <transformer-type>TO_STRING|SIMPLE_CLASS_NAME|FIELD_NAME|GETTER_METHODS|USER_DEFINED_NAME</transformer-type>
+                </identifier>
+            </identifiers>
+            <correlation>
+                <instrumentation>
+                    <class-name></class-name>
+                    <method-name></method-name>
+                    <match-type></match-type>
+                    <param-types></param-types>
+                    <match-no-args-only></match-no-args-only>
+                </instrumentation>
+                <payload-pointer>
+                    <data-gatherer-type>INVOKED|RETURN|POSITION</data-gatherer-type>
+                    <field-name></field-name>
+                    <user-defined-name></user-defined-name>
+                    <getter-chain></getter-chain>
+                    <position></position>
+                    <transformer-type>TO_STRING|SIMPLE_CLASS_NAME|FIELD_NAME|GETTER_METHODS|USER_DEFINED_NAME
+                    </transformer-type>
+                </payload-pointer>
+                <payload-operation>
+                    <access-type>field|method</access-type>
+                    <param-types>String|Object</param-types>
+                    <access-method></access-method>
+                </payload-operation>
+                <validator-config>
+                    <validator
+                        match-type="STARTSWITH|ENDSWITH|CONTAINS|EQUALS|REGEX|INLIST|NOTEMPTY|INHERITS_FROM_CLASS|IMPLEMENTS_INTERFACE|MATCHES_CLASS|HAS_ANNOTATION"
+                        class-match-type=""
+                        match-pattern="">
+                        <data-match-config>
+                            <data-gatherer-type>INVOKED|RETURN|POSITION</data-gatherer-type>
+                            <field-name></field-name>
+                            <user-defined-name></user-defined-name>
+                            <getter-chain></getter-chain>
+                            <position></position>
+                            <transformer-type>TO_STRING|SIMPLE_CLASS_NAME|FIELD_NAME|GETTER_METHODS|USER_DEFINED_NAME
+                            </transformer-type>
+                        </data-match-config>
+                    </validator>
+                </validator-config>
+            </correlation>
+        </producer>
+        <consumer enabled="true" priority="10" in-process="true" activity-processed-in-loop="true">
+            <instrumentation>
+                <class-name></class-name>
+                <method-name></method-name>
+                <match-type></match-type>
+                <param-types></param-types>
+                <match-no-args-only></match-no-args-only>
+            </instrumentation>
+            <correlation>
+                <instrumentation>
+                    <class-name></class-name>
+                    <method-name></method-name>
+                    <match-type></match-type>
+                    <param-types></param-types>
+                    <match-no-args-only></match-no-args-only>
+                </instrumentation>
+                <payload-pointer>
+                    <data-gatherer-type>INVOKED|RETURN|POSITION</data-gatherer-type>
+                    <field-name></field-name>
+                    <user-defined-name></user-defined-name>
+                    <getter-chain></getter-chain>
+                    <position></position>
+                    <transformer-type>TO_STRING|SIMPLE_CLASS_NAME|FIELD_NAME|GETTER_METHODS|USER_DEFINED_NAME
+                    </transformer-type>
+                </payload-pointer>
+                <payload-operation>
+                    <access-type>field|method</access-type>
+                    <param-types>String|Object</param-types>
+                    <access-methods></access-methods>
+                </payload-operation>
+            </correlation>
+        </consumer>-->
+
+</activities>

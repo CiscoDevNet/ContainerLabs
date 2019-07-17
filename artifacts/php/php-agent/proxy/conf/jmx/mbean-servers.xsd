@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.appdynamics.com" xmlns="http://www.appdynamics.com" elementFormDefault="qualified">
+
+<xs:element name="servers">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="server" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="mbean-server-name" type="xs:string" use="required"/>
+                    <xs:attribute name="mbean-name-pattern" type="xs:string" use="required" />
+                    <xs:attribute name="version-attribute" type="xs:string" />
+                    <xs:attribute name="version-contains" type="xs:string" />
+                    <xs:attribute name="version-startsWith" type="xs:string" />
+                    <xs:attribute name="config-file" type="xs:string" use="required" />
+                    <xs:attribute name="mbean-server-lookup-string" type="xs:string" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+</xs:schema>

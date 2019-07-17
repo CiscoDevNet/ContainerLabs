@@ -1,0 +1,85 @@
+<div>
+    <div id="consIPAcc">
+        <h3>Where is your entry point?</h3>
+        <div>
+            <a href="help/consIPentrypoint.html" target="helpFrame">Whats this?</a>
+            <p><input type="checkbox" name="consIPCPType" value="activity-processed-in-loop">Is your action processed in loop?</p>
+            <p>
+                Match Type:
+                <select id="consIPEPMatchType">
+                    <option value="MATCHES_CLASS">Matches Class</option>
+                    <option value="IMPLEMENTS_INTERFACE">Implements Interface</option>
+                    <option value="INHERITS_FROM_CLASS">Inherits From Class</option>
+                    <option value="HAS_CLASS_ANNOTATION">Has Class Annotation</option>
+                </select>
+            </p>
+            <p>Full Class Name: <input type="text" id="consIPEPClassName" size="43"></p>
+            <p>Method Name: <input type="text" id="consIPEPMethodName" size="45"></p>
+            <p>Comma Separated Method Parameters (Optional):<br>
+                <input type="text" id="consIPEPMethodPars" size="60">
+            </p>
+        </div>
+        <h3>Where is your payload?</h3>
+        <div>
+            <a href="help/consIPcorrdiff.html" target="helpFrame">Whats this?</a>
+            <div id="consIPTabs">
+                <ul>
+                    <li><a href="#consIPTabs-1">Payload Pointer</a></li>
+                    <li><a href="#consIPTabs-2">Payload Operation</a></li>
+                </ul>
+                <div id="consIPTabs-1">
+                    <a href="help/conspayloadpointer.html" target="helpFrame">Whats this?</a>
+                    <p>
+                        Collect Data From:
+                        <select id="consIPCorrType">
+                            <option value="POSITION">Method Parameter at Position</option>
+                            <option value="INVOKED">Invoked Object</option>
+                            <option value="RETURN">Return Value</option>
+                        </select>
+                    </p>
+                    <p><label id="consIPPosNoLabel">Position Number: </label><input type="text" id="consIPPosNo" size="40"></p>
+                    <p>
+                        Operation on Method Parameter:
+                        <select id="consIPTransformerType">
+                            <option value="GETTER_METHODS">Getter Chain</option>
+                            <option value="USER_DEFINED_NAME">User Defined Name</option>
+                            <option value="SIMPLE_CLASS_NAME">Simple Class Name</option>
+                            <option value="FIELD_NAME">Field Name</option>
+                            <option value="TO_STRING">ToString</option>
+                        </select>
+                    </p>
+                    <p><label id="consIPGetterChainLabel">Getter Chain: </label><input type="text" id="consIPGetterChain" size="40"></p>
+                </div>
+                <div id="consIPTabs-2">
+                    <a href="help/conspayloadoperation.html" target="helpFrame">Whats this?</a>
+                    <p>
+                        Access Type:
+                        <select name="consIPAccessType" id="consIPAccessType">
+                            <option value="field">field</option>
+                            <option value="method">method</option>
+                            <option value="getter-chain">getter-chain</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label id="consIPParamTypeLabel">Parameter Type:</label>
+                        <label id="consIPParamSelectLabel"><select id="consIPParamType">
+                            <option>java.lang.String</option>
+                            <option>java.lang.Object</option>
+                            <option>java.io.Serializable</option>
+                            <option>java.lang.Integer</option>
+                            <option>String</option>
+                            <option>Object</option>
+                            <option>Serializable</option>
+                            <option>java.lang.String[]</option>
+                            <option>String[]</option>
+                            <option>Ljava.lang.String</option>
+                            <option>Ljava/lang/String</option>
+                        </select></label>
+                        <input type="text" name="consIPParamTypes" id="consIPParamTypes" size="40">
+                    </p>
+                    <p><label id="consIPFieldAccessLabel">Field Name: </label><input type="text" id="consIPFieldAccessName"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

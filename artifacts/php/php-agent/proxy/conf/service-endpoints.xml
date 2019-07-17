@@ -1,0 +1,200 @@
+<business-transactions>
+    <time-stamp>1392062380204</time-stamp>
+    <binary-remoting-entry-points enabled="true">
+        <custom/>
+        <automatic-transaction-discovery enabled="true" resolution="first-entry-point">
+            <excludes/>
+            <naming-scheme type="simple-class-name-and-method-name"/>
+        </automatic-transaction-discovery>
+    </binary-remoting-entry-points>
+    <spring-bean-entry-points enabled="true">
+        <custom/>
+        <automatic-transaction-discovery enabled="false" resolution="first-entry-point">
+            <excludes/>
+            <naming-scheme type="bean-id-and-method-name"/>
+        </automatic-transaction-discovery>
+    </spring-bean-entry-points>
+    <web-service-entry-points enabled="true">
+        <custom/>
+        <automatic-transaction-discovery enabled="true" resolution="first-entry-point">
+            <excludes/>
+            <naming-scheme type="service-name-and-operation-name"/>
+        </automatic-transaction-discovery>
+    </web-service-entry-points>
+    <struts-action-entry-points enabled="true">
+        <custom>
+            <transaction id="29" name="sep_struts1">
+                <struts-action-rule>
+                    <enabled>true</enabled>
+                    <priority>0</priority>
+                    <action-name filter-type="EQUALS" filter-value="ViewCart"/>
+                    <action-method-name filter-type="EQUALS" filter-value="addToCart"/>
+                </struts-action-rule>
+            </transaction>
+            <transaction id="30" name="sep_struts2">
+                <struts-action-rule>
+                    <enabled>true</enabled>
+                    <priority>0</priority>
+                    <action-name filter-type="EQUALS" filter-value="ViewCart"/>
+                    <action-method-name filter-type="EQUALS" filter-value="sendItems"/>
+                </struts-action-rule>
+            </transaction>
+            <transaction id="31" name="sep_struts3">
+                <struts-action-rule>
+                    <enabled>true</enabled>
+                    <priority>0</priority>
+                    <action-name filter-type="EQUALS" filter-value="ViewItems"/>
+                    <action-method-name filter-type="EQUALS" filter-value="getAllItems"/>
+                </struts-action-rule>
+            </transaction>
+        </custom>
+        <automatic-transaction-discovery enabled="true" resolution="first-entry-point">
+            <excludes/>
+            <naming-scheme type="action-name-method-name"/>
+        </automatic-transaction-discovery>
+    </struts-action-entry-points>
+    <servlet-entry-points enabled="true">
+        <custom/>
+        <automatic-transaction-discovery enabled="true" resolution="first-entry-point">
+            <excludes>
+                <exclude name="Apache Axis Servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="org.apache.axis.transport.http.AxisServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Apache Axis2 Servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="org.apache.axis2.transport.http.AxisServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Apache Axis2 Admin Servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="org.apache.axis2.transport.http.AxisAdminServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Struts Action Servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="org.apache.struts.action.ActionServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Websphere web-services Servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="com.ibm.ws.webservices.engine.transport.http.WebServicesServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Websphere web-services axis Servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="com.ibm.ws.websvcs.transport.http.WASAxis2Servlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="JBoss web-services servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="org.jboss.wsf.stack.jbws.EndpointServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="XFire web-services servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="org.codehaus.xfire.transport.http.XFireConfigurableServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Weblogic JAX RPC Servlets">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="STARTSWITH" filter-value="weblogic.wsee.server.servlet."/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Weblogic JAX WS Webservice Servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="weblogic.wsee.jaxws.JAXWSServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Weblogic JAX WS Servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="weblogic.wsee.jaxws.JAXWSWebAppServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="JAX WS RI Dispatcher Servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="com.sun.xml.ws.transport.http.servlet.WSServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Spring WS - dispatching of Web service messages">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="org.springframework.ws.transport.http.MessageDispatcherServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Spring WS - Base servlet for Spring's web framework">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="org.springframework.web.servlet.FrameworkServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="CometD Servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="org.cometd.server.CometdServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="CometD Annotation Servlet">
+                    <servlet-rule>
+                        <enabled>true</enabled>
+                        <priority>0</priority>
+                        <class-name filter-type="EQUALS" filter-value="org.cometd.annotation.AnnotationCometdServlet"/>
+                    </servlet-rule>
+                </exclude>
+            </excludes>
+            <naming-scheme type="uri">
+                <property name="uri-length" value="first-n-segments"/>
+                <property name="segment-length" value="2"/>
+            </naming-scheme>
+        </automatic-transaction-discovery>
+    </servlet-entry-points>
+    <jms-entry-points enabled="true">
+        <custom/>
+        <automatic-transaction-discovery enabled="true" resolution="first-entry-point">
+            <excludes/>
+            <naming-scheme type="destination-name"/>
+        </automatic-transaction-discovery>
+    </jms-entry-points>
+    <ejb-entry-points enabled="true">
+        <custom/>
+        <automatic-transaction-discovery enabled="false" resolution="first-entry-point">
+            <excludes/>
+            <naming-scheme type="ejb-name-and-method-name"/>
+        </automatic-transaction-discovery>
+    </ejb-entry-points>
+    <pojo-entry-points enabled="true">
+        <custom/>
+        <automatic-transaction-discovery enabled="false" resolution="first-entry-point">
+            <excludes/>
+            <naming-scheme type="fully-qualified-class-name"/>
+        </automatic-transaction-discovery>
+    </pojo-entry-points>
+</business-transactions>

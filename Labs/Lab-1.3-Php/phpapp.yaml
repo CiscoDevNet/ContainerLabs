@@ -1,0 +1,60 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: php-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: php-app
+    spec:
+      serviceAccountName: appd-account
+      containers:
+        - name: webapp
+          image: sashaz/php-web
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: shared-data
+            mountPath: /code
+          resources:
+            limits:
+              cpu: 200m
+              memory: 900M
+            requests:
+              cpu: 100m
+              memory: 600M
+          ports:
+          - containerPort: 9000
+        - name: nginx
+          image: sashaz/nginx-php
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: shared-data
+            mountPath: /code
+          resources:
+            limits:
+              cpu: 200m
+              memory: 900M
+            requests:
+              cpu: 100m
+              memory: 600M
+          ports:
+          - containerPort: 8080
+      restartPolicy: Always
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-app
+spec:
+  selector:
+    name: php-app
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080

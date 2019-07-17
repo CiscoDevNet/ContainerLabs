@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="../jquery-ui-1.9.2.custom/css/smoothness/jquery-ui-1.9.2.custom.min.css">
+        <link rel="stylesheet" href="../jquery-ui-1.9.2.custom/development-bundle/demos/demos.css">
+        <script src="../jquery-ui-1.9.2.custom/js/jquery-1.8.3.js"></script>
+        <script src="../jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.min.js"></script>
+        <script src="examples.js"></script>
+    </head>
+    <body>
+        <h2 align="center">Producer : Where is your payload? : Payload Operation</h2>
+        <p class="helpNote" style="font-size:12;font-weight:bold">
+            This section is used to specify the field or the method which is used to set or get the correlation header.<br>
+            The access type can be a field or a method
+        </p>
+        <div id="exampleTabs">
+            <ul>
+                <li><a href="#exampleTabs-1">Example 1</a></li>
+            </ul>
+            <div id="exampleTabs-1">
+                <p class="helpCode" style="font-size:11;font-style:italic">
+                    package com.packagename;<br>
+                    public class CustomPayload {<br>
+                </p>
+                <p class="helpStar" style="font-size:11;font-style:italic;color:red;font-weight:bold">
+                    &nbsp&nbsp&nbsp&nbsp private String correlationKey;    // Will be used for custom correlation.<br>
+                </p>
+                <p class="helpStar" style="font-size:11;font-style:italic;color:red;font-weight:bold">
+                    &nbsp&nbsp&nbsp&nbsp void setCorrelationKey(String key) {<br>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp this.correlationKey = key;<br>
+                    &nbsp&nbsp&nbsp&nbsp }
+                </p>
+                <p class="helpCode" style="font-size:11;font-style:italic">
+                    }<br>
+                </p>
+
+                <p class="helpNote" style="font-size:12">
+                    In the example above the method 'setCorrelationKey(String key)'
+                    of class 'com.packagename.CustomPayload' is the method which will be used to set the payload.
+                </p>
+                <hr/>
+                <p class="helpValues" style="font-size:12;color:blue;">
+                    <b>Values to put in this section of the tool for the above example:<br></b>
+                    Access Type: method<br>
+                    Parameters Types: String key<br>
+                    Access Method Name: setCorrelationKey<br>
+                </p>
+                <p class="helpNote" style="font-size:12">
+                    Also as in the example above the field correlationKey of class 'com.packagename.CustomPayload'
+                    can directly be used to set the payload as well.
+                </p>
+                <hr/>
+                <p class="helpValues" style="font-size:12;color:blue;">
+                    <b>Values to put in this section of the tool for the above example:<br></b>
+                    Access Type: field<br>
+                    Parameters Type: String key<br>
+                    Field Name: correlationKey<br>
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

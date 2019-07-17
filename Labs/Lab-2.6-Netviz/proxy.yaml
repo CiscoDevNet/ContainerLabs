@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: analytics-proxy
+spec:
+  type: ExternalName
+  externalName: appd-infra-agent-service.<namespace>.svc.cluster.local
+  ports:
+  - port: 9090
+    targetPort: 9090

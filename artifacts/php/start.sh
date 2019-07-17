@@ -1,0 +1,6 @@
+#!/bin/sh
+
+./install.sh -a=${APPDYNAMICS_AGENT_ACCOUNT_NAME}@${APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY} ${APPDYNAMICS_CONTROLLER_HOST_NAME} ${APPDYNAMICS_CONTROLLER_PORT} ${APPDYNAMICS_APPLICATION_NAME} ${APPDYNAMICS_TIER_NAME} ${APPDYNAMICS_NODE_NAME} &&
+
+php-fpm -F --pid /opt/bitnami/php/tmp/php-fpm.pid -y /opt/bitnami/php/etc/php-fpm.conf
+

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<style type="text/css">
+td.java, td.java-ln {vertical-align:top;}
+tt.java, tt.java-ln, pre.java, pre.java-ln {line-height:1em; margin-bottom:0em;}
+td.java-ln { text-align:right; }
+tt.java-ln, pre.java-ln { color:#888888 }
+/* Background       */ span.java0  { font-size: 10pt; color:#ffffff; }
+/* Line numbers       */ span.java1  { font-size: 10pt; color:#808080; }
+/* Multi-line comments       */ span.java2  { font-size: 10pt; color:#008000; }
+/* Single-line comments       */ span.java3  { font-size: 10pt; color:#008000; }
+/* Keywords       */ span.java4  { font-size: 10pt; color:#0000c0; font-weight:bold; }
+/* Strings       */ span.java5  { font-size: 10pt; color:#990000; }
+/* Character constants       */ span.java6  { font-size: 10pt; color:#990000; }
+/* Numeric constants       */ span.java7  { font-size: 10pt; color:#990000; }
+/* Parenthesis       */ span.java8  { font-size: 10pt; color:#000000; }
+/* Primitive Types       */ span.java9  { font-size: 10pt; color:#c00000; font-weight:bold; }
+/* Others       */ span.java10  { font-size: 10pt; color:#000000; }
+/* Javadoc keywords       */ span.java11  { font-size: 10pt; color:#005500; }
+/* Javadoc HTML tags       */ span.java12  { font-size: 10pt; color:#008000; }
+/* Javadoc links       */ span.java13  { font-size: 10pt; color:#008000; }
+/* Javadoc others       */ span.java14  { font-size: 10pt; color:#008000; }
+/* Undefined       */ span.java15  { font-size: 10pt; color:#ff6100; }
+/* Annotation       */ span.java16  { font-size: 10pt; color:#646464; }
+</style>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title></title>
+</head>
+<body>
+<div class="java"><code class="java"><span class="java14">/**<br />
+ * Copyright (c) AppDynamics Technologies<br />
+ *<br />
+ *<br />
+ * </span><span class="java11">@author </span><span class="java14">manoj.acharya (macharya@appdynamics.com)<br />
+ * </span><span class="java11">@version </span><span class="java14">2.0<br />
+ * </span><span class="java11">@since </span><span class="java14">1.0<br />
+ */<br />
+<br />
+</span><span class="java4">package </span><span class="java10">com.appdynamics.sample.exitcall.sync;<br />
+<br />
+</span><span class="java14">/**<br />
+ * This class demonstrates use of appdynamics Transaction api to<br />
+ * demarcate calls to synchronous remote services using custom protocols.<br />
+ *<br />
+ * The SyncClient makes a lookup to a remote SyncServer and<br />
+ * invokes sayHello(...) method.<br />
+ *<br />
+ * The appdynamics transaction api is used to mark the begin (beginExternalCall) and end (endExternalCall) of<br />
+ * the remote api call.<br />
+ *<br />
+ * In this example the begin call returns a transaction correlation header that is<br />
+ * passed as a method parameter. The SyncServer uses appdynamics transaction api<br />
+ * to pass the transaction header and mark the begin and end of continuing transaction.<br />
+ *<br />
+ * To compile this program you will need the javagent.jar in classpath<br />
+ *<br />
+ * Start the rmiregistry and run the rmi server<br />
+ * Set the following VM param in the client JVM as appropriate for your setup<br />
+ *<br />
+ * VM params :<br />
+ *<br />
+ * -javaagent:/Users/manojacharya/Work/singularity-tech/GA/CustomAPI/client/javaagent.jar<br />
+ *<br />
+ *<br />
+ */<br />
+<br />
+</span><span class="java4">import </span><span class="java10">com.appdynamics.apm.appagent.api.AgentDelegate;<br />
+</span><span class="java4">import </span><span class="java10">com.appdynamics.apm.appagent.api.ITransactionDemarcator;<br />
+<br />
+</span><span class="java4">import </span><span class="java10">java.rmi.NotBoundException;<br />
+</span><span class="java4">import </span><span class="java10">java.rmi.RemoteException;<br />
+</span><span class="java4">import </span><span class="java10">java.rmi.registry.LocateRegistry;<br />
+</span><span class="java4">import </span><span class="java10">java.rmi.registry.Registry;<br />
+<br />
+<br />
+</span><span class="java4">public class </span><span class="java10">SyncClient<br />
+</span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java10">String name = </span><span class="java5">&#34;SyncServer&#34;</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0; <br />
+&#xA0;&#xA0;&#xA0; </span><span class="java3">//Fetch the appdynamics transaction delegate<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">private static </span><span class="java10">ITransactionDemarcator delegate = AgentDelegate.getTransactionDemarcator</span><span class="java8">()</span><span class="java10">;<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java10">SyncClient</span><span class="java8">()<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0; }<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java14">/**<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * The POJO Rule defines the sayHello method as the transaction boundary.<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * The method looks up the remote rmi server object and invokes the remote method<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@throws </span><span class="java14">RemoteException<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@throws </span><span class="java14">NotBoundException<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@throws </span><span class="java14">InterruptedException<br />
+&#xA0;&#xA0;&#xA0;&#xA0; */<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java9">void </span><span class="java10">sayHello</span><span class="java8">() </span><span class="java4">throws </span><span class="java10">RemoteException, NotBoundException, InterruptedException<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">Registry registry = LocateRegistry.getRegistry</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; ISyncServer server = </span><span class="java8">(</span><span class="java10">ISyncServer</span><span class="java8">) </span><span class="java10">registry.lookup</span><span class="java8">(</span><span class="java10">name</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; String msg = invokeServer</span><span class="java8">(</span><span class="java10">server</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; System.out.println</span><span class="java8">(</span><span class="java5">&#34;Message from server [&#34;</span><span class="java10">+msg+</span><span class="java5">&#34;]&#34;</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java14">/**<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * Marks the begin and end of the remote server call<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@param </span><span class="java14">server<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@return<br />
+&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java14">* </span><span class="java11">@throws </span><span class="java14">RemoteException<br />
+&#xA0;&#xA0;&#xA0;&#xA0; */<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">private </span><span class="java10">String invokeServer</span><span class="java8">(</span><span class="java10">ISyncServer server</span><span class="java8">) </span><span class="java4">throws </span><span class="java10">RemoteException<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">try<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java3">//begin external call, returns header and header is propagated to server<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">String appdynamicsCorrelationHeader = delegate.beginExternalCall</span><span class="java8">(</span><span class="java10">name, name, </span><span class="java4">true</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">return </span><span class="java10">server.sayHello</span><span class="java8">(</span><span class="java10">appdynamicsCorrelationHeader, </span><span class="java5">&#34;John Doe&#34;</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">finally<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java3">// end external call<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">delegate.endExternalCall</span><span class="java8">(</span><span class="java10">false, </span><span class="java4">null</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0; }<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public static </span><span class="java9">void </span><span class="java10">main</span><span class="java8">(</span><span class="java10">String args</span><span class="java8">[]) </span><span class="java4">throws </span><span class="java10">NotBoundException, RemoteException, InterruptedException<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java9">int </span><span class="java10">loopCount = </span><span class="java7">100</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">if</span><span class="java8">(</span><span class="java10">args.length == </span><span class="java7">1</span><span class="java8">) </span><span class="java10">loopCount = Integer.parseInt</span><span class="java8">(</span><span class="java10">args</span><span class="java8">[</span><span class="java7">0</span><span class="java8">])</span><span class="java10">;<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; System.setSecurityManager</span><span class="java8">(</span><span class="java4">null</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">for</span><span class="java8">(</span><span class="java9">int </span><span class="java10">i=</span><span class="java7">0</span><span class="java10">; i &lt; loopCount; i++</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">SyncClient client = </span><span class="java4">new </span><span class="java10">SyncClient</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; client.sayHello</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; Thread.sleep</span><span class="java8">(</span><span class="java7">20 </span><span class="java10">* </span><span class="java7">1000</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0; }<br />
+}</span></code></div></body>
+</html>

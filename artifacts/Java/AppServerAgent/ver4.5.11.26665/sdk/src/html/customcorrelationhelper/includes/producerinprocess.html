@@ -1,0 +1,83 @@
+<div>
+    <div id="prodIPAcc">
+        <h3>Where is your exit point?</h3>
+        <div>
+            <a href="help/prodIPexitpoint.html" target="helpFrame">Whats this?</a>
+            <p>
+                Match Type:
+                <select id="prodIPEPMatchType">
+                    <option value="MATCHES_CLASS">Matches Class</option>
+                    <option value="IMPLEMENTS_INTERFACE">Implements Interface</option>
+                    <option value="INHERITS_FROM_CLASS">Inherits From Class</option>
+                    <option value="HAS_CLASS_ANNOTATION">Has Class Annotation</option>
+                </select>
+            </p>
+            <p>Full Class Name: <input type="text" id="prodIPEPClassName" size="43"></p>
+            <p>Method Name: <input type="text" id="prodIPEPMethodName" size="45"></p>
+            <p>Comma Separated Method Parameters (Optional):<br>
+                <input type="text" id="prodIPEPMethodPars" size="60">
+            </p>
+        </div>
+        <h3>Where is your payload?</h3>
+        <div>
+            <div id="prodIPTabs">
+                <ul>
+                    <li><a href="#prodIPTabs-1">Payload Pointer</a></li>
+                    <li><a href="#prodIPTabs-2">Payload Operation</a></li>
+                </ul>
+                <div id="prodIPTabs-1">
+                    <a href="help/prodpayloadpointer.html" target="helpFrame">Whats this?</a>
+                    <p>
+                        Collect Data From:
+                        <select id="prodIPCorrType">
+                            <option value="POSITION">Method Parameter at Position</option>
+                            <option value="INVOKED">Invoked Object</option>
+                            <option value="RETURN">Return Value</option>
+                        </select>
+                    </p>
+                    <p><label id="prodIPPosNoLabel">Position Number: </label><input type="text" id="prodIPPosNo" size="40"></p>
+                    <p>
+                        Operation on Method Parameter:
+                        <select id="prodIPTransformerType">
+                            <option value="GETTER_METHODS">Getter Chain</option>
+                            <option value="USER_DEFINED_NAME">User Defined Name</option>
+                            <option value="SIMPLE_CLASS_NAME">Simple Class Name</option>
+                            <option value="FIELD_NAME">Field Name</option>
+                            <option value="TO_STRING">ToString</option>
+                        </select>
+                    </p>
+                    <p><label id="prodIPGetterChainLabel">Getter Chain: </label><input type="text" id="prodIPGetterChain" size="40"></p>
+                </div>
+                <div id="prodIPTabs-2">
+                    <a href="help/prodpayloadoperation.html" target="helpFrame">Whats this?</a>
+                    <p>
+                        Access Type:
+                        <select name="prodIPAccessType" id="prodIPAccessType">
+                            <option value="field">field</option>
+                            <option value="method">method</option>
+                            <option value="getter-chain">getter-chain</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label id="prodIPParamTypeLabel">Parameter Type:</label>
+                        <label id="prodIPParamSelectLabel"><select id="prodIPParamType">
+                            <option>java.lang.String</option>
+                            <option>java.lang.Object</option>
+                            <option>java.io.Serializable</option>
+                            <option>java.lang.Integer</option>
+                            <option>String</option>
+                            <option>Object</option>
+                            <option>Serializable</option>
+                            <option>java.lang.String[]</option>
+                            <option>String[]</option>
+                            <option>Ljava.lang.String</option>
+                            <option>Ljava/lang/String</option>
+                        </select></label>
+                        <input type="text" name="prodIPParamTypes" id="prodIPParamTypes" size="40">
+                    </p>
+                    <p><label id="prodIPFieldAccessLabel">Field Name: </label><input type="text" id="prodIPFieldAccessName"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

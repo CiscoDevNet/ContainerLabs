@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<controller-info>
+    <controller-host>localhost</controller-host>
+    <controller-port>$controller.port</controller-port>
+    <controller-ssl-enabled>$controller.ssl.enabled</controller-ssl-enabled>
+    <enable-orchestration>false</enable-orchestration>
+    <use-simple-hostname>false</use-simple-hostname>
+
+    <!-- Before you enable Use Encrypted Credentials, see the instructions on how to initialize the
+    Secure Credential Store:
+    https://docs.appdynamics.com/display/LATEST/Encrypt+Credentials+for+Agent+Configuration
+    Set Use Encrypted Credentials to "True" to configure the agent to use credentials encrypted
+    with the Secure Credential Store. When you enable Use Encrypted Credentials, you must supply the
+    Credential Store Filename and the obfuscated Credential Store Password. -->
+    <use-encrypted-credentials></use-encrypted-credentials>
+    <!-- Full qualified path name for the SCS-KeyStore file name. -->
+    <credential-store-filename></credential-store-filename>
+    <!-- Password for the 'Secure Credential Store' (SCS). This password must be obfuscated. -->
+    <credential-store-password></credential-store-password>
+
+    <!-- If this value is set to true, it indicates that the controller is expecting to perform
+    Client-Authentication. If this value is false or undefined, all subsequent asymmetric are considered
+    meaningless, hence ignored. -->
+    <use-ssl-client-auth>false</use-ssl-client-auth>
+    <!-- Asymmetric keystore filename -->
+    <asymmetric-keystore-filename></asymmetric-keystore-filename>
+    <!-- Asymmetric keystore password - Note, this password must be encrypted, if scs is enabled. -->
+    <asymmetric-keystore-password></asymmetric-keystore-password>
+    <!-- Asymmetric key password - Note, this password must be encrypted, if scs is enabled. -->
+    <asymmetric-key-password></asymmetric-key-password>
+    <!-- Asymmetric key alias - this alias must be set only if keystore has multiple keys for deterministic key selection.-->
+    <asymmetric-key-alias></asymmetric-key-alias>
+
+    <!-- If the Controller is running in multi-tenant mode, specify the account name. For both
+    single-tenant and multi-tenant Controllers, specify the account access key. -->
+    <account-name>$account.name</account-name>
+    <!-- This can be overridden with an environment variable 'APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY' or
+    the system property '-Dappdynamics.agent.accountAccessKey'
+    This account-access-key must be encrypted if 'use-encrypted-credentials' is set to true -->
+    <account-access-key>SJ5b2m7d1$354</account-access-key>
+
+    <!--  For Auto Agent Registration specify the application name, tier name,
+          and node name. If the application, tier, or node does not
+          exist already it will be created. -->
+    <application-name></application-name>
+    <tier-name></tier-name>
+    <node-name></node-name>
+
+    <force-agent-registration>false</force-agent-registration>
+
+    <!-- Sets the runtime directory for all runtime files (logs, transaction configuration) for nodes
+    that use this agent installation. If this property is specified, all agent logs are written to
+    <Agent-Runtime-Directory>/logs/node-name and transaction configuration is written to the
+    <Agent-Runtime-Directory>/conf/node-name directory.
+    This can be overridden with an environment variable 'APPDYNAMICS_AGENT_BASE_DIR' or or the system
+    property '-Dappdynamics.agent.runtime.dir-->
+    <agent-runtime-dir></agent-runtime-dir>
+</controller-info>

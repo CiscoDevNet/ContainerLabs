@@ -1,0 +1,44 @@
+Instructions for setting up php agent on an Ubuntu 12.X / CentOS 5.X server
+---------------------------------------------------------------------------
+
+php_agent_root is the directory in the php agent tarball that contains this file.
+The suggested location to untar is /usr/local/opt/php_agent_root
+Note:All commands in the instructions need to be run as root
+
+**************************************************************
+You can run the install.sh script instead of steps 2,3 and 6,7.
+**************************************************************
+
+1) Untar the tarball containing the php agent using the command.
+    tar -xvjf appdynamics-php-agent-<<architecture>>-linux.tar.bz2
+    Example: tar -xvjf appdynamics-php-agent-x64-linux.tar.bz2
+2) Configure agent.php_agent_root property to $php_agent_root directory in $php_agent_root/php/conf/appdynamics_agent.ini file
+3) Configure controller-host, controller-port, application-name, tier-name
+   and node-name in the $php_agent_root/proxy/conf/controller-info.xml file.
+   If you're using a multi-tenant controller, also configure account-name
+   and account-access-key.
+
+
+Instructions specific to Ubuntu 12.X server
+-------------------------------------------
+4) Make sure php 5.3.X is installed and Apache is configured to run php scripts:
+  sudo apt-get install apache2 php5
+5) Stop Apache: sudo /etc/init.d/apache2 stop
+6) As root, copy contents of $php_agent_root/php/conf to the PHP INI files
+   directory (usually /etc/php5/conf.d/).
+7) As root, cp --remove-destination $php_agent_root/php/modules/appdynamics_agent_php_5.3.so to the
+   extensions directory (usually /usr/lib/php5/20090626/).
+8) Start Apache: sudo /etc/init.d/apache2 start
+
+Instructions specific to CentOS 5.X server
+------------------------------------------
+4) Make sure php 5.3.X is installed and Apache is configured to run php scripts:
+  sudo yum install httpd mod_ssl
+  sudo yum install php-mysql php-devel php-gd php-pspell php-xmlrpc php-xml
+5) Stop Apache: sudo /etc/init.d/httpd stop
+6) As root, copy contents of $php_agent_root/php/conf to the PHP INI files
+   directory (usually /etc/php.d/).
+7) As root, cp --remove-destination $php_agent_root/php/modules/appdynamics_agent_php_5.3.so
+   to the extensions directory (usually /usr/lib64/php/modules/).
+8) Start Apache: sudo /etc/init.d/httpd start
+

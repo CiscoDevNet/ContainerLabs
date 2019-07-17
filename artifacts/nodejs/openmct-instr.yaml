@@ -1,0 +1,65 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: openmct
+  namespace: dev
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: openmct
+    spec:
+      serviceAccountName: appd-account
+      containers:
+        - name: openmct
+          image: sashaz/openmct:v1
+          command:
+            - /bin/sh
+            - -c
+            - '/openmct/start.sh'
+          env:
+          - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                key: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+                name: nasa-secret
+          envFrom:
+          - configMapRef:
+              name: nasa-config
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: nasa-shim
+            mountPath: /openmct/shim.js
+            subPath: shim.js
+          - name: nasa-start
+            mountPath: /openmct/start.sh
+            subPath: start.sh
+          ports:
+          - containerPort: 8080
+      restartPolicy: Always
+      volumes:
+      - configMap:
+          name: nasa-shim
+        name: nasa-shim
+      - configMap:
+          name: nasa-start
+          defaultMode: 511
+        name: nasa-start
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openmct
+  namespace: dev
+spec:
+  selector:
+    name: openmct
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+  type: LoadBalancer
+status:
+  loadBalancer: {}

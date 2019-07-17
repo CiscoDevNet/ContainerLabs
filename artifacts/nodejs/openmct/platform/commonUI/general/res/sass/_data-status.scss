@@ -1,0 +1,6 @@
+.s-stale {
+	@include s-stale();
+	.td {
+		@include s-stale();
+	}
+}

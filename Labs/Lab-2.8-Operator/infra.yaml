@@ -1,0 +1,11 @@
+apiVersion: appdynamics.com/v1alpha1
+kind: InfraViz
+metadata:
+  name: appd-infraviz
+  namespace: appdynamics
+spec:
+  controllerUrl: "http://4511controllernoss-autodeploy4511-jpg87sas.srv.ravcloud.com:8090"
+  image: "docker.io/appdynamics/machine-agent-analytics:latest"
+  account: "customer1"
+  globalAccount: "customer1_d53af8ff-2ec9-43c2-af74-c3b62f9f9065"
+  stdoutLogging: true

@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: client-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: client-api
+    spec:
+      containers:
+      - name: client-api
+        envFrom:
+        - configMapRef:
+            name: agent-config
+        env:
+        - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-key
+              name: appd-secret
+        - name: JAVA_OPTS
+          value: ' -Dappdynamics.agent.accountAccessKey=$(APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY)
+            -Dappdynamics.controller.hostName=$(APPDYNAMICS_CONTROLLER_HOST_NAME)
+            -Dappdynamics.controller.port=$(APPDYNAMICS_CONTROLLER_PORT) -Dappdynamics.controller.ssl.enabled=$(APPDYNAMICS_CONTROLLER_SSL_ENABLED)
+            -Dappdynamics.agent.accountName=$(APPDYNAMICS_AGENT_ACCOUNT_NAME) -Dappdynamics.agent.applicationName=$(APPDYNAMICS_AGENT_APPLICATION_NAME)
+            -Dappdynamics.agent.tierName=$(APPDYNAMICS_AGENT_TIER_NAME) -Dappdynamics.agent.reuse.nodeName=true
+            -Dappdynamics.agent.reuse.nodeName.prefix=$(APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX) -javaagent:/opt/appdynamics/javaagent.jar '
+        image: sashaz/java-services-appd:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      serviceAccountName: appd-account
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-api
+spec:
+  selector:
+    name: client-api
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+status:
+  loadBalancer: {}

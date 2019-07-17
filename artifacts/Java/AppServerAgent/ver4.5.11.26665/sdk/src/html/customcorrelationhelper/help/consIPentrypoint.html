@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="../jquery-ui-1.9.2.custom/css/smoothness/jquery-ui-1.9.2.custom.min.css">
+        <link rel="stylesheet" href="../jquery-ui-1.9.2.custom/development-bundle/demos/demos.css">
+        <script src="../jquery-ui-1.9.2.custom/js/jquery-1.8.3.js"></script>
+        <script src="../jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.min.js"></script>
+        <script src="examples.js"></script>
+    </head>
+    <body>
+        <h2 align="center">In Process : Consumer : Where is your action scheduled?</h2>
+        <p class="helpNote" style="font-size:12;font-weight:bold">
+            This section is used to specify the method in the class which acts as continuing transaction for consumer Tier.<br>
+        </p>
+        <div id="exampleTabs">
+            <ul>
+                <li><a href="#exampleTabs-1">Example 1</a></li>
+            </ul>
+            <div id="exampleTabs-1">
+                <p class="helpCode" style="font-size:11;font-style:italic">
+                    package com.packagename;<br>
+                    public class ConsumerClassName {<br>
+                    <br>
+                    &nbsp&nbsp&nbsp&nbsp private void receive(Stream inStream) {<br>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp CustomPayload customPayload = queue.get();<br>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp continuingTransaction(customPayload);<br>
+                    &nbsp&nbsp&nbsp&nbsp }
+                </p>
+                <p class="helpStar" style="font-size:11;font-style:italic;color:red;font-weight:bold">
+                    &nbsp&nbsp&nbsp&nbspprivate void continuingTransaction(CustomPayload payload) {<br>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp payload.getMessage();<br>
+                    &nbsp&nbsp&nbsp&nbsp }
+                </p>
+                <p class="helpCode" style="font-size:11;font-style:italic">
+                    }<br>
+                </p>
+                <p class="helpNote" style="font-size:12">
+                    In the example above the method 'continuingTransaction(CustomPayload payload)'
+                    of class 'com.packagename.ConsumerClassName' is the place where the action is scheduled.
+                </p>
+                <hr/>
+                <p class="helpValues" style="font-size:12;color:blue;">
+                    <b>Values to put in this section of the tool for the above example:<br></b>
+                    Match Type: Matches Class<br>
+                    Full Class Name: com.yourpackagename.ConsumerClassName <br>
+                    Method Name: continuingTransaction <br>
+                    Method Parameters: CustomPayload payload
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

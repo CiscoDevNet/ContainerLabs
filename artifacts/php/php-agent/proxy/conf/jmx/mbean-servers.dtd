@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- The <servers> element is the root element and can contain zero or more server elements -->
+<!ELEMENT servers (server*) >
+
+
+<!-- the server element cannot contain any other element or text --> 
+<!ELEMENT server EMPTY>
+<!ATTLIST server
+        mbean-server-name   CDATA  #REQUIRED
+        mbean-name-pattern  CDATA  #REQUIRED
+        config-file         CDATA  #REQUIRED
+        version-attribute    CDATA
+        version-contains     CDATA                  
+        mbean-server-lookup-string CDATA
+        >
+
+

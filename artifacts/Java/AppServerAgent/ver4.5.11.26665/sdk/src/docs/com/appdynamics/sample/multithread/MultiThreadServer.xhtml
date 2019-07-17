@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<style type="text/css">
+td.java, td.java-ln {vertical-align:top;}
+tt.java, tt.java-ln, pre.java, pre.java-ln {line-height:1em; margin-bottom:0em;}
+td.java-ln { text-align:right; }
+tt.java-ln, pre.java-ln { color:#888888 }
+/* Background       */ span.java0  { font-size: 10pt; color:#ffffff; }
+/* Line numbers       */ span.java1  { font-size: 10pt; color:#808080; }
+/* Multi-line comments       */ span.java2  { font-size: 10pt; color:#008000; }
+/* Single-line comments       */ span.java3  { font-size: 10pt; color:#008000; }
+/* Keywords       */ span.java4  { font-size: 10pt; color:#0000c0; font-weight:bold; }
+/* Strings       */ span.java5  { font-size: 10pt; color:#990000; }
+/* Character constants       */ span.java6  { font-size: 10pt; color:#990000; }
+/* Numeric constants       */ span.java7  { font-size: 10pt; color:#990000; }
+/* Parenthesis       */ span.java8  { font-size: 10pt; color:#000000; }
+/* Primitive Types       */ span.java9  { font-size: 10pt; color:#c00000; font-weight:bold; }
+/* Others       */ span.java10  { font-size: 10pt; color:#000000; }
+/* Javadoc keywords       */ span.java11  { font-size: 10pt; color:#005500; }
+/* Javadoc HTML tags       */ span.java12  { font-size: 10pt; color:#008000; }
+/* Javadoc links       */ span.java13  { font-size: 10pt; color:#008000; }
+/* Javadoc others       */ span.java14  { font-size: 10pt; color:#008000; }
+/* Undefined       */ span.java15  { font-size: 10pt; color:#ff6100; }
+/* Annotation       */ span.java16  { font-size: 10pt; color:#646464; }
+</style>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title></title>
+</head>
+<body>
+<div class="java"><code class="java"><span class="java14">/**<br />
+ * Copyright (c) AppDynamics Technologies<br />
+ *<br />
+ * </span><span class="java11">@author </span><span class="java14">manoj.acharya (macharya@appdynamics.com)<br />
+ * </span><span class="java11">@version </span><span class="java14">2.0<br />
+ * </span><span class="java11">@since </span><span class="java14">1.0<br />
+ */<br />
+</span><span class="java4">package </span><span class="java10">com.appdynamics.sample.multithread;<br />
+<br />
+</span><span class="java14">/**<br />
+ * The following sample program demonstartes the use of appdynamics transaction api to manage multi threaded transaction<br />
+ * activities<br />
+ *<br />
+ * It demonstrates the following four scenarios<br />
+ *<br />
+ * - executePOJORule - a POJO Transaction rule is setup in controller / agent xml to mark the transaction boundaries.<br />
+ * The transaction identifier is created by appdynamics agent. Worker threads are associated to the global transaction using this identifier.<br />
+ *<br />
+ * - executePOJORuleCustomTxId - a POJO Transaction rule is setup in controller / agent xml to mark the transaction boundaries.<br />
+ * The transaction identifier is set by the application program. Worker threads are associated to the global transaction using this identifier.<br />
+ *<br />
+ * - executeCustomTransactionIdentification - programmatic demaraction of transaction boundaries.<br />
+ * The thread begins a transaction and waits for worker threads to complete and ends the transaction. <br />
+ *<br />
+ *<br />
+ * - executeCustomTransactionIdentificationAsyncWait - programmatic demaraction of transaction boundaries. The transaction<br />
+ * begin and end are on different thrads i.e. the begin thread doesn't wait for completion of multi threaded execution. The end<br />
+ * transaction is invoked from a separate thread<br />
+ *<br />
+ * For the server JVM set the following VM parameters as appropriate for your setup<br />
+ *<br />
+ * VM params :<br />
+ *<br />
+ * -javaagent:/Users/manojacharya/Work/singularity-tech/GA/CustomAPI/server/javaagent.jar<br />
+ * <br />
+ */<br />
+<br />
+<br />
+</span><span class="java4">import </span><span class="java10">com.appdynamics.apm.appagent.api.AgentDelegate;<br />
+</span><span class="java4">import </span><span class="java10">com.appdynamics.apm.appagent.api.ITransactionDemarcator;<br />
+<br />
+</span><span class="java4">import </span><span class="java10">java.io.IOException;<br />
+</span><span class="java4">import </span><span class="java10">java.util.List;<br />
+</span><span class="java4">import </span><span class="java10">java.util.UUID;<br />
+</span><span class="java4">import </span><span class="java10">java.util.concurrent.ScheduledFuture;<br />
+<br />
+</span><span class="java4">public class </span><span class="java10">MultiThreadServer<br />
+</span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java10">MutiThreadedExecutor executor;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">private static </span><span class="java10">ITransactionDemarcator delegate = AgentDelegate.getTransactionDemarcator</span><span class="java8">()</span><span class="java10">;<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java10">MultiThreadServer</span><span class="java8">(</span><span class="java9">int </span><span class="java10">threadPoolSize</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">executor = </span><span class="java4">new </span><span class="java10">MutiThreadedExecutor</span><span class="java8">(</span><span class="java10">threadPoolSize</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java3">// POJO Rule demarcates transaction boundaries<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java9">void </span><span class="java10">executePOJORule</span><span class="java8">(</span><span class="java9">int </span><span class="java10">noOfExecutors</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java3">// get appdynamics transcation id and pass it to executors<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">String txId = delegate.getUniqueIdentifierForTransaction</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; List&lt;ScheduledFuture&gt; futures = executor.startExecutors</span><span class="java8">(</span><span class="java10">noOfExecutors, txId</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; executor.waitForCompletion</span><span class="java8">(</span><span class="java10">futures</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java3">// POJO Rule demarcates transaction boundaries<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java9">void </span><span class="java10">executePOJORuleCustomTxId</span><span class="java8">(</span><span class="java9">int </span><span class="java10">noOfExecutors</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">String myTxId = </span><span class="java5">&#34;My Custom Tx &#34;</span><span class="java10">+ UUID.randomUUID</span><span class="java8">()</span><span class="java10">.toString</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java3">// set application defined transcation id and pass it to executors<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">delegate.setUniqueIdentifierForTransaction</span><span class="java8">(</span><span class="java10">myTxId</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; List&lt;ScheduledFuture&gt; futures = executor.startExecutors</span><span class="java8">(</span><span class="java10">noOfExecutors, myTxId</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; executor.waitForCompletion</span><span class="java8">(</span><span class="java10">futures</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java3">// api demaracated tx boundaries, begin and end on calling thread<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java9">void </span><span class="java10">executeCustomTransactionIdentification</span><span class="java8">(</span><span class="java9">int </span><span class="java10">noOfExecutors</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java3">// begin transaction on current thread and wait for completion<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">delegate.beginOriginatingTransactionAndAddCurrentThread</span><span class="java8">(</span><span class="java5">&#34;Multi Threaded - Custom Transaction&#34;</span><span class="java10">, </span><span class="java4">null</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; String txId = delegate.getUniqueIdentifierForTransaction</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; List&lt;ScheduledFuture&gt; futures = executor.startExecutors</span><span class="java8">(</span><span class="java10">noOfExecutors, txId</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; executor.waitForCompletion</span><span class="java8">(</span><span class="java10">futures</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java3">// mark the end of transaction on current thread<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">delegate.endOriginatingTransactionAndRemoveCurrentThread</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java3">// api demarcated tx boundaries, begin and end transcations on separate threads<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java9">void </span><span class="java10">executeCustomTransactionIdentificationAsyncWait</span><span class="java8">(</span><span class="java9">int </span><span class="java10">noOfExecutors</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java3">// begin transaction and start thread a new thread to end transaction<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">String txId = delegate.beginOriginatingTransaction</span><span class="java8">(</span><span class="java5">&#34;Multi Threaded - Custom Transaction - Async&#34;</span><span class="java10">, </span><span class="java4">null</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; List&lt;ScheduledFuture&gt; futures = executor.startExecutors</span><span class="java8">(</span><span class="java10">noOfExecutors, txId</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">new </span><span class="java10">Thread</span><span class="java8">(</span><span class="java4">new </span><span class="java10">EndTransaction</span><span class="java8">(</span><span class="java10">txId, futures</span><span class="java8">))</span><span class="java10">.start</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">class </span><span class="java10">EndTransaction </span><span class="java4">implements </span><span class="java10">Runnable<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">String txId;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; List&lt;ScheduledFuture&gt; futures;<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; EndTransaction</span><span class="java8">(</span><span class="java10">String txId, List&lt;ScheduledFuture&gt; futures</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">this</span><span class="java10">.txId = txId;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">this</span><span class="java10">.futures = futures;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java9">void </span><span class="java10">run</span><span class="java8">()<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">delegate.addCurrentThreadToTransaction</span><span class="java8">(</span><span class="java10">txId, </span><span class="java5">&#34;End Transaction&#34;</span><span class="java10">, </span><span class="java4">null</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; executor.waitForCompletion</span><span class="java8">(</span><span class="java10">futures</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; delegate.removeCurrentThreadFromTransaction</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; delegate.endOriginatingTransaction</span><span class="java8">(</span><span class="java10">txId</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0; }<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java14">/**<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * The input param specifies the no of times the<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@param </span><span class="java14">args loop count<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@throws </span><span class="java14">IOException<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@throws </span><span class="java14">InterruptedException<br />
+&#xA0;&#xA0;&#xA0;&#xA0; */<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public static </span><span class="java9">void </span><span class="java10">main</span><span class="java8">(</span><span class="java10">String</span><span class="java8">[] </span><span class="java10">args</span><span class="java8">) </span><span class="java4">throws </span><span class="java10">IOException, InterruptedException<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java9">int </span><span class="java10">loopCount = </span><span class="java7">100</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">if</span><span class="java8">(</span><span class="java10">args.length == </span><span class="java7">1</span><span class="java8">) </span><span class="java10">loopCount = Integer.parseInt</span><span class="java8">(</span><span class="java10">args</span><span class="java8">[</span><span class="java7">0</span><span class="java8">])</span><span class="java10">;<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; MultiThreadServer server = </span><span class="java4">new </span><span class="java10">MultiThreadServer</span><span class="java8">(</span><span class="java7">2</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">for</span><span class="java8">(</span><span class="java9">int </span><span class="java10">i=</span><span class="java7">0</span><span class="java10">; i &lt; loopCount; i++</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">server.executePOJORule</span><span class="java8">(</span><span class="java7">2</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; Thread.sleep</span><span class="java8">(</span><span class="java7">20</span><span class="java10">*</span><span class="java7">1000</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">for</span><span class="java8">(</span><span class="java9">int </span><span class="java10">i=</span><span class="java7">0</span><span class="java10">; i &lt; loopCount; i++</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">server.executePOJORuleCustomTxId</span><span class="java8">(</span><span class="java7">2</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; Thread.sleep</span><span class="java8">(</span><span class="java7">20</span><span class="java10">*</span><span class="java7">1000</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">for</span><span class="java8">(</span><span class="java9">int </span><span class="java10">i=</span><span class="java7">0</span><span class="java10">; i &lt; loopCount; i++</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">server.executeCustomTransactionIdentification</span><span class="java8">(</span><span class="java7">2</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; Thread.sleep</span><span class="java8">(</span><span class="java7">20</span><span class="java10">*</span><span class="java7">1000</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">for</span><span class="java8">(</span><span class="java9">int </span><span class="java10">i=</span><span class="java7">0</span><span class="java10">; i &lt; loopCount; i++</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">server.executeCustomTransactionIdentificationAsyncWait</span><span class="java8">(</span><span class="java7">2</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; Thread.sleep</span><span class="java8">(</span><span class="java7">20</span><span class="java10">*</span><span class="java7">1000</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0; }<br />
+}</span></code></div></body>
+</html>

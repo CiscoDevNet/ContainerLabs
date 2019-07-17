@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) AppDynamics, Inc., and its affiliates
+  ~ 2017
+  ~ All Rights Reserved
+  ~ THIS IS UNPUBLISHED PROPRIETARY CODE OF APPDYNAMICS, INC.
+  ~ The copyright notice above does not evidence any actual or intended publication of such source code
+  -->
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="ConsoleAppender" class="com.singularity.util.org.apache.log4j.ConsoleAppender">
+        <layout class="com.singularity.util.org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ABSOLUTE} %5p [%t] %c{1} - %m%n"/>
+        </layout>
+        <filter class="com.singularity.util.org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMax" value="FATAL"/>
+            <param name="LevelMin" value="INFO"/>
+        </filter>
+
+    </appender>
+
+    <!-- User can use this to configure
+         1. the size of a file before rolling over to a new file by setting the MaxFileSize
+         2. the number of files before overriding previous files by setting the MaxBackupIndex
+    -->
+    <appender name="AgentLogAppender" class="com.singularity.util.org.apache.log4j.AppDynamicsRollingFileAppender">
+        <param name="File" value="agent.log"/>
+        <param name="MaxFileSize" value="5000KB"/>
+        <param name="MaxBackupIndex" value="5"/>
+        <layout class="com.singularity.util.org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%t] %d{DATE} %5p %c - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- To configure the size of the buffer, use system property appdynamics.logger.buffer.size -->
+    <appender name="BufferAppender" class="com.singularity.util.org.apache.log4j.AppDynamicsBufferAppender"/>
+
+    <root>
+        <!-- change this to set the initial startup log level OR use system property appdynamics.agent.startup.log.level
+             System property takes precedence over this config file -->
+        <priority value="info"/>
+
+        <!-- To log files to an "unknown" folder before the agent registers with the Controller, uncomment the line below -->
+        <!--<appender-ref ref="AgentLogAppender"/>-->
+
+        <!-- To stop logging to Console before the agent registers with the Controller, comment the line below -->
+        <appender-ref ref="ConsoleAppender"/>
+
+        <appender-ref ref="BufferAppender"/>
+    </root>
+</log4j:configuration>

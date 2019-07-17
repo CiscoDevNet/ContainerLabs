@@ -1,0 +1,406 @@
+/*****************************************************************************
+ * Open MCT, Copyright (c) 2014-2015, United States Government
+ * as represented by the Administrator of the National Aeronautics and Space
+ * Administration. All rights reserved.
+ *
+ * Open MCT is licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * Open MCT includes source code licensed under additional open source
+ * licenses. See the Open Source Licenses file (LICENSES.md) included with
+ * this source code distribution or the Licensing information page available
+ * at runtime from the About dialog for additional information.
+ *****************************************************************************/
+/*****************************************************************************
+ * Open MCT, Copyright (c) 2014-2018, United States Government
+ * as represented by the Administrator of the National Aeronautics and Space
+ * Administration. All rights reserved.
+ *
+ * Open MCT is licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * Open MCT includes source code licensed under additional open source
+ * licenses. See the Open Source Licenses file (LICENSES.md) included with
+ * this source code distribution or the Licensing information page available
+ * at runtime from the About dialog for additional information.
+ *****************************************************************************/
+/************************** FEATURES */
+/************************** VERY INFLUENTIAL GLOBAL DIMENSIONS */
+/************************** RATIOS */
+/************************** LAYOUT */
+/*************** Panes */
+/*************** Overlay */
+/*************** Progress Overlay */
+/*************** Items */
+/*************** Tree */
+/*************** Tabular */
+/*************** Imagery */
+/*************** Ticks */
+/*************** Plots */
+/* min plot height is based on user testing to find minimum useful height */
+/*************** Bubbles */
+/*************** Forms */
+/*************** Wait Spinner Defaults */
+/************************** CONTROLS */
+/************************** PATHS */
+/************************** TIMINGS */
+/*****************************************************************************
+ * Open MCT, Copyright (c) 2014-2018, United States Government
+ * as represented by the Administrator of the National Aeronautics and Space
+ * Administration. All rights reserved.
+ *
+ * Open MCT is licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * Open MCT includes source code licensed under additional open source
+ * licenses. See the Open Source Licenses file (LICENSES.md) included with
+ * this source code distribution or the Licensing information page available
+ * at runtime from the About dialog for additional information.
+ *****************************************************************************/
+/*********************************************** CONTROLS, FORM ELEMENTS */
+/*****************************************************************************
+ * Open MCT, Copyright (c) 2014-2018, United States Government
+ * as represented by the Administrator of the National Aeronautics and Space
+ * Administration. All rights reserved.
+ *
+ * Open MCT is licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * Open MCT includes source code licensed under additional open source
+ * licenses. See the Open Source Licenses file (LICENSES.md) included with
+ * this source code distribution or the Licensing information page available
+ * at runtime from the About dialog for additional information.
+ *****************************************************************************/
+/* REQUIRES /platform/commonUI/general/res/sass/_constants.scss */
+/************************** MOBILE REPRESENTATION ITEMS DIMENSIONS */
+/************************** MOBILE TREE MENU DIMENSIONS */
+/************************** DEVICE WIDTHS */
+/************************** MEDIA QUERIES: WINDOW CHECKS FOR SPECIFIC ORIENTATIONS FOR EACH DEVICE */
+/************************** MEDIA QUERIES: WINDOWS FOR SPECIFIC ORIENTATIONS FOR EACH DEVICE */
+/************************** DEVICE PARAMETERS FOR MENUS/REPRESENTATIONS */
+/*****************************************************************************
+ * Open MCT, Copyright (c) 2014-2018, United States Government
+ * as represented by the Administrator of the National Aeronautics and Space
+ * Administration. All rights reserved.
+ *
+ * Open MCT is licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * Open MCT includes source code licensed under additional open source
+ * licenses. See the Open Source Licenses file (LICENSES.md) included with
+ * this source code distribution or the Licensing information page available
+ * at runtime from the About dialog for additional information.
+ *****************************************************************************/
+/* REQUIRES /platform/commonUI/general/res/sass/mobile/_constants.scss */
+/*****************************************************************************
+ * Open MCT, Copyright (c) 2014-2016, United States Government
+ * as represented by the Administrator of the National Aeronautics and Space
+ * Administration. All rights reserved.
+ *
+ * Open MCT is licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * Open MCT includes source code licensed under additional open source
+ * licenses. See the Open Source Licenses file (LICENSES.md) included with
+ * this source code distribution or the Licensing information page available
+ * at runtime from the About dialog for additional information.
+ *****************************************************************************/
+/* line 22, platform/features/notebook/res/sass/_notebook-base.scss */
+.w-notebook {
+  font-size: 0.8rem;
+  overflow: hidden;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  width: auto;
+  height: auto; }
+
+/* line 37, platform/features/notebook/res/sass/_notebook-base.scss */
+.notebook-view-controls.l-flex-row > *:not(:first-child) {
+  margin-left: 5px; }
+
+/* line 41, platform/features/notebook/res/sass/_notebook-base.scss */
+.l-notebook-drag-area {
+  padding: 10px;
+  font-style: italic;
+  cursor: pointer; }
+  /* line 45, platform/features/notebook/res/sass/_notebook-base.scss */
+  .l-notebook-drag-area:before {
+    margin-right: 7px !important; }
+  /* line 46, platform/features/notebook/res/sass/_notebook-base.scss */
+  .l-notebook-drag-area .label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
+
+/* line 52, platform/features/notebook/res/sass/_notebook-base.scss */
+.frame .icon-notebook {
+  margin-right: 5px; }
+
+/* line 57, platform/features/notebook/res/sass/_notebook-base.scss */
+.overlay.l-dialog .title {
+  white-space: normal; }
+
+/* line 61, platform/features/notebook/res/sass/_notebook-base.scss */
+.w-notebook-entries {
+  padding-right: 3px;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: scroll; }
+
+/* line 70, platform/features/notebook/res/sass/_notebook-base.scss */
+.l-notebook-entry {
+  box-sizing: border-box;
+  margin-bottom: 3px;
+  padding: 3px 5px; }
+  /* line 76, platform/features/notebook/res/sass/_notebook-base.scss */
+  .l-notebook-entry .s-notebook-entry-time,
+  .l-notebook-entry .s-notebook-entry-text,
+  .l-notebook-entry .notebook-entry-delete {
+    padding-top: 3px;
+    padding-bottom: 3px; }
+  /* line 83, platform/features/notebook/res/sass/_notebook-base.scss */
+  .l-notebook-entry .s-notebook-entry-time {
+    border: 1px solid transparent; }
+  /* line 88, platform/features/notebook/res/sass/_notebook-base.scss */
+  .l-notebook-entry .l-notebook-entry-content .s-notebook-entry-text {
+    min-height: 24px;
+    white-space: pre-wrap; }
+  /* line 93, platform/features/notebook/res/sass/_notebook-base.scss */
+  .l-notebook-entry .l-notebook-entry-content .entry-embeds {
+    flex-wrap: wrap; }
+  /* line 96, platform/features/notebook/res/sass/_notebook-base.scss */
+  .l-notebook-entry .l-notebook-entry-content .snap-thumb {
+    cursor: pointer; }
+
+/* line 102, platform/features/notebook/res/sass/_notebook-base.scss */
+.l-entry-embed {
+  position: relative;
+  margin: 3px 3px 0 0;
+  padding: 3px; }
+  /* line 109, platform/features/notebook/res/sass/_notebook-base.scss */
+  .l-entry-embed.has-snapshot:before {
+    position: absolute;
+    text-shadow: rgba(0, 0, 0, 0.7) 0 1px 5px;
+    z-index: 2; }
+  /* line 115, platform/features/notebook/res/sass/_notebook-base.scss */
+  .l-entry-embed .snap-thumb {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    overflow: hidden; }
+    /* line 121, platform/features/notebook/res/sass/_notebook-base.scss */
+    .l-entry-embed .snap-thumb img {
+      height: 100%;
+      width: 100%; }
+  /* line 127, platform/features/notebook/res/sass/_notebook-base.scss */
+  .l-entry-embed .embed-info {
+    margin-left: 5px; }
+    /* line 129, platform/features/notebook/res/sass/_notebook-base.scss */
+    .l-entry-embed .embed-info .embed-title {
+      font-weight: bold; }
+
+/* line 135, platform/features/notebook/res/sass/_notebook-base.scss */
+.t-contents,
+.snap-annotation {
+  overflow: hidden; }
+
+/* line 142, platform/features/notebook/res/sass/_notebook-base.scss */
+.notebook-filters .select {
+  margin-left: 5px; }
+
+/* line 150, platform/features/notebook/res/sass/_notebook-base.scss */
+.s-status-taking-snapshot .l-sticky-headers .l-tabular-body,
+.overlay.snapshot .l-sticky-headers .l-tabular-body {
+  overflow: auto; }
+
+/********************************************* MOBILE */
+/* line 157, platform/features/notebook/res/sass/_notebook-base.scss */
+body.mobile .l-notebook-drag-area {
+  display: none; }
+
+/* line 161, platform/features/notebook/res/sass/_notebook-base.scss */
+body.mobile .l-notebook-entry {
+  pointer-events: none; }
+
+/* line 166, platform/features/notebook/res/sass/_notebook-base.scss */
+body.mobile.phone.portrait .w-notebook-entry-time-and-content {
+  flex-direction: column !important; }
+
+/* line 169, platform/features/notebook/res/sass/_notebook-base.scss */
+body.mobile.phone.portrait .s-notebook-entry-time,
+body.mobile.phone.portrait .notebook-entry-delete {
+  padding-top: 0;
+  padding-bottom: 0; }
+
+/* line 178, platform/features/notebook/res/sass/_notebook-base.scss */
+body.phone.portrait .l-notebook-head.l-flex-row {
+  flex-direction: column !important; }
+  /* line 181, platform/features/notebook/res/sass/_notebook-base.scss */
+  body.phone.portrait .l-notebook-head.l-flex-row > *:not(:first-child) {
+    margin-top: 5px; }
+
+/********************************************* PAINTERRO OVERRIDES */
+/* line 187, platform/features/notebook/res/sass/_notebook-base.scss */
+.annotation-dialog .abs.editor {
+  border-radius: 0; }
+
+/* line 191, platform/features/notebook/res/sass/_notebook-base.scss */
+#snap-annotation {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; }
+
+/* line 198, platform/features/notebook/res/sass/_notebook-base.scss */
+#snap-annotation-wrapper,
+#snap-annotation-bar {
+  position: relative;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto; }
+
+/* line 204, platform/features/notebook/res/sass/_notebook-base.scss */
+#snap-annotation-wrapper {
+  order: 2;
+  flex: 10 0 auto; }
+
+/* line 209, platform/features/notebook/res/sass/_notebook-base.scss */
+#snap-annotation-bar {
+  order: 1;
+  flex: 0 0 auto;
+  height: auto;
+  background-color: transparent !important;
+  margin-bottom: 5px; }
+  /* line 216, platform/features/notebook/res/sass/_notebook-base.scss */
+  #snap-annotation-bar > div,
+  #snap-annotation-bar > div > span,
+  #snap-annotation-bar .ptro-icon-btn,
+  #snap-annotation-bar .ptro-named-btn,
+  #snap-annotation-bar .ptro-color-btn,
+  #snap-annotation-bar .ptro-bordered-btn,
+  #snap-annotation-bar .ptro-tool-ctl-name,
+  #snap-annotation-bar .ptro-color-btn,
+  #snap-annotation-bar .tool-controls,
+  #snap-annotation-bar .ptro-input {
+    display: inline-block;
+    font-family: inherit;
+    font-size: auto;
+    height: 25px !important;
+    margin: 0 0 0 5px;
+    position: relative;
+    width: auto !important;
+    line-height: 25px !important;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    vertical-align: top; }
+    /* line 227, platform/features/notebook/res/sass/_notebook-base.scss */
+    #snap-annotation-bar > div:first-child,
+    #snap-annotation-bar > div > span:first-child,
+    #snap-annotation-bar .ptro-icon-btn:first-child,
+    #snap-annotation-bar .ptro-named-btn:first-child,
+    #snap-annotation-bar .ptro-color-btn:first-child,
+    #snap-annotation-bar .ptro-bordered-btn:first-child,
+    #snap-annotation-bar .ptro-tool-ctl-name:first-child,
+    #snap-annotation-bar .ptro-color-btn:first-child,
+    #snap-annotation-bar .tool-controls:first-child,
+    #snap-annotation-bar .ptro-input:first-child {
+      margin-left: 0 !important; }
+  /* line 246, platform/features/notebook/res/sass/_notebook-base.scss */
+  #snap-annotation-bar .ptro-tool-ctl-name {
+    border-radius: 0;
+    background: none;
+    top: auto;
+    font-family: inherit;
+    padding: 0; }
+  /* line 254, platform/features/notebook/res/sass/_notebook-base.scss */
+  #snap-annotation-bar .ptro-color-btn {
+    width: 25px !important; }
+  /* line 262, platform/features/notebook/res/sass/_notebook-base.scss */
+  #snap-annotation-bar .ptro-icon-btn i,
+  #snap-annotation-bar .ptro-named-btn i {
+    font-size: 1.25em !important; }
+  /* line 267, platform/features/notebook/res/sass/_notebook-base.scss */
+  #snap-annotation-bar .tool-controls {
+    font-size: 0.8rem !important; }
+  /* line 271, platform/features/notebook/res/sass/_notebook-base.scss */
+  #snap-annotation-bar .ptro-info,
+  #snap-annotation-bar .ptro-btn-color-checkers-bar,
+  #snap-annotation-bar *[title="Font name"],
+  #snap-annotation-bar *[title="Stroke color"],
+  #snap-annotation-bar *[title="Stroke width"],
+  #snap-annotation-bar *[data-id="fontName"],
+  #snap-annotation-bar *[data-id="fontStrokeSize"],
+  #snap-annotation-bar *[data-id="stroke"] {
+    display: none; }
+
+/********************************************* NO IDEA WHAT THERE ARE APPLYING TO */
+/* line 284, platform/features/notebook/res/sass/_notebook-base.scss */
+.context-available {
+  outline: none; }
+
+/* line 288, platform/features/notebook/res/sass/_notebook-base.scss */
+.menu-element.menu-view {
+  z-index: 999; }
+
+/* line 292, platform/features/notebook/res/sass/_notebook-base.scss */
+.overlay.l-dialog .abs.editor {
+  padding-right: 0; }
+
+/*# sourceMappingURL=notebook.css.map */

@@ -1,0 +1,8 @@
+# remove all untagged images
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+
+# alias kubectl 
+alias eks='kubectl --kubeconfig ~/Documents/Enablement_Program/AWS/kubeAWS'
+
+# alias for oc
+alias oca='oc --config ~/dev/auth/kubeconfig-appd'

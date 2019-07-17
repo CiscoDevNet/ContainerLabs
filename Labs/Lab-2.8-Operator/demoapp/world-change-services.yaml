@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: world-change-services
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: world-change-services
+        tier-name: world-change-services-tier
+        application-name: OS-App
+    spec:
+      serviceAccountName: appd-account
+      containers:
+        - name: world-change-services
+          image: sashaz/java-services:v5
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: world-change-services
+spec:
+  selector:
+    name: world-change-services
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+status:
+  loadBalancer: {}

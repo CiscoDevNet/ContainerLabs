@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="2">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%t] %d{ABSOLUTE} %5p %c{1} - %m%n"/>
+        </Console>
+
+        <ADRRAFAppender name="DefaultAppender" fileName="agent.log">
+            <PatternLayout pattern="[%t] %d{DATE} %5p %c{1} - %m%n"/>
+            <SizeBasedTriggeringPolicy size="20 MB" />
+            <ADRolloverStrategy max="5" />
+            <RegexFilter regex=".*REST.*" onMatch="DENY" onMismatch="ACCEPT"/>
+        </ADRRAFAppender>
+        <ADRRAFAppender name="BCTAppender" fileName="ByteCodeTransformer.log">
+            <PatternLayout pattern="[%t] %d{DATE} %5p - %m%n"/>
+            <SizeBasedTriggeringPolicy size="20 MB" />
+            <ADRolloverStrategy max="5" />
+        </ADRRAFAppender>
+        <ADRRAFAppender name="RESTAppender" fileName="REST.log">
+            <PatternLayout pattern="[%t] %d{DATE} %5p %c{1} - %m%n" />
+            <RegexFilter regex=".*REST.*" onMatch="ACCEPT" onMismatch="DENY"/>
+            <SizeBasedTriggeringPolicy size="20 MB" />
+            <ADRolloverStrategy max="5" />
+        </ADRRAFAppender>
+        <ADRRAFAppender name="DynamicServiceAppender" fileName="dynamic-service.log">
+            <PatternLayout pattern="[%t] %d{DATE} %5p %c - %m%n" />
+            <SizeBasedTriggeringPolicy size="20 MB" />
+            <ADRolloverStrategy max="5" />
+        </ADRRAFAppender>
+        <ADRRAFAppender name="BusinessTransactionsLogger" fileName="BusinessTransactions.log">
+            <PatternLayout pattern="[%t] %d{DATE} %5p - %m%n" />
+            <SizeBasedTriggeringPolicy size="20 MB" />
+            <ADRolloverStrategy max="5" />
+        </ADRRAFAppender>
+        <ADRRAFAppender name="APIAppender" fileName="api.log">
+            <PatternLayout pattern="[%t] %d{DATE} %5p %c - %m%n" />
+            <SizeBasedTriggeringPolicy size="20 MB" />
+            <ADRolloverStrategy max="5" />
+        </ADRRAFAppender>
+    </Appenders>
+    <Loggers>
+        <!--  to control the logging level of the agent log files, change "level" attribute. level="all|trace|debug|info|warn|error"-->
+        <AsyncLogger name="com.singularity" level="info" additivity="false">
+            <AppenderRef ref="DefaultAppender"/>
+            <AppenderRef ref="RESTAppender"/>
+        </AsyncLogger>
+        <AsyncLogger name="com.singularity.BusinessTransactions" level="info" additivity="false">
+            <AppenderRef ref="BusinessTransactionsLogger" />
+        </AsyncLogger>
+        <AsyncLogger name="com.singularity.dynamicservice" level="info" additivity="false">
+            <AppenderRef ref="DynamicServiceAppender"/>
+        </AsyncLogger>
+        <AsyncLogger name="com.singularity.BCTLogger" level="info" additivity="false" >
+            <AppenderRef ref="BCTAppender"/>
+        </AsyncLogger>
+        <AsyncLogger name ="com.singularity.api" level="info" additivity="false">
+            <AppenderRef ref="APIAppender"/>
+        </AsyncLogger>
+        <Root level="error">
+            <AppenderRef ref="DefaultAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>

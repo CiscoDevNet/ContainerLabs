@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<style type="text/css">
+td.java, td.java-ln {vertical-align:top;}
+tt.java, tt.java-ln, pre.java, pre.java-ln {line-height:1em; margin-bottom:0em;}
+td.java-ln { text-align:right; }
+tt.java-ln, pre.java-ln { color:#888888 }
+/* Background       */ span.java0  { font-size: 10pt; color:#ffffff; }
+/* Line numbers       */ span.java1  { font-size: 10pt; color:#808080; }
+/* Multi-line comments       */ span.java2  { font-size: 10pt; color:#008000; }
+/* Single-line comments       */ span.java3  { font-size: 10pt; color:#008000; }
+/* Keywords       */ span.java4  { font-size: 10pt; color:#0000c0; font-weight:bold; }
+/* Strings       */ span.java5  { font-size: 10pt; color:#990000; }
+/* Character constants       */ span.java6  { font-size: 10pt; color:#990000; }
+/* Numeric constants       */ span.java7  { font-size: 10pt; color:#990000; }
+/* Parenthesis       */ span.java8  { font-size: 10pt; color:#000000; }
+/* Primitive Types       */ span.java9  { font-size: 10pt; color:#c00000; font-weight:bold; }
+/* Others       */ span.java10  { font-size: 10pt; color:#000000; }
+/* Javadoc keywords       */ span.java11  { font-size: 10pt; color:#005500; }
+/* Javadoc HTML tags       */ span.java12  { font-size: 10pt; color:#008000; }
+/* Javadoc links       */ span.java13  { font-size: 10pt; color:#008000; }
+/* Javadoc others       */ span.java14  { font-size: 10pt; color:#008000; }
+/* Undefined       */ span.java15  { font-size: 10pt; color:#ff6100; }
+/* Annotation       */ span.java16  { font-size: 10pt; color:#646464; }
+</style>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title></title>
+</head>
+<body>
+<div class="java"><code class="java"><span class="java14">/**<br />
+ * Copyright (c) AppDynamics Technologies<br />
+ *<br />
+ * </span><span class="java11">@author </span><span class="java14">manoj.acharya (macharya@appdynamics.com)<br />
+ * </span><span class="java11">@version </span><span class="java14">2.0<br />
+ * </span><span class="java11">@since </span><span class="java14">1.0<br />
+ */<br />
+</span><span class="java4">package </span><span class="java10">com.appdynamics.sample.multithread;<br />
+<br />
+<br />
+</span><span class="java4">import </span><span class="java10">com.appdynamics.apm.appagent.api.AgentDelegate;<br />
+</span><span class="java4">import </span><span class="java10">com.appdynamics.apm.appagent.api.ITransactionDemarcator;<br />
+<br />
+</span><span class="java4">import </span><span class="java10">java.util.ArrayList;<br />
+</span><span class="java4">import </span><span class="java10">java.util.List;<br />
+</span><span class="java4">import </span><span class="java10">java.util.concurrent.Executors;<br />
+</span><span class="java4">import </span><span class="java10">java.util.concurrent.ScheduledExecutorService;<br />
+</span><span class="java4">import </span><span class="java10">java.util.concurrent.ScheduledFuture;<br />
+</span><span class="java4">import </span><span class="java10">java.util.concurrent.TimeUnit;<br />
+<br />
+</span><span class="java14">/**<br />
+ * Manages a thread pool and executes a set of runnables<br />
+ *<br />
+ * Uses appdynamics transaction api addCurrentThreadToTransaction and removeCurrentThreadFromTransaction<br />
+ * to associate an executor thread's activity with a global transaction.<br />
+ *<br />
+ */<br />
+</span><span class="java4">public class </span><span class="java10">MutiThreadedExecutor<br />
+</span><span class="java8">{<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java10">ScheduledExecutorService executorService;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">static </span><span class="java10">ITransactionDemarcator delegate = AgentDelegate.getTransactionDemarcator</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">static volatile </span><span class="java9">int </span><span class="java10">counter;<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java14">/**<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * Initilizes a pool of thread sready to execute tasks<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@param </span><span class="java14">threadPoolSize a pool of threads<br />
+&#xA0;&#xA0;&#xA0;&#xA0; */<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java10">MutiThreadedExecutor</span><span class="java8">(</span><span class="java9">int </span><span class="java10">threadPoolSize</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">executorService = Executors.newScheduledThreadPool</span><span class="java8">(</span><span class="java10">threadPoolSize</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java14">/**<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * Starts a set of task and returns the handle to futures that can be used to track status and completion<br />
+&#xA0;&#xA0;&#xA0;&#xA0; *<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@param </span><span class="java14">executors no of executors to start<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@param </span><span class="java14">txId the appdynamics transaction identifier<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@return </span><span class="java14">a set of futures<br />
+&#xA0;&#xA0;&#xA0;&#xA0; */<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java10">List&lt;ScheduledFuture&gt; startExecutors</span><span class="java8">(</span><span class="java9">int </span><span class="java10">executors, String txId</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">List&lt;ScheduledFuture&gt; futures = </span><span class="java4">new </span><span class="java10">ArrayList&lt;ScheduledFuture&gt;</span><span class="java8">(</span><span class="java10">executors</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">for </span><span class="java8">(</span><span class="java9">int </span><span class="java10">i = </span><span class="java7">0</span><span class="java10">; i &lt; executors; i++</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">futures.add</span><span class="java8">(</span><span class="java10">executorService.schedule</span><span class="java8">(</span><span class="java4">new </span><span class="java10">MyRunnable</span><span class="java8">(</span><span class="java10">txId, </span><span class="java5">&#34;Executor - &#34;</span><span class="java10">+counter++</span><span class="java8">)</span><span class="java10">, </span><span class="java7">0</span><span class="java10">, TimeUnit.MILLISECONDS</span><span class="java8">))</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">return </span><span class="java10">futures;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java14">/**<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * Tracks completion of the executors<br />
+&#xA0;&#xA0;&#xA0;&#xA0; *&#xA0; <br />
+&#xA0;&#xA0;&#xA0;&#xA0; * </span><span class="java11">@param </span><span class="java14">futures the set of futures to track executors<br />
+&#xA0;&#xA0;&#xA0;&#xA0; */<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java9">void </span><span class="java10">waitForCompletion</span><span class="java8">(</span><span class="java10">List&lt;ScheduledFuture&gt; futures</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">for </span><span class="java8">(</span><span class="java10">ScheduledFuture future : futures</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">while</span><span class="java8">(</span><span class="java10">! future.isDone</span><span class="java8">())<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">try<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">Thread.sleep</span><span class="java8">(</span><span class="java7">10</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">catch</span><span class="java8">(</span><span class="java10">InterruptedException e</span><span class="java8">){}<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; }<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; }<br />
+&#xA0;&#xA0;&#xA0; }<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java9">void </span><span class="java10">shutdown</span><span class="java8">()<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">executorService.shutdown</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java14">/**<br />
+&#xA0;&#xA0;&#xA0;&#xA0; * An execution task<br />
+&#xA0;&#xA0;&#xA0;&#xA0; */<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">class </span><span class="java10">MyRunnable </span><span class="java4">implements </span><span class="java10">Runnable<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">String transactionId;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; String name;<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; MyRunnable</span><span class="java8">(</span><span class="java10">String transactionId, String name</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">this</span><span class="java10">.transactionId = transactionId;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">this</span><span class="java10">.name = name;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java9">void </span><span class="java10">run</span><span class="java8">()<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">try<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java3">// Marks the begin of the executor's activity, associates with the global transaction identified by transactionId<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">delegate.addCurrentThreadToTransaction</span><span class="java8">(</span><span class="java10">transactionId, name, </span><span class="java4">null</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">try<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">Thread.sleep</span><span class="java8">(</span><span class="java7">20</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">catch</span><span class="java8">(</span><span class="java10">InterruptedException e</span><span class="java8">){}<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; }<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">finally<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java3">// Marks the end of the current executors activity<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">delegate.removeCurrentThreadFromTransaction</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; }<br />
+&#xA0;&#xA0;&#xA0; }<br />
+}</span></code></div></body>
+</html>

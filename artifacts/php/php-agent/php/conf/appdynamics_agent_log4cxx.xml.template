@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+<appender name="main" class="org.apache.log4j.RollingFileAppender">
+ <param name="file" value="__agent_log_file__"/>
+ <param name="HeaderOnlyInNewFile" value="true"/>
+ <param name="MaxFileSize" value="20MB"/>
+ <param name="MaxBackupIndex" value="5"/>
+ <layout class="org.apache.log4j.PatternLayout">
+  <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS z} %-5p %X{nodeName} %X{pid} [%c{2}] %m%n" />
+  <param name="HeaderPattern" value="AppDynamics PHP Agent %X{version} PHP-%X{phpVersion} %X{pid}%n" />
+ </layout>
+</appender>
+
+<root>
+  <priority value="info" />
+  <appender-ref ref="main"/>
+</root>
+
+</log4j:configuration>

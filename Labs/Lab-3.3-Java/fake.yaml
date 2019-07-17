@@ -1,0 +1,125 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    application-name: OS-App
+    name: client-api
+    tier-name: client-api-tier
+  name: client-api
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application-name: OS-App
+      name: client-api
+      tier-name: client-api-tier
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        application-name: OS-App
+        name: client-api
+        tier-name: client-api-tier
+    spec:
+      containers:
+      - image: sashaz/java-services-appd:v1trust
+        imagePullPolicy: IfNotPresent
+        name: client-api
+        resources:
+          limits:
+            cpu: 200m
+            memory: 900M
+          requests:
+            cpu: 100m
+            memory: 600M
+        env:
+        - name: JAVA_OPTS
+          value: ' -Djavax.net.debug=all -Dappdynamics.agent.accountAccessKey=4fdzbpuctd1y 
+            -Dappdynamics.controller.hostName=demo2.saas.appdynamics.com
+            -Dappdynamics.controller.port=443 -Dappdynamics.controller.ssl.enabled=true
+            -Dappdynamics.agent.accountName=demo2 -Dappdynamics.agent.applicationName=AppDApplication01
+            -Dappdynamics.agent.tierName=jks-services -Dappdynamics.agent.nodeName=jks
+            -javaagent:/opt/appdynamics/javaagent.jar '
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        # - mountPath: /opt/appdynamics-java
+        #   name: appd-agent-repo-java
+        - mountPath: /opt/appdlogs
+          name: appd-volume
+        # - name: appd-cert
+        #   mountPath: /opt/appdynamics-java/ver4.5.9.25648/conf/cacerts.jks
+        #   subPath: cacerts.jks
+        # - name: appd-config
+        #   mountPath: /opt/appdynamics-java/ver4.5.9.25648/conf/controller-info.xml
+        #   subPath: controller-info.xml
+        # - name: appd-config
+        #   mountPath: /opt/appdynamics-java/conf/controller-info.xml
+        #   subPath: controller-info.xml
+      - env:
+        - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-key
+              name: appd-secret
+        - name: APPDYNAMICS_AGENT_APPLICATION_NAME
+          value: AppDApplication01
+        - name: APPDYNAMICS_CONTROLLER_HOST_NAME
+          value: demo2.saas.appdynamics.com
+        - name: APPDYNAMICS_CONTROLLER_PORT
+          value: "443"
+        - name: APPDYNAMICS_CONTROLLER_SSL_ENABLED
+          value: "true"
+        - name: APPDYNAMICS_EVENTS_API_URL
+          value: https://analytics.api.appdynamics.com
+        - name: APPDYNAMICS_AGENT_ACCOUNT_NAME
+          value: demo2
+        - name: APPDYNAMICS_GLOBAL_ACCOUNT_NAME
+          value: demo2_270b1553-2235-4433-8e90-af64f5e125d9
+        image: docker.io/appdynamics/analytics-agent:latest
+        imagePullPolicy: IfNotPresent
+        name: appd-analytics-agent
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 200m
+            memory: 900M
+          requests:
+            cpu: 100m
+            memory: 600M
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /opt/appdlogs
+          name: appd-volume
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: appd-account
+      serviceAccountName: appd-account
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: appd-agent-repo-java
+      - emptyDir: {}
+        name: appd-volume
+      - name: shim
+        emptyDir: {}
+      - configMap:
+          name: appd-cert
+        name: appd-cert
+      - configMap:
+          name: appd-config
+        name: appd-config

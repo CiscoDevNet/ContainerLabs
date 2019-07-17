@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<style type="text/css">
+td.java, td.java-ln {vertical-align:top;}
+tt.java, tt.java-ln, pre.java, pre.java-ln {line-height:1em; margin-bottom:0em;}
+td.java-ln { text-align:right; }
+tt.java-ln, pre.java-ln { color:#888888 }
+/* Background       */ span.java0  { font-size: 10pt; color:#ffffff; }
+/* Line numbers       */ span.java1  { font-size: 10pt; color:#808080; }
+/* Multi-line comments       */ span.java2  { font-size: 10pt; color:#008000; }
+/* Single-line comments       */ span.java3  { font-size: 10pt; color:#008000; }
+/* Keywords       */ span.java4  { font-size: 10pt; color:#0000c0; font-weight:bold; }
+/* Strings       */ span.java5  { font-size: 10pt; color:#990000; }
+/* Character constants       */ span.java6  { font-size: 10pt; color:#990000; }
+/* Numeric constants       */ span.java7  { font-size: 10pt; color:#990000; }
+/* Parenthesis       */ span.java8  { font-size: 10pt; color:#000000; }
+/* Primitive Types       */ span.java9  { font-size: 10pt; color:#c00000; font-weight:bold; }
+/* Others       */ span.java10  { font-size: 10pt; color:#000000; }
+/* Javadoc keywords       */ span.java11  { font-size: 10pt; color:#005500; }
+/* Javadoc HTML tags       */ span.java12  { font-size: 10pt; color:#008000; }
+/* Javadoc links       */ span.java13  { font-size: 10pt; color:#008000; }
+/* Javadoc others       */ span.java14  { font-size: 10pt; color:#008000; }
+/* Undefined       */ span.java15  { font-size: 10pt; color:#ff6100; }
+/* Annotation       */ span.java16  { font-size: 10pt; color:#646464; }
+</style>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title></title>
+</head>
+<body>
+<div class="java"><code class="java"><span class="java14">/**<br />
+ * Copyright (c) AppDynamics Technologies<br />
+ *<br />
+ *<br />
+ * </span><span class="java11">@author </span><span class="java14">manoj.acharya (macharya@appdynamics.com)<br />
+ * </span><span class="java11">@version </span><span class="java14">2.0<br />
+ * </span><span class="java11">@since </span><span class="java14">1.0<br />
+ */<br />
+</span><span class="java4">package </span><span class="java10">com.appdynamics.sample.exitcall.sync;<br />
+<br />
+</span><span class="java4">import </span><span class="java10">com.appdynamics.apm.appagent.api.AgentDelegate;<br />
+</span><span class="java4">import </span><span class="java10">com.appdynamics.apm.appagent.api.ITransactionDemarcator;<br />
+<br />
+</span><span class="java4">import </span><span class="java10">java.rmi.RemoteException;<br />
+</span><span class="java4">import </span><span class="java10">java.rmi.registry.LocateRegistry;<br />
+</span><span class="java4">import </span><span class="java10">java.rmi.registry.Registry;<br />
+</span><span class="java4">import </span><span class="java10">java.rmi.server.UnicastRemoteObject;<br />
+<br />
+</span><span class="java14">/**<br />
+ *<br />
+ * The class demonstrates use of appdynamics transaction api to mark the begin (beginContinuingTransactionAndAddCurrentThread)<br />
+ * and end (endContinuingTransactionAndRemoveCurrentThread) of a continuing transaction from the SyncClient.<br />
+ *<br />
+ * The correlation header is used to join a continuing transaction from a remote JVM<br />
+ *<br />
+ * To compile this program you will need the javagent.jar in classpath<br />
+ *<br />
+ * Run the rmiregistry.<br />
+ * For the server JVM set the following VM parameters as appropriate for your<br />
+ * setup<br />
+ *<br />
+ * VM params :<br />
+ *<br />
+ * -javaagent:/Users/manojacharya/Work/singularity-tech/GA/CustomAPI/server/javaagent.jar<br />
+ * -Djava.rmi.server.codebase=file:/Users/manojacharya/Work/IdeaProjects/GA10/out/classes/<br />
+ *<br />
+ */<br />
+</span><span class="java4">public class </span><span class="java10">SyncServer </span><span class="java4">implements </span><span class="java10">ISyncServer, Runnable<br />
+</span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">private static </span><span class="java10">ITransactionDemarcator delegate = AgentDelegate.getTransactionDemarcator</span><span class="java8">()</span><span class="java10">;<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java10">SyncServer</span><span class="java8">()<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">throws </span><span class="java10">RemoteException<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0; }<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java10">String sayHello</span><span class="java8">(</span><span class="java10">String appdynamicsCorrelationHeader, String name</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java3">// begin continuing transaction with header<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">delegate.beginContinuingTransactionAndAddCurrentThread</span><span class="java8">(</span><span class="java10">appdynamicsCorrelationHeader, </span><span class="java4">null</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">try<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">Thread.sleep</span><span class="java8">(</span><span class="java7">1000</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; String msg = </span><span class="java5">&#34;Hello &#34; </span><span class="java10">+ name + </span><span class="java5">&#34; !&#34;</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">return </span><span class="java10">msg;<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">catch</span><span class="java8">(</span><span class="java10">Exception e</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">e.printStackTrace</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">return </span><span class="java5">&#34;Error in server :&#34;</span><span class="java10">+e.getMessage</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">finally<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">delegate.endContinuingTransactionAndRemoveCurrentThread</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0; }<br />
+<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java3">//Instatiates the server and binds to the rmi registry<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public static </span><span class="java9">void </span><span class="java10">main</span><span class="java8">(</span><span class="java10">String</span><span class="java8">[] </span><span class="java10">args</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">try<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">{<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">System.setSecurityManager</span><span class="java8">(</span><span class="java4">null</span><span class="java8">)</span><span class="java10">;<br />
+<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; String name = </span><span class="java5">&#34;SyncServer&#34;</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; SyncServer engine = </span><span class="java4">new </span><span class="java10">SyncServer</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; ISyncServer stub =<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">(</span><span class="java10">ISyncServer</span><span class="java8">) </span><span class="java10">UnicastRemoteObject.exportObject</span><span class="java8">(</span><span class="java10">engine, </span><span class="java7">0</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; Registry registry = LocateRegistry.getRegistry</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; registry.rebind</span><span class="java8">(</span><span class="java10">name, stub</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; System.out.println</span><span class="java8">(</span><span class="java5">&#34;SyncServer bound&#34;</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java4">catch</span><span class="java8">(</span><span class="java10">Exception e</span><span class="java8">)<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; {<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java10">System.err.println</span><span class="java8">(</span><span class="java5">&#34;SyncServer exception:&#34;</span><span class="java8">)</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; e.printStackTrace</span><span class="java8">()</span><span class="java10">;<br />
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; </span><span class="java8">}<br />
+&#xA0;&#xA0;&#xA0; }<br />
+<br />
+&#xA0;&#xA0;&#xA0; </span><span class="java4">public </span><span class="java9">void </span><span class="java10">run</span><span class="java8">()<br />
+&#xA0;&#xA0;&#xA0; {<br />
+<br />
+<br />
+&#xA0;&#xA0;&#xA0; }<br />
+}</span></code></div></body>
+</html>

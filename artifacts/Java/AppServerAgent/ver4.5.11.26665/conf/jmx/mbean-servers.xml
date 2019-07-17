@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--<!DOCTYPE servers SYSTEM "mbean-servers.dtd"> -->
+                                        
+<servers xmlns="http://www.appdynamics.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.appdynamics.com mbean-servers.xsd">
+
+    <server mbean-server-name="WebSphere"
+            mbean-name-pattern="WebSphere:*,type=Server,j2eeType=J2EEServer"
+            version-attribute="platformVersion"
+            version-startsWith="7"/>
+    <server mbean-server-name="WebSphere"
+            mbean-name-pattern="WebSphere:*,type=Server,j2eeType=J2EEServer"
+            version-attribute="platformVersion"
+            version-startsWith="6"/>
+    <server mbean-server-name="JBoss_4"
+            mbean-name-pattern="jboss.management.local:j2eeType=J2EEServer,name=Local"
+            version-attribute="serverVersion"
+            version-startsWith="4"/>
+    <server mbean-server-name="JBoss_5"
+            mbean-name-pattern="jboss.management.local:j2eeType=J2EEServer,name=Local"
+            version-attribute="serverVersion"
+            version-startsWith="5"/>
+    <server mbean-server-name="JBoss_6"
+            mbean-name-pattern="jboss.management.local:j2eeType=J2EEServer,name=Local"
+            version-attribute="serverVersion"
+            version-startsWith="6"/>
+    <server mbean-server-name="Tomcat_5.5"
+            mbean-name-pattern="Catalina:type=Server"
+            version-attribute="serverInfo"
+            version-startsWith="Apache Tomcat/5.5"/>
+    <server mbean-server-name="Tomcat_6.0"
+            mbean-name-pattern="Catalina:type=Server"
+            version-attribute="serverInfo"
+            version-startsWith="Apache Tomcat/6.0"/>
+    <server mbean-server-name="Tomcat_7"
+            mbean-name-pattern="Catalina:type=Server"
+            version-attribute="serverInfo"
+            version-startsWith="Apache Tomcat/7"/>
+    <server mbean-server-name="Sun GlassFish_2.1"
+            mbean-name-pattern="com.sun.appserv:j2eeType=J2EEServer,name=server,category=runtime"
+            version-attribute="serverVersion"
+            version-startsWith="Sun GlassFish Enterprise Server v2.1"/>
+    <server mbean-server-name="WebLogic_10"
+            mbean-server-lookup-string="java:comp/jmx/runtime"
+            mbean-name-pattern="com.bea:*,Type=ServerRuntime"
+            version-attribute="WeblogicVersion"
+            version-startsWith="WebLogic Server 10"/>
+    <server mbean-server-name="WebLogic_9"
+            mbean-server-lookup-string="java:comp/jmx/runtime"
+            mbean-name-pattern="com.bea:*,Type=ServerRuntime"
+            version-attribute="WeblogicVersion"
+            version-startsWith="WebLogic Server 9"/>
+    <server mbean-server-name="ActiveMQ" mbean-name-pattern="org.apache.activemq:*"/>
+    <server mbean-server-name="HornetQ" mbean-name-pattern="org.hornetq:*"/>
+    <server mbean-server-name="Apache Solr" mbean-name-pattern="solr:*"/>
+    <server mbean-server-name="Apache Cassandra 0.7.0" mbean-name-pattern="org.apache.cassandra.net:*"/>
+    <server mbean-server-name="Apache Cassandra 0.7.0" mbean-name-pattern="org.apache.cassandra.db:*"/>
+    <server mbean-server-name="Apache Cassandra 0.7.0" mbean-name-pattern="org.apache.cassandra.request:*"/>
+    <server mbean-server-name="Apache Cassandra 0.7.0" mbean-name-pattern="org.apache.cassandra.internal:*"/>
+    <server mbean-server-name="Oracle Coherence 3.7.1"
+            mbean-name-pattern="Coherence:type=Cluster"
+            version-attribute="Version"
+            version-startsWith="3.7.1"/>
+    <!-- If you are using Platform MBean server to report activemq metrics then you may uncomment the following line.
+    -->
+    <!--
+    <server mbean-server-name="Platform" mbean-name-pattern="org.apache.activemq:*" config-file="servers\activemq-5.3.2-jmx-config.xml" />
+    -->
+
+    <!-- If your app publishes custom jmx metrics to platform jmx server then  you may modify the platform-jmx-config.xml
+    and update the mbean-name-pattern in the following line to start recording your metrics by appdynamics agent
+    -->
+
+    <!--
+    <server mbean-server-name="Platform" mbean-name-pattern="com.foo.myjmx:*" config-file="servers\platform-jmx-config.xml" />
+    -->
+
+</servers>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) AppDynamics, Inc., and its affiliates
+  ~ 2017
+  ~ All Rights Reserved
+  ~ THIS IS UNPUBLISHED PROPRIETARY CODE OF APPDYNAMICS, INC.
+  ~ The copyright notice above does not evidence any actual or intended publication of such source code
+  -->
+
+<Configuration status="INFO" monitorInterval="2">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{ABSOLUTE} %5p [%t] %c{1} - %m%n"/>
+		</Console>
+		<ADRRAFAppender name="File" fileName="agent.log">
+			<PatternLayout pattern="[%t] %d{DATE} %5p %c - %m%n" />
+			<SizeBasedTriggeringPolicy size="20 MB" />
+			<ADRolloverStrategy max="5" />
+			<RegexFilter regex=".*REST.*" onMatch="DENY" onMismatch="ACCEPT"/>
+		</ADRRAFAppender>
+		<ADBufferAppender name="Buffer">
+			<PatternLayout pattern="[%t] %d{DATE} %5p %c - %m%n" />
+		</ADBufferAppender>
+	</Appenders>
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="File"/>
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="Buffer"/>
+		</Root>
+	</Loggers>
+</Configuration>

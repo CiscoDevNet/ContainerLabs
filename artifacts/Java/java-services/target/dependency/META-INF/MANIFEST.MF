@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Created-By: Apache Maven 3.5.4
+Built-By: sasha.jeltuhin
+Build-Jdk: 10.0.2
+Implementation-Title: java-services
+Implementation-Version: 2.0.1.RELEASE
+Implementation-Vendor-Id: org.springframework.boot
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/java-services
+Main-Class: org.springframework.boot.loader.JarLauncher
+Start-Class: com.java.acme.Application
+Spring-Boot-Version: 2.0.1.RELEASE
+Spring-Boot-Classes: BOOT-INF/classes/
+Spring-Boot-Lib: BOOT-INF/lib/
+

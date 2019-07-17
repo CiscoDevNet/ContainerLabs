@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.appdynamics.com" xmlns="http://www.appdynamics.com" elementFormDefault="qualified">
+
+    <xs:element name="jmx-configuration">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="server">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="metric" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="attribute-counter-mappings">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="attribute-counter-mapping" maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:all>
+                                                                <xs:element name="attribute-name" type="xs:string"/>
+                                                                <xs:element name="counter-name" type="xs:string"/>
+                                                                <xs:element name="counter-type">
+                                                                    <xs:simpleType>
+                                                                        <xs:restriction base="xs:string">
+                                                                            <xs:enumeration value="average"/>
+                                                                            <xs:enumeration value="sum"/>
+                                                                            <xs:enumeration value="observation"/>
+                                                                        </xs:restriction>
+                                                                    </xs:simpleType>
+                                                                </xs:element>
+                                                                <xs:element name="time-rollup-type">
+                                                                    <xs:simpleType>
+                                                                        <xs:restriction base="xs:string">
+                                                                            <xs:enumeration value="average"/>
+                                                                            <xs:enumeration value="sum"/>
+                                                                            <xs:enumeration value="current"/>
+                                                                        </xs:restriction>
+                                                                    </xs:simpleType>
+                                                                </xs:element>
+                                                                <xs:element name="cluster-rollup-type">
+                                                                    <xs:simpleType>
+                                                                        <xs:restriction base="xs:string">
+                                                                            <xs:enumeration value="individual"/>
+                                                                            <xs:enumeration value="collective"/>
+                                                                        </xs:restriction>
+                                                                    </xs:simpleType>
+                                                                </xs:element>
+                                                                <xs:element name="field-name" type="xs:string" minOccurs="0"/>
+                                                            </xs:all>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="mbean-name-pattern" type="xs:string" use="required"/>
+                                    <xs:attribute name="category" type="xs:string" use="required"/>
+                                    <xs:attribute name="bean-name" type="xs:string"/>
+                                    <xs:attribute name="query-attribute" type="xs:string"/>
+                                    <xs:attribute name="query-expression-type" type="xs:string"/>
+                                    <xs:attribute name="query-value" type="xs:string"/>
+                                    <xs:attribute name="instance-identifier" type="xs:string"/>
+                                    <xs:attribute name="instance-name" type="xs:string"/>
+                                    <xs:attribute name="metric-path" type="xs:string"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+</xs:schema>

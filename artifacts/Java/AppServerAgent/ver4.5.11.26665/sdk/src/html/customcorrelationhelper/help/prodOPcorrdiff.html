@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="../jquery-ui-1.9.2.custom/css/smoothness/jquery-ui-1.9.2.custom.min.css">
+        <link rel="stylesheet" href="../jquery-ui-1.9.2.custom/development-bundle/demos/demos.css">
+        <script src="../jquery-ui-1.9.2.custom/js/jquery-1.8.3.js"></script>
+        <script src="../jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.min.js"></script>
+        <script src="examples.js"></script>
+    </head>
+    <body>
+        <h2 align="center">Out of Process : Producer : Is correlation on a different method?</h2>
+        <p class="helpNote" style="font-size:12;font-weight:bold">
+            This section is used to specify the correlation point, if your exit point where your action is scheduled,
+            is different from where your payload needs to be correlated.
+        </p>
+        <div id="exampleTabs">
+            <ul>
+                <li><a href="#exampleTabs-1">Example 1</a></li>
+            </ul>
+            <div id="exampleTabs-1">
+                <p class="helpCode" style="font-size:11;font-style:italic">
+                    package com.packagename;<br>
+                    public class ProducerClassName {<br>
+                    <br>
+                        &nbsp&nbsp&nbsp&nbsp private void startTransaction() {<br>
+                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp exitPoint("Message");<br>
+                        &nbsp&nbsp&nbsp&nbsp }<br>
+                    <br>
+                        &nbsp&nbsp&nbsp&nbspprivate void exitPoint(String message) {<br>
+                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp CustomPayload customPayload = new CustomPayload(message);<br>
+                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp correlationPoint(customPayload, outputStream);<br>
+                        &nbsp&nbsp&nbsp&nbsp }
+                </p>
+                <p class="helpStar" style="font-size:11;font-style:italic;color:red;font-weight:bold">
+                        &nbsp&nbsp&nbsp&nbsp private void correlationPoint(CustomPayload payload, Stream outputStream) {<br>
+                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp outputStream.writeObject(payload);<br>
+                        &nbsp&nbsp&nbsp&nbsp }<br>
+                </p>
+                <p class="helpCode" style="font-size:11;font-style:italic">
+                    }
+                </p>
+                <p class="helpNote" style="font-size:12">
+                    In the above example exitPoint(String message) of class com.packagename.ProducerClassName is the exit point while,
+                    correlationPoint(CustomPayload payload, Stream outputStream) of class com.packagename.ProducerClassName is the correlation point.
+                </p>
+                <hr/>
+                <p class="helpValues" style="font-size:12;color:blue;">
+                    <b>Values to put in this section of the tool for the above example.<br></b>
+                    Match Type: Matches Class<br>
+                    Full Class Name: com.yourpackagename.ProducerClassName <br>
+                    Method Name: correlationPoint <br>
+                    Method Parameters: CustomPayload payload, Stream outputStream
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

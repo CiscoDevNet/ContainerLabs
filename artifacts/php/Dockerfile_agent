@@ -1,0 +1,6 @@
+FROM openjdk:8-jdk-alpine
+RUN apk add --no-cache bash
+RUN mkdir -p /tmp/php-agent
+COPY ./php-agent/ /tmp/php-agent
+
+CMD [“tail”, “-f”, “/dev/null”]

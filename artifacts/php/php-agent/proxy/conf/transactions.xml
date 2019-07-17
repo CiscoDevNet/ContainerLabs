@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<business-transactions>
+    <struts-action-entry-points enabled="true">
+        <custom>
+        </custom>
+        <automatic-transaction-discovery enabled="true" resolution="first-entry-point">
+            <excludes>
+            </excludes>
+            <naming-scheme type="action-name-method-name">
+            </naming-scheme>
+        </automatic-transaction-discovery>
+    </struts-action-entry-points>
+    <web-service-entry-points enabled="true">
+        <custom>
+        </custom>
+        <automatic-transaction-discovery enabled="true" resolution="first-entry-point">
+            <excludes>
+            </excludes>
+            <naming-scheme type="service-name-and-operation-name">
+            </naming-scheme>
+        </automatic-transaction-discovery>
+    </web-service-entry-points>
+    <servlet-entry-points enabled="true">
+        <custom>
+        </custom>
+        <automatic-transaction-discovery enabled="true" resolution="first-entry-point">
+            <excludes>
+                <exclude name="Apache Axis Servlet">
+                    <servlet-rule>
+                        <class-name filter-type="EQUALS" filter-value="org.apache.axis.transport.http.AxisServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Apache Axis2 Servlet">
+                    <servlet-rule>
+                        <class-name filter-type="EQUALS" filter-value="org.apache.axis2.transport.http.AxisServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Apache Axis2 Admin Servlet">
+                    <servlet-rule>
+                        <class-name filter-type="EQUALS"
+                                    filter-value="org.apache.axis2.transport.http.AxisAdminServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Struts Action Servlet">
+                    <servlet-rule>
+                        <class-name filter-type="EQUALS" filter-value="org.apache.struts.action.ActionServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Websphere web-services Servlet">
+                    <servlet-rule>
+                        <class-name filter-type="EQUALS"
+                                    filter-value="com.ibm.ws.webservices.engine.transport.http.WebServicesServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Websphere web-services axis Servlet">
+                    <servlet-rule>
+                        <class-name filter-type="EQUALS"
+                                    filter-value="com.ibm.ws.websvcs.transport.http.WASAxis2Servlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="JBoss web-services servlet">
+                    <servlet-rule>
+                        <class-name filter-type="EQUALS" filter-value="org.jboss.wsf.common.servlet.AbstractEndpointServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="XFire web-services servlet">
+                    <servlet-rule>
+                        <class-name filter-type="EQUALS"
+                                    filter-value="org.codehaus.xfire.transport.http.XFireConfigurableServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Weblogic JAX RPC Servlets">
+                    <servlet-rule>
+                        <class-name filter-type="STARTSWITH" filter-value="weblogic.wsee.server.servlet."/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Weblogic JAX WS Webservice Servlet">
+                    <servlet-rule>
+                        <class-name filter-type="EQUALS" filter-value="weblogic.wsee.jaxws.JAXWSServlet"/>
+                    </servlet-rule>
+                </exclude>
+                <exclude name="Weblogic JAX WS Servlet">
+                    <servlet-rule>
+                        <class-name filter-type="EQUALS" filter-value="weblogic.wsee.jaxws.JAXWSWebAppServlet"/>
+                    </servlet-rule>
+                </exclude>
+            </excludes>
+            <naming-scheme type="uri">
+                <property name="uri-length" value="first-n-segments"/>
+                <property name="segment-length" value="2"/>
+            </naming-scheme>
+        </automatic-transaction-discovery>
+    </servlet-entry-points>
+    <ejb-entry-points enabled="true">
+        <custom>
+        </custom>
+        <automatic-transaction-discovery enabled="false" resolution="first-entry-point">
+            <excludes>
+            </excludes>
+            <naming-scheme type="ejb-name-and-method-name">
+            </naming-scheme>
+        </automatic-transaction-discovery>
+    </ejb-entry-points>
+    <spring-bean-entry-points enabled="true">
+        <custom>
+        </custom>
+        <automatic-transaction-discovery enabled="false" resolution="first-entry-point">
+            <excludes>
+            </excludes>
+            <naming-scheme type="bean-id-and-method-name">
+            </naming-scheme>
+        </automatic-transaction-discovery>
+    </spring-bean-entry-points>
+    <pojo-entry-points enabled="true">
+        <custom>
+        </custom>
+        <automatic-transaction-discovery enabled="false" resolution="first-entry-point">
+            <excludes>
+            </excludes>
+            <naming-scheme type="fully-qualified-class-name">
+            </naming-scheme>
+        </automatic-transaction-discovery>
+    </pojo-entry-points>
+    <jms-entry-points enabled="true">
+        <custom>
+        </custom>
+        <automatic-transaction-discovery enabled="true" resolution="first-entry-point">
+            <excludes>
+            </excludes>
+            <naming-scheme type="destination-name">
+            </naming-scheme>
+        </automatic-transaction-discovery>
+    </jms-entry-points>
+</business-transactions>

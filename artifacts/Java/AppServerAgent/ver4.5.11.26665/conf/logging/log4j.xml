@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="ConsoleLogger" class="com.singularity.util.org.apache.log4j.ConsoleAppender">
+        <layout class="com.singularity.util.org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%t] %d{ABSOLUTE} %5p %c{1} - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="AgentLogger" class="com.singularity.util.org.apache.log4j.AppDynamicsRollingFileAppender">
+        <param name="File" value="agent.log"/>
+        <param name="MaxFileSize" value="5000KB"/>
+        <param name="MaxBackupIndex" value="5"/>
+        <layout class="com.singularity.util.org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%t] %d{DATE} %5p %c{1} - %m%n"/>
+        </layout>
+        <filter class="com.singularity.util.org.apache.log4j.varia.StringMatchFilter">
+            <param name="AcceptOnMatch" value="false"/>
+            <param name="StringToMatch" value="REST"/>
+        </filter>
+    </appender>
+
+    <appender name="BCTAppender" class="com.singularity.util.org.apache.log4j.AppDynamicsRollingFileAppender">
+        <param name="File" value="ByteCodeTransformer.log"/>
+        <param name="MaxFileSize" value="5000KB"/>
+        <param name="MaxBackupIndex" value="5"/>
+        <layout class="com.singularity.util.org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%t] %d{DATE} %5p - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="DynamicServiceLogger" class="com.singularity.util.org.apache.log4j.AppDynamicsRollingFileAppender">
+        <param name="File" value="dynamic-service.log"/>
+        <param name="MaxFileSize" value="5000KB"/>
+        <param name="MaxBackupIndex" value="5"/>
+        <layout class="com.singularity.util.org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%t] %d{DATE} %5p %c - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="RESTLogger" class="com.singularity.util.org.apache.log4j.AppDynamicsRollingFileAppender">
+        <param name="File" value="REST.log"/>
+        <param name="MaxFileSize" value="5000KB"/>
+        <param name="MaxBackupIndex" value="5"/>
+        <layout class="com.singularity.util.org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%t] %d{DATE} %5p %c{1} - %m%n"/>
+        </layout>
+        <filter class="com.singularity.util.org.apache.log4j.varia.StringMatchFilter">
+            <param name="AcceptOnMatch" value="true"/>
+            <param name="StringToMatch" value="REST"/>
+        </filter>
+        <filter class="com.singularity.util.org.apache.log4j.varia.DenyAllFilter"/>
+    </appender>
+
+    <appender name="BusinessTransactionsLogger" class="com.singularity.util.org.apache.log4j.AppDynamicsRollingFileAppender">
+        <param name="File" value="BusinessTransactions.log"/>
+        <param name="Append" value="false"/>
+        <param name="MaxFileSize" value="5000KB"/>
+        <param name="MaxBackupIndex" value="5"/>
+        <layout class="com.singularity.util.org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%t] %d{DATE} %5p - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="APIAppender" class="com.singularity.util.org.apache.log4j.AppDynamicsRollingFileAppender">
+        <param name="File" value="api.log"/>
+        <!-- Seems like max file size can be higher, but making it 5000kb here to be consistent with other loggers-->
+        <param name="MaxFileSize" value="5000KB"/>
+        <param name="MaxBackupIndex" value="5"/>
+        <layout class="com.singularity.util.org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%t] %d{DATE} %5p %c - %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="com.singularity" additivity="false">
+        <!--  to control the logging level of the agent log files, use the level attribute below. value="all|trace|debug|info|warn|error"-->
+        <level value="info"/>
+        <appender-ref ref="AgentLogger"/>
+        <appender-ref ref="RESTLogger"/>
+    </logger>
+
+    <logger name="com.singularity.BusinessTransactions" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="BusinessTransactionsLogger"/>
+    </logger>
+
+    <logger name="com.singularity.dynamicservice" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="DynamicServiceLogger"/>
+    </logger>
+
+    <logger name="com.singularity.BCTLogger" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="BCTAppender"/>
+    </logger>
+
+    <logger name ="com.singularity.api" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="APIAppender"/>
+    </logger>
+
+    <root>
+        <priority value="error"/>
+        <appender-ref ref="AgentLogger"/>
+    </root>
+
+</log4j:configuration>
