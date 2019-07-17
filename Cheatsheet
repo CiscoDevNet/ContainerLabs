@@ -2,7 +2,7 @@
 docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 
 # alias kubectl 
-alias eks='kubectl --kubeconfig ~/Documents/Enablement_Program/AWS/kubeAWS'
+alias eks='kubectl --kubeconfig <path-to-kubeconfig>
 
 # alias for oc
-alias oca='oc --config ~/dev/auth/kubeconfig-appd'
+alias oca='oc --config <path-to-kubeconfig>
