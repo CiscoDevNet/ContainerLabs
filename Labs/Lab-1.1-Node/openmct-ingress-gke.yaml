@@ -1,0 +1,10 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "openmct-ingress"
+  labels:
+    app: openmct-ingress
+spec:
+  backend:
+    serviceName: "openmct"
+    servicePort: 8080
