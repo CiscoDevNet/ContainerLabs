@@ -2,13 +2,13 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    name: client-api
-  name: client-api
+    name: player-action-services
+  name: player-action-services
 spec:
   template:
     metadata:
       labels:
-        name: client-api
+        name: player-action-services
     spec:
       containers:
       - envFrom:
@@ -25,18 +25,18 @@ spec:
             fieldRef:
               fieldPath: status.hostIP
         - name: APPDYNAMICS_NETVIZ_AGENT_PORT
-          value: 3892
+          value: "3892"
         - name: JAVA_OPTS
           value: ' -Dappdynamics.agent.accountAccessKey=$(APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY)
             -Dappdynamics.controller.hostName=$(APPDYNAMICS_CONTROLLER_HOST_NAME)
             -Dappdynamics.controller.port=$(APPDYNAMICS_CONTROLLER_PORT) -Dappdynamics.controller.ssl.enabled=$(APPDYNAMICS_CONTROLLER_SSL_ENABLED)
             -Dappdynamics.agent.accountName=$(APPDYNAMICS_AGENT_ACCOUNT_NAME) -Dappdynamics.agent.applicationName=$(APPDYNAMICS_AGENT_APPLICATION_NAME)
-            -Dappdynamics.agent.tierName=$(APPDYNAMICS_AGENT_TIER_NAME) -Dappdynamics.agent.reuse.nodeName=true
+            -Dappdynamics.agent.tierName=Player -Dappdynamics.agent.reuse.nodeName=true
             -Dappdynamics.agent.reuse.nodeName.prefix=$(APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX) -Dappdynamics.analytics.agent.url=http://analytics-proxy:9090/v2/sinks/bt 
             -Dappdynamics.socket.collection.bci.enable=true -javaagent:/opt/appdynamics-java/javaagent.jar '
         image: sashaz/java-services:v5
         imagePullPolicy: IfNotPresent
-        name: client-api
+        name: player-action-services
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -69,3 +69,18 @@ spec:
         name: appd-agent-repo-java
       - emptyDir: {}
         name: appd-volume
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: player-action-services
+spec:
+  selector:
+    name: player-action-services
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+status:
+  loadBalancer: {}

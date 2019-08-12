@@ -79,3 +79,18 @@ spec:
         hostPath:
           path: /var/run/docker.sock
           type: Socket
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: appd-infra-agent-service
+spec:
+  selector:
+    name: appd-infra-agent
+  ports:
+  - name: "9090"
+    port: 9090
+    targetPort: 9090
+  - name: "3892"
+    port: 3892
+    targetPort: 3892

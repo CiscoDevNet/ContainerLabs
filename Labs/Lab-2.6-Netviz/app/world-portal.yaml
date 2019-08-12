@@ -1,0 +1,86 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: world-portal
+  name: world-portal
+spec:
+  template:
+    metadata:
+      labels:
+        name: world-portal
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: agent-config
+        env:
+        - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-key
+              name: appd-secret
+        - name: APPDYNAMICS_NETVIZ_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: APPDYNAMICS_NETVIZ_AGENT_PORT
+          value: "3892"
+        - name: JAVA_OPTS
+          value: ' -Dappdynamics.agent.accountAccessKey=$(APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY)
+            -Dappdynamics.controller.hostName=$(APPDYNAMICS_CONTROLLER_HOST_NAME)
+            -Dappdynamics.controller.port=$(APPDYNAMICS_CONTROLLER_PORT) -Dappdynamics.controller.ssl.enabled=$(APPDYNAMICS_CONTROLLER_SSL_ENABLED)
+            -Dappdynamics.agent.accountName=$(APPDYNAMICS_AGENT_ACCOUNT_NAME) -Dappdynamics.agent.applicationName=$(APPDYNAMICS_AGENT_APPLICATION_NAME)
+            -Dappdynamics.agent.tierName=WP -Dappdynamics.agent.reuse.nodeName=true
+            -Dappdynamics.agent.reuse.nodeName.prefix=$(APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX) -Dappdynamics.analytics.agent.url=http://analytics-proxy:9090/v2/sinks/bt 
+            -Dappdynamics.socket.collection.bci.enable=true -javaagent:/opt/appdynamics-java/javaagent.jar '
+        image: sashaz/java-services:v5
+        imagePullPolicy: IfNotPresent
+        name: world-portal
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/appdynamics-java
+          name: appd-agent-repo-java
+        - mountPath: /opt/appdlogs
+          name: appd-volume
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - command:
+        - cp
+        - -ra
+        - /opt/appdynamics/.
+        - /opt/temp
+        image: docker.io/appdynamics/java-agent:latest
+        imagePullPolicy: IfNotPresent
+        name: appd-agent-attach
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /opt/temp
+          name: appd-agent-repo-java
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      serviceAccountName: appd-account
+      volumes:
+      - emptyDir: {}
+        name: appd-agent-repo-java
+      - emptyDir: {}
+        name: appd-volume
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: world-portal
+spec:
+  selector:
+    name: world-portal
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+status:
+  loadBalancer: {}
