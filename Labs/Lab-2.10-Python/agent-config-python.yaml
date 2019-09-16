@@ -7,12 +7,11 @@ data:
     node = flask-node1
 
     [controller]
-    host = 4511controllernoss-auto-dp0309se.srv.ravcloud.com
-    port = 8090
+    host = <controller-dns>
+    port = <controller-port>
     ssl = off
-    account = customer1
-    accesskey = b880ad58-9c78-4859-b32b-f9172a7aa460
+    account = <account-name>
+    accesskey = <controller-access-key>
 kind: ConfigMap
 metadata:
   name: agent-config-python
-  namespace: dev
