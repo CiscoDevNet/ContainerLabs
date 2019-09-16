@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: flask-app
+    spec:
+      serviceAccountName: appd-account
+      containers:
+        - name: webapp
+          image: sashaz/python-app:v1
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 200m
+              memory: 900M
+            requests:
+              cpu: 100m
+              memory: 600M
+          ports:
+          - containerPort: 8080
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app
+spec:
+  selector:
+    name: flask-app
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
