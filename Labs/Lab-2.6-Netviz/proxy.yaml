@@ -1,10 +1,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: analytics-proxy
+  name: infra-proxy
 spec:
   type: ExternalName
-  externalName: appd-infra-agent-service.<namespace>.svc.cluster.local
+  externalName: appd-infraviz.appdynamics.svc.cluster.local
   ports:
   - port: 9090
     targetPort: 9090
+    name: "analytics"
+  - port: 3892
+    targetPort: 3892
+    name: "netviz"

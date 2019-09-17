@@ -9,7 +9,7 @@
 # Install script for AppDynamics PHP agent
 #
 
-agentVersionId="4.5.10.0GA.4.5.11.2853.0be097812a44f6d08c4270e15c4810dce54149f9"
+agentVersionId="4.5.13.3045GA.4.5.13.3045.6814df2e464cbfce0b4035f44369656b1a236d9e"
 
 if [ -d "${0%/*}" ]; then
     SAVEDIR=`pwd`

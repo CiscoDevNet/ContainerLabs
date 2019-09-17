@@ -1,0 +1,10 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "python-ingress"
+  labels:
+    app: python-ingress
+spec:
+  backend:
+    serviceName: "flask-app"
+    servicePort: 8080

@@ -1,31 +1,24 @@
 apiVersion: v1
 data:
   agent_config.lua: "--\n-- Copyright (c) 2015 AppDynamics Inc.\n-- All rights reserved.\n--\n--
-    $Id$\npackage.path = './?.lua;' .. package.path\nrequire \"config_helper\"\n\nROOT_DIR=\"/opt/appdynamics/netviz\"\nINSTALL_DIR=ROOT_DIR\n--
-    Define a unique hostname for identification on controller\nUNIQUE_HOST_ID = \"\"\n\n--
-    Define the ip of the interface where webservice is bound\nWEBSERVICE_IP=\"0.0.0.0\"
-    \n\n--\n-- NPM global configuration\n-- Configurable params\n-- {\n--\tenable_monitor
-    = 0/1,\t-- def:0, enable/disable monitoring\n--\tdisable_filter = 0/1,\t-- def:0,
-    disable/enable language agent filtering\n--\tmode = KPI/Diagnostic/Advanced,\t--
-    def:KPI\n--\tlua_scripts_path\t-- Path to lua scripts.\n--\tenable_fqdn = 0/1\t--
-    def:0, enable/disable fqdn resolution of ip\n--\tenable_netlib = 1/0\t-- def:1
-    Disable/enable app filtering\n--\tapp_filtering_channel\t-- def:tcp://127.0.0.1:3898,
-    Channel for app\n--\tfiletering messages between App agents and Network Agent\n--\tbackoff_enable
-    = 0/1\t-- def:1 Enable/Disable agent backoff module\n--\tbackoff_time = [90 -
-    1200]\t-- def:300, Agent auto backoff kick in period in secs\n-- }\n--\nnpm_config
-    = {\n\tlog_destination = \"file\",\n\tlog_file = \"appd-netagent.log\",\n\tdebug_log_file
+    $Id$\npackage.path = './?.lua;' .. package.path\nrequire \"config_helper\"\n\nROOT_DIR=\"/netviz-agent\"\nINSTALL_DIR=ROOT_DIR\n--
+    Define a unique hostname for identification on controller\nUNIQUE_HOST_ID = \"\"\n\n--\n--
+    NPM global configuration\n-- Configurable params\n-- {\n--\tenable_monitor = 0/1,\t--
+    def:0, enable/disable monitoring\n--\tdisable_filter = 0/1,\t-- def:0, disable/enable
+    language agent filtering\n--\tmode = KPI/Diagnostic/Advanced,\t-- def:KPI\n--\tenable_netlib
+    = 0/1,\t-- def:0, using netlib to map appid with tuples.\n--\tlua_scripts_path\t--
+    Path to lua scripts.\n--\tenable_fqdn = 0/1\t-- def:0, enable/disable fqdn resolution
+    of ip\n-- }\n--\nnpm_config = {\n\tlog_destination = \"file\",\n\tlog_file = \"appd-netagent.log\",\n\tdebug_log_file
     = \"agent-debug.log\",\n\tdisable_filter = 1,\n\tmode = \"KPI\",\n\tenable_netlib
     = 0,\n\tlua_scripts_path = ROOT_DIR .. \"/scripts/netagent/lua\",\n\tenable_fqdn
-    = 1,\n\tbackoff_enable = 1,\n\tbackoff_time = 300,\n}\n\n--\n-- Webserver configuration\n--
-    Configurable params\n-- {\n--\thost = ,\t-- Ip on which webserver is listening
-    on. Default set to\n--\t\t\t-- localhost. Set it to 0.0.0.0 to listen on all\n--\tport
+    = 1,\n}\n\n--\n-- Webserver configuration\n-- Configurable params\n-- {\n--\tport
     = ,\t\t-- Port on which to open the webserver\n--\trequest_timeout = , -- Request
     timeout in ms\n--\tthreads = ,\t\t-- Number of threads on the webserver\n-- }\n--\nwebserver_config
-    = {\n\thost = WEBSERVICE_IP,\n\tport = 3892,\n\trequest_timeout = 10000,\n\tthreads
-    = 4,\n}\n\n--\n-- Packet capture configurations (multiple captures can be configured)\n--
-    Confiurable params, there can be multiple of these.\n-- {\n-- \tcap_module = \"pcap\",\t\t--
-    def:\"pcap\", capture module\n-- \tcap_type = \"device\"/\"file\",\t-- def:\"device\",
-    type of capture\n-- \tifname = \"\",\t\t-- def:\"any\", interface name/pcap filename\n--
+    = {\n\tport = 3892,\n\trequest_timeout = 10000,\n\tthreads = 2,\n}\n\n--\n-- Packet
+    capture configurations (multiple captures can be configured)\n-- Confiurable params,
+    there can be multiple of these.\n-- {\n-- \tcap_module = \"pcap\",\t\t-- def:\"pcap\",
+    capture module\n-- \tcap_type = \"device\"/\"file\",\t-- def:\"device\", type
+    of capture\n-- \tifname = \"\",\t\t-- def:\"any\", interface name/pcap filename\n--
     \tenable_promisc = 0/1,\t-- def:0, promiscuous mode pkt capture\n-- \tthinktime
     = ,\t\t-- def: 100, time in msec, to sleep if no pkts\n-- \tsnaplen = ,\t\t--
     def:1518. pkt capture len\n-- \tbuflen = ,\t\t-- def:2. pcap buffer size in MB\n--
@@ -66,9 +59,5 @@ data:
     = INSTALL_DIR,\n\tinstall_time = get_last_update_time(),\n}\n"
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2019-08-23T17:57:21Z"
+  creationTimestamp: "2019-07-16T17:57:43Z"
   name: netviz-config
-  namespace: appdynamics
-  resourceVersion: "291537"
-  selfLink: /api/v1/namespaces/appdynamics/configmaps/netviz-config
-  uid: 74355652-c5cf-11e9-8e1a-42010a800231

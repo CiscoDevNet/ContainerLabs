@@ -1,0 +1,79 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: php-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: php-app
+    spec:
+      serviceAccountName: appd-account
+      containers:
+        - name: webapp
+          image: sashaz/php-web-instr:v1
+          envFrom:
+          - configMapRef:
+              name: agent-config-php
+          env:
+          - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                key: appd-key
+                name: appd-secret
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: shared-data
+            mountPath: /shared
+          - name: agent-ini
+            mountPath: /opt/appdynamics/php-agent/php/conf/appdynamics_agent.ini
+            subPath: appdynamics_agent.ini
+          resources:
+            limits:
+              cpu: 200m
+              memory: 900M
+            requests:
+              cpu: 100m
+              memory: 600M
+          ports:
+          - containerPort: 9000
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "cp -r /code/. /shared"]
+        - name: nginx
+          image: sashaz/nginx-php:v1
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: shared-data
+            mountPath: /code
+          resources:
+            limits:
+              cpu: 200m
+              memory: 900M
+            requests:
+              cpu: 100m
+              memory: 600M
+          ports:
+          - containerPort: 8080
+      restartPolicy: Always
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+      - name: agent-ini
+        configMap:
+          name: agent-ini
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-app
+spec:
+  selector:
+    name: php-app
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
