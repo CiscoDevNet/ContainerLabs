@@ -59,3 +59,16 @@ spec:
       volumes:
       - emptyDir: {}
         name: appd-agent-repo-java
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loan-services
+spec:
+  selector:
+    name: loan-services
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
