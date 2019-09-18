@@ -2,13 +2,13 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    name: client-api
-  name: client-api
+    name: loan-services
+  name: loan-services
 spec:
   template:
     metadata:
       labels:
-        name: client-api
+        name: loan-services
     spec:
       containers:
       - envFrom:
@@ -21,15 +21,16 @@ spec:
               key: appd-key
               name: appd-secret
         - name: JAVA_OPTS
-          value: ' -Dappdynamics.agent.accountAccessKey=$(APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY)
+          value: ' -Djboss.modules.system.pkgs="org.jboss.byteman,com.singularity" 
+            -Dappdynamics.agent.accountAccessKey=$(APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY)
             -Dappdynamics.controller.hostName=$(APPDYNAMICS_CONTROLLER_HOST_NAME)
             -Dappdynamics.controller.port=$(APPDYNAMICS_CONTROLLER_PORT) -Dappdynamics.controller.ssl.enabled=$(APPDYNAMICS_CONTROLLER_SSL_ENABLED)
             -Dappdynamics.agent.accountName=$(APPDYNAMICS_AGENT_ACCOUNT_NAME) -Dappdynamics.agent.applicationName=$(APPDYNAMICS_AGENT_APPLICATION_NAME)
             -Dappdynamics.agent.tierName=$(APPDYNAMICS_AGENT_TIER_NAME) -Dappdynamics.agent.reuse.nodeName=true
             -Dappdynamics.agent.reuse.nodeName.prefix=$(APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX) -javaagent:/opt/appdynamics-java/javaagent.jar '
-        image: sashaz/java-services:v5
+        image: jdbarfield/fin-java:2.0
         imagePullPolicy: IfNotPresent
-        name: client-api
+        name: loan-services
         ports:
         - containerPort: 8080
           protocol: TCP
