@@ -2,5 +2,5 @@
 
 npm install appdynamics@next &&
 
-npm start
+node shim.js
 

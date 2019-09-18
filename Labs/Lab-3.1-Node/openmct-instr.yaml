@@ -41,6 +41,7 @@ spec:
       volumes:
       - configMap:
           name: appd-shim
+          defaultMode: 511
         name: appd-shim
       - configMap:
           name: appd-start
