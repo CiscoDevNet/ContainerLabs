@@ -22,8 +22,8 @@ spec:
           - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
             valueFrom:
               secretKeyRef:
-                key: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
-                name: nasa-secret
+                key: appd-key
+                name: appd-secret
           envFrom:
           - configMapRef:
               name: node-config
