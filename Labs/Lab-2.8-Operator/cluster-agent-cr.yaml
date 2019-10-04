@@ -4,28 +4,10 @@ metadata:
   name: k8s-cluster-agent
   namespace: appdynamics
 spec:
-  controllerUrl: "http://4511controllernoss-autodeploy4511-jpg87sas.srv.ravcloud.com:8090"
-  image: "docker.io/appdynamics/cluster-agent:0.2.5"
-  logLevel: "info"
-  instrumentationMethod: "none"
-  appNameLiteral: "AppDApplication01"
-  appDTierLabel: "tier"
-  biqService: "sidecar"
-  netVizPort: 3592
-  # instrumentRule:
-  # - namespaces:
-  #   - dev
-  #   method: mountAttach
-  #   version: "appdynamics/java-agent:latest"
-  #   uniqueHostID: auto
-  #   matchString:
-  #   - api
-  #   - player
-  # - namespaces:
-  #   - dev
-  #   method: mountEnv
-  #   matchString:
-  #   - ai
-  #   - world
+  controllerUrl: "https://saas.appdynamics.com"
+  account: "<account-name>"
+  appName: "<cluster-name>"
+ 
+
  
   
