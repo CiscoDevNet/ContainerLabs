@@ -6,3 +6,27 @@ alias eks='kubectl --kubeconfig <path-to-kubeconfig>
 
 # alias for oc
 alias oca='oc --config <path-to-kubeconfig>
+
+# list cluster nodes
+kubectl get nodes
+
+# list cluster nodes with more info
+kubectl get nodes -o wide
+
+# list pods
+kubectl get pods
+
+#list deployments
+kubectl get deploy
+
+#delete deployment
+kubectl delete deploy <deployment name>
+
+#context switching
+kubectl config view -o jsonpath='{.users[*].name}'   # get a list of users
+kubectl config get-contexts                          # display list of contexts 
+kubectl config current-context                       # display the current-context
+kubectl config use-context my-cluster-name           # set the default context to my-cluster-name
+
+# permanently save the namespace for all subsequent kubectl commands in that context.
+kubectl config set-context --current --namespace=ggckad-s2
