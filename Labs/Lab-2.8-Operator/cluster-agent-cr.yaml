@@ -4,9 +4,10 @@ metadata:
   name: k8s-cluster-agent
   namespace: appdynamics
 spec:
-  controllerUrl: "https://saas.appdynamics.com"
-  account: "<account-name>"
-  appName: "<cluster-name>"
+  controllerUrl: "http://4514controllernoss-cabeta-9ly7lk00.srv.ravcloud.com:8090"
+  image: "docker.io/sashaz/cluster-agent:beta-0.1.1"
+  account: "customer1"
+  appName: "Clusteragent"
  
 
  
