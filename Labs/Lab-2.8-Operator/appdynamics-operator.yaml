@@ -282,7 +282,7 @@ spec:
       serviceAccountName: appdynamics-operator
       containers:
         - name: appdynamics-operator
-          image: docker.io/appdynamics/cluster-agent-operator:latest
+          image: docker.io/appdynamics/cluster-agent-operator:0.3.0
           ports:
           - containerPort: 60000
             name: metrics
