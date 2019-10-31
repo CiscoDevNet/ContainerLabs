@@ -4,9 +4,9 @@ metadata:
   name: appd-infraviz
   namespace: appdynamics
 spec:
-  controllerUrl: "http://4514controllernoss-cabeta-9ly7lk00.srv.ravcloud.com:8090"
+  controllerUrl: "http://4514controllernoss-cabeta-44u3wfac.srv.ravcloud.com:8090"
   image: "docker.io/appdynamics/machine-agent-analytics:latest"
   account: "customer1"
-  globalAccount: "customer1_d53af8ff-2ec9-43c2-af74-c3b62f9f9065"
+  globalAccount: "customer1_40b976ef-2fca-4f22-8c06-43ba620c6a04"
   stdoutLogging: true
   netVizPort: 3892

@@ -1,10 +1,13 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     name: world-generator
   name: world-generator
 spec:
+  selector:
+    matchLabels:
+      name: world-generator
   template:
     metadata:
       labels:

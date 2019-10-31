@@ -62,7 +62,7 @@ roleRef:
   kind: ClusterRole
   name: appdynamics-infraviz
 ---
-apiVersion: extensions/v1beta1
+apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   name: appdynamics-infraviz

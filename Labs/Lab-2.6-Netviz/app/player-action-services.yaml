@@ -1,10 +1,13 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     name: player-action-services
   name: player-action-services
 spec:
+  selector:
+    matchLabels:
+      name: player-action-services
   template:
     metadata:
       labels:

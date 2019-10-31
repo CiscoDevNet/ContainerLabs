@@ -1,10 +1,13 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     name: world-change-services
   name: world-change-services
 spec:
+  selector:
+    matchLabels:
+      name: world-change-services
   template:
     metadata:
       labels:
