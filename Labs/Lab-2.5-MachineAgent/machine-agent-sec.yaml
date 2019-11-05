@@ -51,6 +51,7 @@ spec:
           readOnly: true
         - mountPath: /var/run/docker.sock
           name: docker-sock
+          readOnly: true
       restartPolicy: Always
       volumes:
       - name: ma-log-volume
