@@ -7,4 +7,4 @@ UNIQUE_HOST_ID=$(sed -rn '1s#.*/##; 1s/(.{12}).*/\1/p' /proc/self/cgroup)
 
 JAVA_OPTS="$JAVA_OPTS -Dappdynamics.agent.uniqueHostId=$UNIQUE_HOST_ID"
 
-java $JAVA_OPTS -jar /java-services.jar
+exec java $JAVA_OPTS -jar /java-services.jar
