@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    name: client-api
   name: client-api
 spec:
   selector:
     matchLabels:
       name: client-api
-  replicas: 1
   template:
     metadata:
       labels:
         name: client-api
     spec:
       containers:
-      - name: client-api
         command: ["/bin/sh"]
         args: ["-c", "UNIQUE_HOST_ID=$(sed -rn '1s#.*/##; 1s/(.{12}).*/\\1/p' /proc/self/cgroup) && java -Dappdynamics.agent.uniqueHostId=$UNIQUE_HOST_ID $JAVA_OPTS -jar /java-services.jar"]
-        envFrom:
+      - envFrom:
         - configMapRef:
             name: agent-config
         env:
@@ -31,16 +31,38 @@ spec:
             -Dappdynamics.controller.port=$(APPDYNAMICS_CONTROLLER_PORT) -Dappdynamics.controller.ssl.enabled=$(APPDYNAMICS_CONTROLLER_SSL_ENABLED)
             -Dappdynamics.agent.accountName=$(APPDYNAMICS_AGENT_ACCOUNT_NAME) -Dappdynamics.agent.applicationName=$(APPDYNAMICS_AGENT_APPLICATION_NAME)
             -Dappdynamics.agent.tierName=$(APPDYNAMICS_AGENT_TIER_NAME) -Dappdynamics.agent.reuse.nodeName=true
-            -Dappdynamics.agent.reuse.nodeName.prefix=$(APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX) -javaagent:/opt/appdynamics/javaagent.jar '
-        image: sashaz/java-services-appd:v1
+            -Dappdynamics.agent.reuse.nodeName.prefix=$(APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX) -javaagent:/opt/appdynamics-java/javaagent.jar '
+        image: sashaz/java-services:v5
         imagePullPolicy: IfNotPresent
+        name: client-api
         ports:
         - containerPort: 8080
           protocol: TCP
         resources: {}
+        volumeMounts:
+        - mountPath: /opt/appdynamics-java
+          name: appd-agent-repo-java
       dnsPolicy: ClusterFirst
+      initContainers:
+      - command:
+        - cp
+        - -ra
+        - /opt/appdynamics/.
+        - /opt/temp
+        image: docker.io/appdynamics/java-agent:4.5.17
+        imagePullPolicy: IfNotPresent
+        name: appd-agent-attach
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /opt/temp
+          name: appd-agent-repo-java
       restartPolicy: Always
+      schedulerName: default-scheduler
       serviceAccountName: appd-account
+      volumes:
+      - emptyDir: {}
+        name: appd-agent-repo-java
 
 ---
 apiVersion: v1

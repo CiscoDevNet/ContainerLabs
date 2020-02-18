@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flight-services
+spec:
+  selector:
+    matchLabels:
+      name: flight-services
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: flight-services
+    spec:
+      containers:
+      - name: flight-services
+        image: sashaz/ad-air-nodejs-services-analytics:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - configMapRef:
+              name: controller-info
+        env:
+        - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-key
+              name: appd-secret
+        - name: APPDYNAMICS_AGENT_TIER_NAME
+          value: flight-services
+        - name: APPDYNAMICS_ANALYTICS_HOST
+          value: analytics-proxy
+        - name: APPDYNAMICS_ANALYTICS_PORT
+          value: "9090"
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flight-services
+spec:
+  selector:
+    name: flight-services
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080

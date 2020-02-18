@@ -66,3 +66,18 @@ spec:
         name: appd-agent-repo-java
       - emptyDir: {}
         name: appd-volume
+---
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-api
+spec:
+  selector:
+    name: client-api
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+status:
+  loadBalancer: {}

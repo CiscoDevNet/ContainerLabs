@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-services
+spec:
+  selector:
+    matchLabels:
+      name: api-services
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: api-services
+    spec:
+      initContainers:
+      - command:
+        - cp
+        - -ra
+        - /opt/appdynamics/.
+        - /opt/temp
+        image: docker.io/appdynamics/java-agent:latest
+        imagePullPolicy: IfNotPresent
+        name: appd-agent-attach
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /opt/temp
+          name: appd-agent-repo-java
+      containers:
+      - name: api-services
+        image: sashaz/ad-air-java-services:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - configMapRef:
+              name: controller-info
+        env:
+        - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-key
+              name: appd-secret
+        - name: APPDYNAMICS_AGENT_TIER_NAME
+          value: api-services
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /opt/appdynamics/AppServerAgent
+          name: appd-agent-repo-java
+      restartPolicy: Always
+      volumes:
+      - emptyDir: {}
+        name: appd-agent-repo-java
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-services
+spec:
+  selector:
+    name: api-services
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080

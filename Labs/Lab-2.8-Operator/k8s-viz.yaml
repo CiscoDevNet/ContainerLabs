@@ -1,0 +1,15 @@
+apiVersion: appdynamics.com/v1alpha1
+kind: Clusteragent
+metadata:
+  name: k8s-cluster-agent
+  namespace: appdynamics
+spec:
+  controllerUrl: "http://4516controllernoss-pstraining-lr7mbebh.srv.ravcloud.com:8090"
+  account: "customer1"
+  appName: "CloudCluster"
+  logLevel: "DEBUG"
+  image: "docker.io/appdynamics/cluster-agent:latest"
+ 
+
+ 
+  

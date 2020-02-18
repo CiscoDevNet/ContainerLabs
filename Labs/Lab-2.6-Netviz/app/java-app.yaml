@@ -35,7 +35,7 @@ spec:
             -Dappdynamics.controller.port=$(APPDYNAMICS_CONTROLLER_PORT) -Dappdynamics.controller.ssl.enabled=$(APPDYNAMICS_CONTROLLER_SSL_ENABLED)
             -Dappdynamics.agent.accountName=$(APPDYNAMICS_AGENT_ACCOUNT_NAME) -Dappdynamics.agent.applicationName=$(APPDYNAMICS_AGENT_APPLICATION_NAME)
             -Dappdynamics.agent.tierName=Client -Dappdynamics.agent.reuse.nodeName=true
-            -Dappdynamics.agent.reuse.nodeName.prefix=$(APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX) -Dappdynamics.analytics.agent.url=http://analytics-proxy:9090/v2/sinks/bt 
+            -Dappdynamics.agent.reuse.nodeName.prefix=$(APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX)
             -Dappdynamics.socket.collection.bci.enable=true -javaagent:/opt/appdynamics-java/javaagent.jar '
         image: sashaz/java-services:v5
         imagePullPolicy: IfNotPresent
@@ -56,7 +56,7 @@ spec:
         - -ra
         - /opt/appdynamics/.
         - /opt/temp
-        image: docker.io/appdynamics/java-agent:latest
+        image: docker.io/appdynamics/java-agent:4.5.18
         imagePullPolicy: IfNotPresent
         name: appd-agent-attach
         terminationMessagePath: /dev/termination-log

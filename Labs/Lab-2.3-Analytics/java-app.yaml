@@ -76,7 +76,7 @@ spec:
         - -ra
         - /opt/appdynamics/.
         - /opt/temp
-        image: docker.io/appdynamics/java-agent:latest
+        image: docker.io/appdynamics/java-agent:4.5.13  
         imagePullPolicy: IfNotPresent
         name: appd-agent-attach
         resources:
