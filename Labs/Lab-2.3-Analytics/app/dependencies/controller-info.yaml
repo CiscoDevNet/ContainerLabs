@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  APPDYNAMICS_AGENT_ACCOUNT_NAME: customer1
+  APPDYNAMICS_AGENT_APPLICATION_NAME: AD-Air
+  APPDYNAMICS_CONTROLLER_HOST_NAME: 4517controllernoss-controller17-xhi1smc7.srv.ravcloud.com
+  APPDYNAMICS_CONTROLLER_PORT: "8090"
+  APPDYNAMICS_CONTROLLER_SSL_ENABLED: "false"
+  EUM_HOST: "4517controllernoss-controller17-xhi1smc7.srv.ravcloud.com:7001"
+  EUM_KEY: EUM-AAB-AUA
+  EVENT_ENDPOINT: "https://4517controllernoss-controller17-xhi1smc7.srv.ravcloud.com:9080"
+  FULL_ACCOUNT_NAME: customer1_4057dd43-b852-4d2b-870c-fd0a03464d01
+kind: ConfigMap
+metadata:
+  name: controller-info
+

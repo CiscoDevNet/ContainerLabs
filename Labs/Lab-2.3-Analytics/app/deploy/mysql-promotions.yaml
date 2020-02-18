@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-promotions
+spec:
+  selector:
+    matchLabels:
+      name: mysql-promotions
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mysql-promotions
+    spec:
+      hostname: mysql-promotions
+      containers:
+        - name: mysql-promotions
+          image: sashaz/ad-air-mysql
+          imagePullPolicy: IfNotPresent
+          envFrom:
+          - configMapRef:
+              name: controller-info
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secret
+                key: user-pass
+          ports: 
+          - containerPort: 3306
+            protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-promotions
+spec:
+  selector:
+    name: mysql-promotions
+  ports:
+  - name: "3306"
+    port: 3306
+    targetPort: 3306
