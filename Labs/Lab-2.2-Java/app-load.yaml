@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-load
+spec:
+  selector:
+    matchLabels:
+      name: app-load
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: app-load
+    spec:
+      containers:
+        - name: app-load
+          image: sashaz/app-load:v1
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always

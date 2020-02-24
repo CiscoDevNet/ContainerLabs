@@ -4,7 +4,7 @@ metadata:
   name: k8s-cluster-agent
   namespace: appdynamics
 spec:
-  controllerUrl: "http://4516controllernoss-pstraining-lr7mbebh.srv.ravcloud.com:8090"
+  controllerUrl: "http://4517controllernoss-controller17-xhi1smc7.srv.ravcloud.com:8090"
   account: "customer1"
   appName: "CloudCluster"
   logLevel: "DEBUG"
