@@ -13,7 +13,7 @@ spec:
       labels:
         name: client-api
     spec:
-      containers:        
+      containers:
       - envFrom:
         - configMapRef:
             name: agent-config
@@ -34,7 +34,7 @@ spec:
         imagePullPolicy: IfNotPresent
         name: client-api
         command: ["/bin/sh"]
-        args: ["-c", "UNIQUE_HOST_ID=$(sed -rn '1s#.*/##; 1s/(.{12}).*/\\1/p' /proc/self/cgroup) && java -Dappdynamics.agent.uniqueHostId=$UNIQUE_HOST_ID $JAVA_OPTS -jar /java-services.jar"]
+        args: ["-c", "HOST_ID=$(cat /proc/self/cgroup | head -1 | awk -F '/' '{print $NF}' | awk -F '-' '{print $2}' | cut -c 1-12) ; if [ -z $HOST_ID ]; then HOST_ID=$(cat /proc/self/cgroup | head -1 | awk -F '/' '{print $NF}' | cut -c 1-12) ; fi ; export APPDYNAMICS_AGENT_UNIQUE_HOST_ID=$HOST_ID   && <entry-point>"]
         ports:
         - containerPort: 8080
           protocol: TCP
