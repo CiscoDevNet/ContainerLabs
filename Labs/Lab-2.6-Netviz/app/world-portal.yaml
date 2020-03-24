@@ -56,7 +56,7 @@ spec:
         - -ra
         - /opt/appdynamics/.
         - /opt/temp
-        image: docker.io/appdynamics/java-agent:4.5.18
+        image: docker.io/appdynamics/java-agent:latest
         imagePullPolicy: IfNotPresent
         name: appd-agent-attach
         terminationMessagePath: /dev/termination-log

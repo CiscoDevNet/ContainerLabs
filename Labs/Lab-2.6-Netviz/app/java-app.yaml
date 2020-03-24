@@ -39,6 +39,8 @@ spec:
             -Dappdynamics.socket.collection.bci.enable=true -javaagent:/opt/appdynamics-java/javaagent.jar '
         image: sashaz/java-services:v5
         imagePullPolicy: IfNotPresent
+#        command: ["/bin/sh"]
+#        args: ["-c", "HOST_ID=$(cat /proc/self/cgroup | head -1 | awk -F '/' '{print $NF}' | awk -F '-' '{print $2}' | cut -c 1-12) ; if [ -z $HOST_ID ]; then HOST_ID=$(cat /proc/self/cgroup | head -1 | awk -F '/' '{print $NF}' | cut -c 1-12) ; fi ; export APPDYNAMICS_AGENT_UNIQUE_HOST_ID=$HOST_ID   && /startup.sh"]
         name: client-api
         ports:
         - containerPort: 8080
@@ -56,8 +58,8 @@ spec:
         - -ra
         - /opt/appdynamics/.
         - /opt/temp
-        image: docker.io/appdynamics/java-agent:4.5.18
-        imagePullPolicy: IfNotPresent
+        image: docker.io/appdynamics/java-agent:latest
+        imagePullPolicy: Always
         name: appd-agent-attach
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
