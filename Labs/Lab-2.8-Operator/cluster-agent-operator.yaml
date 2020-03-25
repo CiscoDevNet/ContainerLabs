@@ -1,0 +1,191 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: clusteragents.appdynamics.com
+spec:
+  group: appdynamics.com
+  names:
+    kind: Clusteragent
+    listKind: ClusteragentList
+    plural: clusteragents
+    singular: clusteragent
+  scope: Namespaced
+  version: v1alpha1
+  subresources:
+    status: {}
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: infravizs.appdynamics.com
+spec:
+  group: appdynamics.com
+  names:
+    kind: InfraViz
+    listKind: InfraVizList
+    plural: infravizs
+    singular: infraviz
+  scope: Namespaced
+  subresources:
+    status: {}
+  version: v1alpha1
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: adams.appdynamics.com
+spec:
+  group: appdynamics.com
+  names:
+    kind: Adam
+    listKind: AdamList
+    plural: adams
+    singular: adam
+  scope: Namespaced
+  subresources:
+    status: {}
+  version: v1alpha1
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: appdynamics-operator
+  namespace: appdynamics
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: appdynamics-operator
+  namespace: appdynamics
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+      - endpoints
+      - persistentvolumeclaims
+      - resourcequotas
+      - nodes
+      - events
+      - namespaces
+    verbs:
+      - get
+      - watch
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - configmaps
+      - secrets
+    verbs:
+      - "*"
+  - apiGroups:
+      - apps
+    resources:
+      - statefulsets
+    verbs:
+      - get
+      - watch
+      - list
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+      - replicasets
+      - daemonsets
+    verbs:
+      - "*"
+  - apiGroups:
+      - "batch"
+      - "extensions"
+    resources:
+      - "jobs"
+    verbs:
+      - "get"
+      - "list"
+      - "watch"
+  - apiGroups:
+      - metrics.k8s.io
+    resources:
+      - pods
+      - nodes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - appdynamics.com
+    resources:
+      - '*'
+      - clusteragents
+      - infravizs
+      - adams
+    verbs:
+      - "*"
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: appdynamics-operator
+  namespace: appdynamics
+subjects:
+  - kind: ServiceAccount
+    name: appdynamics-operator
+roleRef:
+  kind: Role
+  name: appdynamics-operator
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appdynamics-operator
+  namespace: appdynamics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: appdynamics-operator
+  template:
+    metadata:
+      labels:
+        name: appdynamics-operator
+    spec:
+      serviceAccountName: appdynamics-operator
+      containers:
+        - name: appdynamics-operator
+          image: docker.io/appdynamics/cluster-agent-operator:latest
+          ports:
+            - containerPort: 60000
+              name: metrics
+          command:
+            - appdynamics-operator
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "appdynamics-operator"
