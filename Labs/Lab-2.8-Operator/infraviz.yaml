@@ -119,7 +119,7 @@ metadata:
   namespace: appdynamics
 spec:
   controllerUrl: "https://saas.appdynamics.com"
-  image: "docker.io/appdynamics/machine-agent-analytics:latest"
+  image: "docker.io/appdynamics/machine-agent-analytics:4.5.16"
   account: "customer1"
   globalAccount: "customer1_4057dd43"
   netVizPort: 3892

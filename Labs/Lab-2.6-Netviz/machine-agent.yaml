@@ -16,7 +16,7 @@ spec:
       serviceAccountName: appdynamics-infraviz
       containers:
       - name: appd-netviz-agent
-        image: appdynamics/machine-agent-netviz:4.5.8
+        image: appdynamics/machine-agent-netviz:latest
         imagePullPolicy: Always
         resources:
           requests:
@@ -36,7 +36,7 @@ spec:
           mountPath: /netviz-agent/conf/agent_config.lua
           subPath: agent_config.lua
       - name: appd-infra-agent
-        image: appdynamics/machine-agent-analytics:latest
+        image: appdynamics/machine-agent-analytics:4.5.16
         imagePullPolicy: IfNotPresent
         env:
         - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
