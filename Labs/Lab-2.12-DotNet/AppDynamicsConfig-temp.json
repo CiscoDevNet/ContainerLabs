@@ -1,0 +1,14 @@
+{
+  "application": {
+    "uniquehostid": "APPDYNAMICS_AGENT_UNIQUE_HOST_ID"
+  },
+  "feature": [
+    "FULL_AGENT"
+  ],
+  "log": [
+       {
+           "level": "debug",
+           "outputtype" : "console"
+       }
+  ]
+}

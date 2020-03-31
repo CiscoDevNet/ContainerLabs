@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-app
+spec:
+  selector:
+    matchLabels:
+      name: dotnet-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: dotnet-app
+    spec:
+      serviceAccountName: appd-account
+      initContainers:
+      - name: appd-agent
+        command:
+          - cp
+          - -ra
+          - /opt/appdynamics/.
+          - /opt/appd
+        image: appdynamics/dotnet-core-agent:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /opt/appd
+          name: appd-agent-repo
+      containers:
+      - name: dotnet-app
+        image: microsoft/dotnet-samples:aspnetapp
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh"]
+        args: ["-c", "/opt/appd/prep.sh && dotnet aspnetapp.dll"]
+        envFrom:
+           - configMapRef:
+              name: dotnet-config
+        env:
+          - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+            valueFrom:
+                secretKeyRef:
+                  name: appd-secret
+                  key: appd-key
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /opt/appd
+          name: appd-agent-repo
+        - name: appd-agent-config
+          mountPath: /opt/appd/AppDynamicsConfig-temp.json
+          subPath: AppDynamicsConfig-temp.json
+        - name: appd-agent-prep
+          mountPath: /opt/appd/prep.sh
+          subPath: prep.sh
+      restartPolicy: Always
+      volumes:
+        - name: appd-agent-repo
+          emptyDir: {}
+        - name: appd-agent-config
+          configMap:
+            name: appd-config
+        - name: appd-agent-prep
+          configMap:
+            name: appd-prep
+            defaultMode: 0777
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dotnet-app
+spec:
+  selector:
+    name: dotnet-app
+  ports:
+  - name: "80"
+    port: 80
+    targetPort: 80
+  type: NodePort
