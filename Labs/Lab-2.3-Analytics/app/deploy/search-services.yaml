@@ -13,15 +13,25 @@ spec:
         name: search-services
     spec:
       containers:
-      - env:
+      - envFrom:
+        - configMapRef:
+            name: controller-info
+        env:
         - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
           valueFrom:
             secretKeyRef:
               key: appd-key
               name: appd-secret
-        envFrom:
-        - configMapRef:
-            name: agent-config
+        - name: APPDYNAMICS_EVENTS_API_URL
+          valueFrom:
+            configMapKeyRef:
+              key: EVENT_ENDPOINT
+              name: controller-info
+        - name: APPDYNAMICS_GLOBAL_ACCOUNT_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: FULL_ACCOUNT_NAME
+              name: controller-info
         image: docker.io/appdynamics/analytics-agent:latest
         imagePullPolicy: IfNotPresent
         name: appd-analytics-agent

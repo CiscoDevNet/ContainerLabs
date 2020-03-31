@@ -7,7 +7,7 @@ replaceText () {
  sed -i "s|$1|$2|g" $3
 }
 
-# obtain container id for uniquehost id
+# obtain container id for uniquehost id. Note, this command is for Kubernetes/Docker environments
 APPDYNAMICS_AGENT_UNIQUE_HOST_ID=$(sed -rn '1s#.*/##; 1s/(.{12}).*/\1/p' /proc/self/cgroup)
 echo 'Unique host id = ' $APPDYNAMICS_AGENT_UNIQUE_HOST_ID
 
