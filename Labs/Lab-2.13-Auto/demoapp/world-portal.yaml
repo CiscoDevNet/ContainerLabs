@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: world-portal
+spec:
+  selector:
+    matchLabels:
+      name: world-portal
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: world-portal
+        tier-name: world-portal-tier
+        application-name: OS-App
+    spec:
+      serviceAccountName: appd-account
+      containers:
+        - name: world-portal
+          image: sashaz/java-services:v5
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: world-portal
+spec:
+  selector:
+    name: world-portal
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+status:
+  loadBalancer: {}

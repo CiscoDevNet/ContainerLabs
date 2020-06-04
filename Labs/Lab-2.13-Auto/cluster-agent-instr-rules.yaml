@@ -1,0 +1,32 @@
+apiVersion: appdynamics.com/v1alpha1
+kind: Clusteragent
+metadata:
+  name: k8s-cluster-agent
+  namespace: appdynamics
+spec:
+  controllerUrl: "https://fieldlabs.saas.appdynamics.com"
+  account: "fieldlabs"
+  appName: "AutoInstrumentCluster"
+  serviceAccountName: appdynamics-cluster-agent
+  image: "docker.io/appdynamics/cluster-agent:20.5.0"
+  nsToMonitor: [appdynamics,default,dev,stage]
+  instrumentationMethod: Env
+  nsToInstrumentRegex: stage|dev
+  defaultAppName: AI-Stage
+  resourcesToInstrument: [Deployment,StatefulSet]
+  image-info:
+    java:
+      image: "docker.io/appdynamics/java-agent:20.3.0"
+      agentMountPath: /opt/appdynamics
+  netvizInfo:
+    bciEnabled: true
+    port: 3892 
+  instrumentationRules:
+    - namespaceRegex: dev
+      appName: AI-Dev
+      imageInfo:
+        image: "docker.io/appdynamics/java-agent:20.5.0"
+        agentMountPath: /opt/appdynamics
+
+
+
