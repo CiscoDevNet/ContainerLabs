@@ -4,8 +4,8 @@ metadata:
   name: k8s-cluster-agent
   namespace: appdynamics
 spec:
-  controllerUrl: "https://fieldlabs.saas.appdynamics.com"
-  account: "fieldlabs"
+  controllerUrl: "https://saas.appdynamics.com"
+  account: "customer1"
   appName: "AutoInstrumentCluster"
   serviceAccountName: appdynamics-cluster-agent
   image: "docker.io/appdynamics/cluster-agent:20.5.0"
