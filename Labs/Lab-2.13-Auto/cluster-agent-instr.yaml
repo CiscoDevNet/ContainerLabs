@@ -14,7 +14,7 @@ spec:
   nsToInstrumentRegex: stage|dev
   defaultAppName: AI-Stage
   resourcesToInstrument: [Deployment,StatefulSet]
-  image-info:
+  imageInfo:
     java:
       image: "docker.io/appdynamics/java-agent:latest"
       agentMountPath: /opt/appdynamics
