@@ -4,7 +4,7 @@ metadata:
   name: k8s-cluster-agent
   namespace: appdynamics
 spec:
-  controllerUrl: "https://saas.appdynamics.com"
+  controllerUrl: "http://saas.appdynamics.com"
   account: "customer1"
   appName: "AutoInstrumentCluster"
   serviceAccountName: appdynamics-cluster-agent
@@ -16,7 +16,7 @@ spec:
   resourcesToInstrument: [Deployment,StatefulSet]
   image-info:
     java:
-      image: "docker.io/appdynamics/java-agent:20.3.0"
+      image: "docker.io/appdynamics/java-agent:latest"
       agentMountPath: /opt/appdynamics
   netvizInfo:
     bciEnabled: true
@@ -25,7 +25,7 @@ spec:
     - namespaceRegex: dev
       appName: AI-Dev
       imageInfo:
-        image: "docker.io/appdynamics/java-agent:20.5.0"
+        image: "docker.io/appdynamics/java-agent:20.3.0"
         agentMountPath: /opt/appdynamics
 
 
