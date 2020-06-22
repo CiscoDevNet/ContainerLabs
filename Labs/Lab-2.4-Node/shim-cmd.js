@@ -10,3 +10,4 @@ require("appdynamics").profile({
   reuseNode: 'true',
   reuseNodePrefix: process.env.APPDYNAMICS_AGENT_NODE_NAME
  });
+ require(process.env.APP_ENTRY_POINT)

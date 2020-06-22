@@ -17,6 +17,7 @@ spec:
         - name: openmct
           image: sashaz/openmct:v1instr
           imagePullPolicy: Always
+          command: ["node", "./shim.js"]
           env:
           - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
             valueFrom:
@@ -28,16 +29,7 @@ spec:
                 name: node-config
           ports:
           - containerPort: 8080
-          volumeMounts:
-          - name: appd-shim
-            mountPath: /openmct/shim.js
-            subPath: shim.js
       restartPolicy: Always
-      volumes:
-      - name: appd-shim
-        configMap:
-          name: appd-shim
-          defaultMode: 511
 
 ---
 apiVersion: v1
