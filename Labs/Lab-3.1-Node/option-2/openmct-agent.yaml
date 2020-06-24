@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openmct
+  namespace: dev
+spec:
+  selector:
+    matchLabels:
+      name: openmct
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: openmct
+    spec:
+      serviceAccountName: appd-account
+      containers:
+        - name: openmct
+          image: sashaz/openmct:v1
+          # command:
+          #   - /bin/sh
+          #   - -c
+          #   - '/openmct/start.sh'
+          env:
+          - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                key: appd-key
+                name: appd-secret
+          envFrom:
+          - configMapRef:
+              name: node-config
+          imagePullPolicy: Always
+          volumeMounts:
+          # - name: appd-shim
+          #   mountPath: /openmct/appdynamics/shim.js
+          #   subPath: shim.js
+          - mountPath: /openmct/appdynamics/
+            name: appd-agent-repo
+          ports:
+          - containerPort: 8080
+      restartPolicy: Always
+      initContainers:
+      - command:
+        - cp
+        - -ra
+        - /opt/appdynamics/.
+        - /opt/temp
+        image: docker.io/sashaz/nodejs:20.6.0
+        imagePullPolicy: Always
+        name: appd-agent-attach
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /opt/temp
+          name: appd-agent-repo
+      volumes:
+      # - configMap:
+      #     name: appd-shim
+      #     defaultMode: 511
+      #   name: appd-shim
+      - emptyDir: {}
+        name: appd-agent-repo
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openmct
+  namespace: dev
+spec:
+  selector:
+    name: openmct
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+  type: LoadBalancer
+status:
+  loadBalancer: {}
