@@ -2,7 +2,7 @@ FROM alpine
 
 ARG NODE_AGENT_VERSION 
 
-MAINTAINER you@appdynamics.com
+MAINTAINER <you>@appdynamics.com
 
 LABEL name="AppDynamics Node.js Agent" \
       vendor="AppDynamics" \
