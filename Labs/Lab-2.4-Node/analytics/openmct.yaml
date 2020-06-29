@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openmct
+spec:
+  selector:
+    matchLabels:
+      name: openmct
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: openmct
+    spec:
+      serviceAccountName: appd-account
+      containers:
+        - name: openmct
+          image: sashaz/openmct:v1instr
+          imagePullPolicy: Always
+          env:
+          - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                key: appd-key
+                name: appd-secret
+          envFrom:
+            - configMapRef:
+                name: node-config
+          ports:
+          - containerPort: 8080
+          volumeMounts:
+          - name: appd-shim
+            mountPath: /openmct/shim.js
+            subPath: shim.js
+        - envFrom:
+          - configMapRef:
+              name: node-config
+          env:
+          - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+            valueFrom:
+             secretKeyRef:
+               key: appd-key
+               name: appd-secret
+          - name: APPDYNAMICS_EVENTS_API_URL
+            valueFrom:
+              configMapKeyRef:
+                key: APPDYNAMICS_EVENTS_API_URL
+                name: node-config
+          - name: APPDYNAMICS_GLOBAL_ACCOUNT_NAME
+            valueFrom:
+              configMapKeyRef:
+                key: APPDYNAMICS_GLOBAL_ACCOUNT_NAME
+                name: node-config
+          image: docker.io/sashaz/analytics-agent:20.6.0
+          imagePullPolicy: Always
+          name: appd-analytics-agent
+          ports:
+          - containerPort: 9090
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 200m
+              memory: 900M
+            requests:
+              cpu: 100m
+              memory: 600M
+      restartPolicy: Always
+      volumes:
+      - name: appd-shim
+        configMap:
+          name: appd-shim
+          defaultMode: 511
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openmct
+spec:
+  selector:
+    name: openmct
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+  type: LoadBalancer
+status:
+  loadBalancer: {}
