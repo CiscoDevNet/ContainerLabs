@@ -1,0 +1,5 @@
+const os = require("os")
+const path = require("path")
+const agentPath = path.join(__dirname, os.platform(), process.version.split(".")[0], "agent.js")
+console.log(agentPath)
+require(agentPath)
