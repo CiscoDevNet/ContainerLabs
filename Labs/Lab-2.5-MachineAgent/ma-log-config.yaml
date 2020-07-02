@@ -2,45 +2,42 @@ apiVersion: v1
 data:
   log4j.xml: |
     <?xml version="1.0" encoding="UTF-8" ?>
-    <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-    <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <configuration status="Warn" monitorInterval="30">
 
-        <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
-            <layout class="org.apache.log4j.PatternLayout">
-                <param name="ConversionPattern" value="%d{ABSOLUTE} %5p [%t] %c{1} - %m%n"/>
-            </layout>
-        </appender>
+        <Appenders>
+            <Console name="ConsoleAppender" target="SYSTEM_OUT">
+                <PatternLayout pattern="%d{ABSOLUTE} %5p [%t] %c{1} - %m%n"/>
+            </Console>
 
-        <appender name="FileAppender" class="com.singularity.ee.agent.systemagent.SystemAgentLogAppender">
-            <param name="File" value="logs/machine-agent.log"/>
-            <param name="MaxFileSize" value="5000KB"/>
-            <param name="MaxBackupIndex" value="5"/>
-            <layout class="org.apache.log4j.PatternLayout">
-                <param name="ConversionPattern" value="[%t] %d{DATE} %5p %c{1} - %m%n"/>
-            </layout>
-        </appender>
+            <RollingFile name="FileAppender" fileName="${log4j:configParentLocation}/../../logs/machine-agent.log"
+                         filePattern="${log4j:configParentLocation}/../../logs/machine-agent.log.%i">
+                <PatternLayout>
+                    <Pattern>[%t] %d{DATE} %5p %c{1} - %m%n</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <SizeBasedTriggeringPolicy size="5000 KB"/>
+                </Policies>
+                <DefaultRolloverStrategy max="5"/>
+            </RollingFile>
+        </Appenders>
 
-        <logger name="com.singularity" additivity="false">
-            <level value="info"/>
-            <appender-ref ref="FileAppender"/>
-        </logger>
+        <Loggers>
+            <Logger name="com.singularity" level="info" additivity="false">
+                <AppenderRef ref="FileAppender"/>
+            </Logger>
+            <Logger name="com.appdynamics" level="info" additivity="false">
+                <AppenderRef ref="FileAppender"/>
+            </Logger>
+            <Logger name="com.singularity.ee.agent.systemagent.task.sigar.SigarAppAgentMonitor" level="info" additivity="false">
+                <AppenderRef ref="FileAppender"/>
+            </Logger>
+            <Root level="error">
+                <AppenderRef ref="FileAppender"/>
+            </Root>
+        </Loggers>
 
-        <logger name="com.appdynamics" additivity="false">
-            <level value="info"/>
-            <appender-ref ref="FileAppender"/>
-        </logger>
-
-        <logger name="com.singularity.ee.agent.systemagent.task.sigar.SigarAppAgentMonitor" additivity="false">
-            <level value="info"/>
-            <appender-ref ref="FileAppender"/>
-        </logger>
-
-        <root>
-            <priority value="error"/>
-            <appender-ref ref="FileAppender"/>
-        </root>
-
-    </log4j:configuration>
+    </configuration>
 kind: ConfigMap
 metadata:
+  creationTimestamp: "2020-07-02T18:04:27Z"
   name: ma-log-config
