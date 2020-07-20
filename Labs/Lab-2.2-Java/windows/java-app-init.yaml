@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: client-api
+  name: client-api
+spec:
+  selector:
+    matchLabels:
+      name: client-api
+  template:
+    metadata:
+      labels:
+        name: client-api
+    spec:
+      nodeSelector:
+        kubernetes.io/os: windows
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: agent-config
+        env:
+        - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-key
+              name: appd-secret
+        - name: APPDYNAMICS_AGENT_APPLICATION_NAME
+          value: Java-App-Windows
+        - name: APPDYNAMICS_AGENT_UNIQUE_HOST_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName  
+        - name: JAVA_TOOL_OPTIONS
+          value: ' -Dappdynamics.agent.accountAccessKey=$(APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY)
+            -Dappdynamics.controller.hostName=$(APPDYNAMICS_CONTROLLER_HOST_NAME)
+            -Dappdynamics.controller.port=$(APPDYNAMICS_CONTROLLER_PORT) -Dappdynamics.controller.ssl.enabled=$(APPDYNAMICS_CONTROLLER_SSL_ENABLED)
+            -Dappdynamics.agent.accountName=$(APPDYNAMICS_AGENT_ACCOUNT_NAME) -Dappdynamics.agent.applicationName=$(APPDYNAMICS_AGENT_APPLICATION_NAME)
+            -Dappdynamics.agent.tierName=$(APPDYNAMICS_AGENT_TIER_NAME) -Dappdynamics.agent.reuse.nodeName=true
+            -Dappdynamics.agent.reuse.nodeName.prefix=$(APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX) -javaagent:c:\\appdynamics\\javaagent.jar '
+        image: sashaz/java-services:5.2-win
+        imagePullPolicy: Always
+        name: client-api
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        volumeMounts:
+        - mountPath: c:/appdynamics
+          name: appd-agent-repo-java
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - command: ["pwsh", "-command", "Copy-Item -Path C:/appdynamics/java-agent/* -Destination c:/javagent -Recurse && ls c:/javagent"]
+        image: appdynamics/java-agent:20.6.0-win
+        imagePullPolicy: Always
+        name: appd-agent-attach
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: c:/javagent
+          name: appd-agent-repo-java
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      serviceAccountName: appd-account
+      volumes:
+      - emptyDir: {}
+        name: appd-agent-repo-java
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-api
+spec:
+  selector:
+    name: client-api
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+status:
+  loadBalancer: {}
