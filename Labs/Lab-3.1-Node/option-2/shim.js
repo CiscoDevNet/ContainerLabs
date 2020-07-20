@@ -7,7 +7,7 @@ require("appdynamics").profile({
   accountAccessKey: process.env.APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY, //required
   applicationName: process.env.APPDYNAMICS_AGENT_APPLICATION_NAME,
   tierName: process.env.APPDYNAMICS_AGENT_TIER_NAME, 
-  reuseNode: 'true',
+  reuseNode: true,
   reuseNodePrefix: process.env.APPDYNAMICS_AGENT_NODE_NAME,
   // analytics: {
   //   host: <analyticsHostName>,
