@@ -79,6 +79,7 @@ spec:
         ports:
         - containerPort: 9090
           protocol: TCP
+        #windows analytics agent requires a minimum of 1GB heap space to start. 
         resources: 
           requests: 
             memory: "1Gi"
@@ -94,4 +95,6 @@ spec:
               key: appd-key
               name: appd-secret
         - name: APPDYNAMICS_AGENT_APPLICATION_NAME
+          #Use the recommened format below, this makes it easy to create source rules using regex in the controller
+          #It's escpecially useful for microservices. Use tags and labels where applicable. 
           value: "namespace|windows|application-name"
