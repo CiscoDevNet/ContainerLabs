@@ -23,7 +23,7 @@ spec:
       containers:
       - name: appd-windows-infra-agent
         image:  appdynamics/machine-agent-analytics:20.6.0-win-ltsc2019
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
             name: ma-config
