@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: windows-server-iis
+spec:
+  selector:
+    matchLabels:
+      app: windows-server-iis
+      tier: backend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: windows-server-iis
+        tier: backend
+        track: stable
+    spec:
+      nodeSelector:
+        kubernetes.io/os: windows
+      volumes:
+        - name: appd-dotnet-agent
+          emptyDir: {}
+      initContainers:
+        - name:  micro-dotnet-agent
+          image: appdynamics/dotnet-agent:20.6.0-micro
+          command: ["pwsh", "-command", "copy-item -path c:/appdynamics/dotnet-agent/* -destination c:/appd-dotnet-agent -Recurse"]
+          volumeMounts:
+          - mountPath: "c:/appd-dotnet-agent"
+            name: appd-dotnet-agent
+      containers:
+      - name: windows-server-iis
+        image: mcr.microsoft.com/dotnet/framework/samples:aspnetapp
+        ports:
+        - name: http
+          containerPort: 80
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: "c:/appdynamics/dotnet-agent"
+            name: appd-dotnet-agent
+        resources: {}
+        env: 
+        - name: APPDYNAMICS.AGENT.ACCOUNTACCESSKEY
+          valueFrom:
+              secretKeyRef: 
+                 name: appd-secret
+                 key: appd-key
+        - name: APPDYNAMICS.AGENT.APPLICATIONNAME
+          value: winContainer-Demo
+        - name:  APPDYNAMICS_AGENT_TIER_NAME
+          value: frontend
+        - name: APPDYNAMICS_AGENT_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: APPDYNAMICS_AGENT_UNIQUE_HOST_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName  
+        envFrom:
+          - configMapRef:
+              name: micro-dotnet-agent-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-end
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: windows-server-iis
+    tier: backend
+    track: stable
+  sessionAffinity: None
+  type: NodePort
