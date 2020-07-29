@@ -1,0 +1,11 @@
+{
+  "feature": [
+    "FULL_AGENT"
+  ],
+  "log": [
+       {
+           "level": "debug",
+           "outputtype" : "console"
+       }
+  ]
+}

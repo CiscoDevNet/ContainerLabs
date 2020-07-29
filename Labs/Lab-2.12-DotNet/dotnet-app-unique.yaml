@@ -12,15 +12,17 @@ spec:
       labels:
         name: dotnet-app
     spec:
+      nodeSelector:
+        kubernetes.io/os: linux
       serviceAccountName: appd-account
       initContainers:
       - name: appd-agent
         command:
           - cp
-          - -ra
+          - -r
           - /opt/appdynamics/.
           - /opt/appd
-        image: appdynamics/dotnet-core-agent:latest
+        image: sashaz/dotnet:20.7.0
         imagePullPolicy: Always
         volumeMounts:
         - mountPath: /opt/appd
@@ -30,7 +32,9 @@ spec:
         image: microsoft/dotnet-samples:aspnetapp
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh"]
-        args: ["-c", "/opt/appd/prep.sh && dotnet aspnetapp.dll"]
+        args: ["-c", "export APPDYNAMICS_AGENT_UNIQUE_HOST_ID=$(sed -rn '1s#.*/##; 1s/(.{12}).*/\\1/p' /proc/self/cgroup) && dotnet aspnetapp.dll"]
+        # command: ["/bin/sh"]
+        # args: ["-c", "/opt/appd/prep.sh && dotnet aspnetapp.dll"]
         envFrom:
            - configMapRef:
               name: dotnet-config
@@ -46,11 +50,8 @@ spec:
         - mountPath: /opt/appd
           name: appd-agent-repo
         - name: appd-agent-config
-          mountPath: /opt/appd/AppDynamicsConfig-temp.json
-          subPath: AppDynamicsConfig-temp.json
-        - name: appd-agent-prep
-          mountPath: /opt/appd/prep.sh
-          subPath: prep.sh
+          mountPath: /opt/appd/AppDynamicsConfig.json
+          subPath: AppDynamicsConfig.json
       restartPolicy: Always
       volumes:
         - name: appd-agent-repo
@@ -58,10 +59,6 @@ spec:
         - name: appd-agent-config
           configMap:
             name: appd-config
-        - name: appd-agent-prep
-          configMap:
-            name: appd-prep
-            defaultMode: 0777
 ---
 apiVersion: v1
 kind: Service
