@@ -76,3 +76,6 @@ tags
 .history
 .DS_Store
 # End of https://www.gitignore.io/api/go,vim,emacs,visualstudiocode
+
+# Ignore agent path
+Docker/Lab-1.1-PHP/opencart/php-agent/appdynamics-php-agent-linux_x64

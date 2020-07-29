@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} %5p [%t] %c{1}:%L - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="FileAppender" class="com.singularity.ee.agent.dbagent.DBAgentLogAppender">
+        <param name="File" value="logs/agent.log"/>
+        <param name="MaxFileSize" value="5000KB"/>
+        <param name="MaxBackupIndex" value="5"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%t] %d{DATE} %5p %c{1} - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="InternalMetricsAppender" class="com.singularity.ee.agent.dbagent.DBAgentLogAppender">
+        <param name="File" value="logs/internal_metrics/internal_metrics.log"/>
+        <param name="MaxFileSize" value="5000KB"/>
+        <param name="MaxBackupIndex" value="5"/>
+        <layout class="org.apache.log4j.PatternLayout">
+        </layout>
+    </appender>
+
+    <logger name="com">
+        <level value="info"/>
+    </logger>
+
+    <!-- Increase these levels for debugging MSSQL Basic Harware Metrics code. Setting the loggers' level to
+    debug is usually sufficient-->
+    <logger name="com.singularity.ee.agent.dbagent.collector.db.relational.mssql.MSSql2008CollectorDelegate">
+        <level value="info"/>
+    </logger>
+
+    <!-- Increase these levels for debugging transient channel related code. Setting the first 2 loggers' level to
+    debug is usually sufficient-->
+    <!--start-->
+    <logger name="com.singularity.ee.agent.dbagent.handler.delegate.relational.ADBTransientOpDelegate">
+        <level value="info"/>
+    </logger>
+    
+    <logger name="com.singularity.ee.agent.dbagent.handler.executor.ADBTransientOpExecutor">
+        <level value="info"/>
+    </logger>
+
+    <logger name="com.singularity.ee.agent.dbagent.collector.server.connection.wmi.NativeClient">
+        <level value="info"/>
+    </logger>
+    <!--end-->
+ 
+    <!-- This will block httpclient from dumping 'wire' data so passwords et al. won't get into the log -->
+    <logger name="org.apache.http.wire">
+        <level value="fatal"/>
+    </logger>
+
+    <root>
+        <priority value="error"/>
+        <appender-ref ref="ConsoleAppender"/>
+        <appender-ref ref="FileAppender"/>
+    </root>
+
+</log4j:configuration>

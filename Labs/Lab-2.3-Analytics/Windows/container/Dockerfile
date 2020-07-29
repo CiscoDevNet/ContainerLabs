@@ -1,10 +1,11 @@
 
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+#FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM mcr.microsoft.com/powershell:lts-nanoserver-1809
 
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue'; $verbosePreference='Continue';"]
+SHELL ["pwsh", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue'; $verbosePreference='Continue';"]
 ARG APPD_AGENT_VERSION 
 
-LABEL name="AppDynamics Windows standalone analytics agent" \
+LABEL name="AppDynamics Windows stand alone analytics agent" \
       vendor="AppDynamics" \
       version="${APPD_AGENT_VERSION}" \
       release="1" \
@@ -25,8 +26,8 @@ COPY analytics-agent-bundle-64bit-windows-${APPD_AGENT_VERSION}*.zip  c:/appdyna
 RUN "Expand-Archive -Path c:/appdynamics/analytics-agent-bundle-64bit-windows-${APPD_AGENT_VERSION}*.zip -DestinationPath c:/appdynamics"
 
 #clean up without prompt
-RUN "Remove-Item -Path c:/appdynamics/analytics-agent-bundle-64bit-windows-${APPD_AGENT_VERSION}*.zip -Force"
+RUN "Remove-Item -Path c:/appdynamics/analytics-agent-bundle-64bit-windows-${APPD_AGENT_VERSION}*.zip -Recurse"
 
 WORKDIR ${JAVA_HOME}
 
-ENTRYPOINT ["powershell","c:\\appdynamics\\start-agent.ps1"]
+ENTRYPOINT ["pwsh","c:\\appdynamics\\start-agent.ps1"]

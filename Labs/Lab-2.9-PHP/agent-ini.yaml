@@ -4,6 +4,10 @@ data:
     [AppDynamics Agent]
     extension = appdynamics_agent.so
     agent.auto_launch_proxy = 1
+
+    ; agent.analyticsHostName = analytics-agent-host
+    ; agent.analyticsPort = 9090
+
     ; agent.log4cxx_config = php/conf/appdynamics_agent_log4cxx.xml
     ; agent.php_agent_root = /opt/appdynamics-php-agent-x64-linux
     ; agent.proxy_ctrl_dir = /tmp/ad-ctrl

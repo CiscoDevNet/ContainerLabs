@@ -1,0 +1,37 @@
+version: '2'
+services:
+  mariadb:
+    image: 'docker.io/bitnami/mariadb:10.3-debian-10'
+    environment:
+      - MARIADB_USER=bn_opencart
+      - MARIADB_DATABASE=bitnami_opencart
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - 'mariadb_data:/bitnami'
+  opencart:
+    image: 'docker.io/bitnami/opencart:3-debian-10'
+    environment:
+      - MARIADB_HOST=mariadb
+      - MARIADB_PORT_NUMBER=3306
+      - OPENCART_DATABASE_USER=bn_opencart
+      - OPENCART_DATABASE_NAME=bitnami_opencart
+      - OPENCART_HOST=localhost
+      - ALLOW_EMPTY_PASSWORD=yes
+    env_file:                     # add this line
+     - ./php-agent/.env          # add this line
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - 'opencart_data:/bitnami'
+      - ./php-agent/appdynamics-php-agent-linux_x64:/opt/appdynamics/php-agent # add this line
+      - ./php-agent/start.sh:/opt/appdynamics/start.sh # add this line
+      - ./php-agent/appdynamics_agent.ini:/opt/appdynamics/php-agent/php/conf/appdynamics_agent.ini #add this line
+    command: /bin/sh /opt/appdynamics/start.sh # add this line
+    depends_on:
+      - mariadb
+volumes:
+  mariadb_data:
+    driver: local
+  opencart_data:
+    driver: local

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: micro-dotnet-agent-config
+data:
+  APPDYNAMICS_AGENT_REUSE_NODE_NAME: "true"
+  APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX: node
+  APPDYNAMICS.AGENT.ACCOUNTNAME: customer1
+  APPDYNAMICS.CONTROLLER.HOSTNAME: controller-2060nosshco-o3wdq4ip.appd-cx.com
+  APPDYNAMICS.CONTROLLER.PORT: "8090"
+  APPDYNAMICS.CONTROLLER.SSL.ENABLED: "false"
+  COR_ENABLE_PROFILING: "1"
+  COR_PROFILER: "{39AEABC1-56A5-405F-B8E7-C3668490DB4A}"
+  COR_PROFILER_PATH_32: "c:/appdynamics/dotnet-agent/AppDynamics.Profiler_x86.dll"
+  COR_PROFILER_PATH_64: "c:/appdynamics/dotnet-agent/AppDynamics.Profiler_x64.dll"

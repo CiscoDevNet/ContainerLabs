@@ -1,0 +1,10 @@
+version: "3.0"
+
+services:
+  appd-db-agent:
+    container_name: appd-db-agent
+    image: appdynamics/db-agent:latest
+    env_file: .env
+    #optional: mount log4j.xml if need non-default logging settings
+    volumes:
+      - ./log4j.xml:/opt/appdynamics/conf/logging/log4j.xml

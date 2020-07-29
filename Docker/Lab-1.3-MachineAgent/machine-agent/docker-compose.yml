@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  appd-machine-agent:
+    container_name: appd-machine-agent
+    image: appdynamics/machine-agent-analytics:latest
+    env_file: .env
+    #analytics port
+    ports:
+      - "9090:9090"
+    volumes:
+      - /:/hostroot:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      -  ./log4j.xml:/opt/appdynamics/machine-agent/conf/logging/log4j.xml
