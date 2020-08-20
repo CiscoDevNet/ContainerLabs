@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: client-api
   # labels:
-  #   application-name: OS-App
+  #   application-name: Custom-App
 spec:
   selector:
     matchLabels:
