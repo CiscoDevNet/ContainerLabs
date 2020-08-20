@@ -12,6 +12,8 @@ spec:
       labels:
         name: app-load
     spec:
+      nodeSelector:
+        kubernetes.io/os: linux
       containers:
         - name: app-load
           image: sashaz/app-load:v1

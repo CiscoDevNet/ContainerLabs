@@ -14,6 +14,8 @@ spec:
         tier-name: player-action-services-tier
         application-name: OS-App
     spec:
+      nodeSelector:
+        kubernetes.io/os: linux
       serviceAccountName: appd-account
       containers:
         - name: player-action-services

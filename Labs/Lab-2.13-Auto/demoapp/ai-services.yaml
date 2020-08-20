@@ -12,6 +12,8 @@ spec:
       labels:
         name: ai-services
     spec:
+      nodeSelector:
+        kubernetes.io/os: linux
       serviceAccountName: appd-account
       containers:
         - name: ai-services

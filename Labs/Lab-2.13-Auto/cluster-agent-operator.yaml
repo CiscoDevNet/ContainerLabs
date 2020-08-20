@@ -160,9 +160,11 @@ spec:
         name: appdynamics-operator
     spec:
       serviceAccountName: appdynamics-operator
+      nodeSelector:
+        kubernetes.io/os: linux
       containers:
         - name: appdynamics-operator
-          image: docker.io/appdynamics/cluster-agent-operator:0.4.6
+          image: docker.io/appdynamics/cluster-agent-operator:latest
           ports:
             - containerPort: 60000
               name: metrics

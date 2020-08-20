@@ -8,7 +8,9 @@ spec:
   account: "customer1"
   appName: "AutoInstrumentCluster"
   serviceAccountName: appdynamics-cluster-agent
-  image: "docker.io/appdynamics/cluster-agent:20.5.0"
+  image: "docker.io/appdynamics/cluster-agent:latest"
+  nodeSelector:
+    kubernetes.io/os: linux
   nsToMonitor: [appdynamics,default,dev,stage]
   instrumentationMethod: Env
   nsToInstrumentRegex: stage|dev

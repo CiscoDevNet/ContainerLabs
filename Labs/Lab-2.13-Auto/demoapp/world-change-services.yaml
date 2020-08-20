@@ -14,6 +14,8 @@ spec:
         tier-name: world-change-services-tier
         application-name: OS-App
     spec:
+      nodeSelector:
+        kubernetes.io/os: linux
       serviceAccountName: appd-account
       containers:
         - name: world-change-services
