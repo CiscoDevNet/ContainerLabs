@@ -51,7 +51,7 @@ spec:
               configMapKeyRef:
                 key: APPDYNAMICS_GLOBAL_ACCOUNT_NAME
                 name: node-config
-          image: docker.io/sashaz/analytics-agent:20.6.0
+          image: docker.io/appdynamics/analytics-agent:20.6.0
           imagePullPolicy: Always
           name: appd-analytics-agent
           ports:
