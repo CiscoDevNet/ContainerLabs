@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  selector:
+    matchLabels:
+      name: flask-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: flask-app
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: appd-account
+      initContainers:
+      - command:
+        - cp
+        - -r
+        - /opt/appdynamics/.
+        - /opt/temp
+        image: docker.io/sashaz/python-agent-installer:1.0
+        imagePullPolicy: Always
+        name: appd-agent-attach
+        volumeMounts:
+        - mountPath: /opt/temp
+          name: appd-agent-repo-python
+      containers:
+        - name: proxy
+          image: sashaz/python-proxy:v1
+          imagePullPolicy: Always
+          env:
+            - name: APPD_PROXY_CONTROL_PATH
+              value: /tmp/appd/run
+          volumeMounts:
+          - name: shared-data
+            mountPath: /tmp/appd/run
+          resources:
+            limits:
+              cpu: 500m
+              memory: 900M
+            requests:
+              cpu: 400m
+              memory: 600M
+        - name: webapp
+          image: sashaz/python-app:v1
+          imagePullPolicy: Always
+          command: ["/bin/sh"]
+          args: ["-c", "/opt/appdynamics-python/run-with-agent.sh"]
+          resources:
+            limits:
+              cpu: 200m
+              memory: 900M
+            requests:
+              cpu: 100m
+              memory: 600M
+          ports:
+          - containerPort: 8080
+          env:
+            - name: APP_ENTRY_POINT
+              value: " python app/app.py"
+            - name: APPD_PROXY_CONTROL_PATH
+              value: /tmp/appd/run
+            - name: APPDYNAMICS_AGENT_VERSION
+              value: 20.8.0.2388
+            - name: APPD_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          volumeMounts:
+            - name: shared-data
+              mountPath: /tmp/appd/run
+            - name: agent-config
+              mountPath: /opt/appdynamics/agent.cfg
+              subPath: agent.cfg
+            - mountPath: /opt/appdynamics-python
+              name: appd-agent-repo-python
+      restartPolicy: Always
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+      - name: agent-config
+        configMap:
+          name: agent-config-python
+      - emptyDir: {}
+        name: appd-agent-repo-python
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app
+spec:
+  selector:
+    name: flask-app
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
