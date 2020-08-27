@@ -20,6 +20,8 @@ spec:
           image: sashaz/python-app-appd:v1
           imagePullPolicy: Always
           env:
+            - name: APPD_PROXY_CONTROL_PATH
+              value: /tmp/appd/run
             - name: APPDYNAMICS_AGENT_VERSION
               value: 20.8.0.2388
             - name: APPD_NODE_NAME
@@ -27,6 +29,8 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
           volumeMounts:
+          - name: persistent-storage
+            mountPath: /tmp/appd/run
           - name: agent-config
             mountPath: /opt/appdynamics/agent.cfg
             subPath: agent.cfg
@@ -41,6 +45,9 @@ spec:
           - containerPort: 8080
       restartPolicy: Always
       volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: proxy-claim
       - name: agent-config
         configMap:
           name: agent-config-python

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: appd-proxy
+spec:
+  selector:
+    matchLabels:
+      name: appd-proxy
+  template:
+    metadata:
+      labels:
+        name: appd-proxy
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: appd-account
+      containers:
+        - name: proxy
+          image: sashaz/python-proxy:v1
+          imagePullPolicy: Always
+          env:
+            - name: APPD_PROXY_CONTROL_PATH
+              value: /tmp/appd/run
+          volumeMounts:
+          - name: proxy-dir
+            mountPath: /tmp/appd/run
+          resources:
+            limits:
+              cpu: 500m
+              memory: 900M
+            requests:
+              cpu: 400m
+              memory: 600M
+      volumes:
+      - name: proxy-dir
+        hostPath:
+          path: /tmp/appd
+          type: Directory
