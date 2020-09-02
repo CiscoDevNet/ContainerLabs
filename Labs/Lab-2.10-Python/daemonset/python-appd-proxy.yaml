@@ -19,6 +19,8 @@ spec:
           image: sashaz/python-proxy:v1
           imagePullPolicy: Always
           env:
+            - name: APPDYNAMICS_AGENT_VERSION
+              value: 20.8.0.2388
             - name: APPD_PROXY_CONTROL_PATH
               value: /tmp/appd/run
           volumeMounts:
@@ -35,4 +37,4 @@ spec:
       - name: proxy-dir
         hostPath:
           path: /tmp/appd
-          type: Directory
+          type: DirectoryOrCreate
