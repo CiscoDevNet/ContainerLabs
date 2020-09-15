@@ -119,20 +119,14 @@ metadata:
   namespace: appdynamics
 spec:
   controllerUrl: "http://saas.appdynamics.com"
-  image: "docker.io/appdynamics/machine-agent-analytics:20.6.0"
+  image: "docker.io/appdynamics/machine-agent-analytics:latest"
   imageWin: docker.io/appdynamics/machine-agent-analytics:20.6.0-win-ltsc2019
   nodeOS: all
   account: "customer1"
-  globalAccount: "customer1_f1d654a0-2661-4c98-88a7-ecb5bf4e28d5"
-#  netVizImage: docker.io/sashaz/machine-agent-netviz:20.3.0
-#  netVizPort: 3892
+  globalAccount: "customer1_ecb5bf4e28d5"
   enableDockerViz: "false"
   enableMasters: false
   stdoutLogging: true
-  # tolerations:
-  # - effect: NoSchedule
-  #   key: node-role.kubernetes.io/infra
-  #   operator: Exists
   resources:
     limits:
       cpu: 500m
