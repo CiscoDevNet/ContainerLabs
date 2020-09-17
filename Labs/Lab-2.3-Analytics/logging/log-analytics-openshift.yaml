@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    name: appd-analytics
+  name: appd-analytics
+spec:
+  selector:
+    matchLabels:
+      name: appd-analytics
+  template:
+    metadata:
+      labels:
+        name: appd-analytics
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - env:
+        - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: controller-key
+              name: appd-secret
+        envFrom:
+        - configMapRef:
+            name: agent-config
+        image: docker.io/appdynamics/analytics-agent:log-20.6.0
+        imagePullPolicy: Always
+        name: appd-analytics-agent
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        - containerPort: 5144
+          hostPort: 5144
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 300m
+            memory: 900M
+          requests:
+            cpu: 200m
+            memory: 800M
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+          readOnly: true
+        - name: dockerlog
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+      restartPolicy: Always
+      serviceAccountName: appdynamics-loganalytics
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: dockerlog
+        hostPath:
+          path: /var/lib/docker/containers
