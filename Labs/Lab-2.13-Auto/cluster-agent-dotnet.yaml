@@ -1,0 +1,32 @@
+apiVersion: appdynamics.com/v1alpha1
+kind: Clusteragent
+metadata:
+  name: k8s-cluster-agent
+  namespace: appdynamics
+spec:
+  controllerUrl: "http://saas.appdynamics.com"
+  account: "customer1"
+  appName: "AutoInstrumentCluster"
+  serviceAccountName: appdynamics-cluster-agent
+  image: "docker.io/appdynamics/cluster-agent:latest"
+  nodeSelector:
+    kubernetes.io/os: linux
+  nsToMonitor: [appdynamics,default,dev]
+  instrumentationMethod: Env
+  nsToInstrumentRegex: dev
+  defaultAnalyticsHost: appd-infraviz.appdynamics.svc.cluster.local
+  defaultAnalyticsPort: 9090
+  defaultAnalyticsSslEnabled: false
+  #defaultInstrumentMatchString: ^dot # set this value if using at least one matchString in rules
+  resourcesToInstrument: [Deployment,StatefulSet]
+  instrumentationRules:
+    - namespaceRegex: dev
+      matchString: ^dot
+      language: dotnetcore
+      appName: DotNetAuto
+      imageInfo:
+        image: "docker.io/appdynamics/dotnet-core-agent:20.9.0-linux"
+        agentMountPath: /opt/appdynamics
+
+
+

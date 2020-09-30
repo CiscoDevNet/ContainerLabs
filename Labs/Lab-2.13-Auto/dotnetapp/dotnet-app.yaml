@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-app
+spec:
+  selector:
+    matchLabels:
+      name: dotnet-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: dotnet-app
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: dotnet-app
+        image: microsoft/dotnet-samples:aspnetapp
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dotnet-app
+spec:
+  selector:
+    name: dotnet-app
+  ports:
+  - name: "80"
+    port: 80
+    targetPort: 80
+  type: NodePort

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openmct
+spec:
+  selector:
+    matchLabels:
+      name: openmct
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: openmct
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+        - name: openmct
+          image: sashaz/openmct:v1
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 200m
+              memory: 500M
+            requests:
+              cpu: 100m
+              memory: 300M
+          ports:
+          - containerPort: 8080
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openmct
+spec:
+  selector:
+    name: openmct
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+  type: LoadBalancer

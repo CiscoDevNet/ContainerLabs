@@ -1,0 +1,49 @@
+apiVersion: appdynamics.com/v1alpha1
+kind: Clusteragent
+metadata:
+  name: k8s-cluster-agent
+  namespace: appdynamics
+spec:
+  controllerUrl: "http://saas.appdynamics.com"
+  account: "customer1"
+  appName: "AutoInstrumentCluster"
+  serviceAccountName: appdynamics-cluster-agent
+  image: "docker.io/appdynamics/cluster-agent:latest"
+  nodeSelector:
+    kubernetes.io/os: linux
+  nsToMonitor: [appdynamics,default,dev]
+  instrumentationMethod: Env
+  defaultAnalyticsHost: appd-infraviz.appdynamics.svc.cluster.local
+  defaultAnalyticsPort: 9090
+  defaultAnalyticsSslEnabled: false
+  nsToInstrumentRegex: dev
+  defaultAppName: JavaAuto
+  defaultInstrumentMatchString: "^world"
+  resourcesToInstrument: [Deployment,StatefulSet]
+  imageInfo:
+    java:
+      image: "docker.io/appdynamics/java-agent:latest"
+      agentMountPath: /opt/appdynamics
+  netvizInfo:
+    bciEnabled: true
+    port: 3892 
+  instrumentationRules:
+    - namespaceRegex: dev
+      matchString: ^world
+    - namespaceRegex: dev
+      matchString: ^open
+      language: nodejs
+      appName: NodeAuto
+      imageInfo:
+        image: "docker.io/appdynamics/nodejs-agent:20.5.0-alpinev10"
+        agentMountPath: /opt/appdynamics
+    - namespaceRegex: dev
+      matchString: ^dot
+      language: dotnetcore
+      appName: DotNetAuto
+      imageInfo:
+        image: "docker.io/appdynamics/dotnet-core-agent:20.9.0-linux"
+        agentMountPath: /opt/appdynamics
+
+
+
