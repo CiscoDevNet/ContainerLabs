@@ -17,7 +17,7 @@ spec:
   defaultAnalyticsHost: appd-infraviz.appdynamics.svc.cluster.local
   defaultAnalyticsPort: 9090
   defaultAnalyticsSslEnabled: false
-  #defaultInstrumentMatchString: ^dot # set this value if using at least one matchString in rules
+  defaultInstrumentMatchString: ^dot # set this value if using at least one matchString in rules
   resourcesToInstrument: [Deployment,StatefulSet]
   instrumentationRules:
     - namespaceRegex: dev

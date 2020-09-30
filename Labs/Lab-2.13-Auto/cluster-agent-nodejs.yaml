@@ -17,8 +17,7 @@ spec:
   defaultAnalyticsPort: 9090
   defaultAnalyticsSslEnabled: false
   nsToInstrumentRegex: dev
-  defaultAppName: NodeOnlyApp
-#  defaultInstrumentMatchString: ^open # set this value if using at least one matchString in rules
+  defaultInstrumentMatchString: ^open # set this value if using at least one matchString in rules
   resourcesToInstrument: [Deployment,StatefulSet]
   instrumentationRules:
     - namespaceRegex: dev
