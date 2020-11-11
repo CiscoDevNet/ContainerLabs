@@ -1,0 +1,592 @@
+<custom-dashboard controller-version="004-000-003-003"
+                  custom-dashboard-version="6" height="768"
+                  name="Podman Monitoring Extension" width="1024">
+    <description/>
+    <security-token/>
+    <sharing-revoked>false</sharing-revoked>
+    <layout-type/>
+    <dashboard-display-properties>
+        <refresh-interval>120000</refresh-interval>
+        <color>0</color>
+        <background-color>d0d4d9</background-color>
+        <start-time>12/31/1969 19:00:00</start-time>
+        <end-time>12/31/1969 19:00:00</end-time>
+        <minutes-before-anchor-time>15</minutes-before-anchor-time>
+    </dashboard-display-properties>
+    <is-template>false</is-template>
+    <canvas type="CANVAS_TYPE_GRID">
+        <widget widget-ordinal="2" widget-type="metric-label">
+            <widget-display-properties height="1" width="6" x-axis="3" y-axis="0">
+                <label>Total Containers - ${v}</label>
+                <description/>
+                <drill-down-url/>
+                <use-metric-browser-as-drill-down>true</use-metric-browser-as-drill-down>
+                <background-color>ffffff</background-color>
+                <color>404040</color>
+                <font-size>30</font-size>
+                <use-automatic-font-size>true</use-automatic-font-size>
+                <border-enabled>false</border-enabled>
+                <border-thickness>0</border-thickness>
+                <border-color>dbdbdb</border-color>
+                <background-alpha>1.0</background-alpha>
+                <widget-type>METRIC_LABEL</widget-type>
+                <show-values>false</show-values>
+                <additional-styles/>
+                <start-time>12/31/1969 19:00:00</start-time>
+                <end-time>12/31/1969 19:00:00</end-time>
+                <minutes-before-anchor-time>15</minutes-before-anchor-time>
+                <is-global>true</is-global>
+                <metric-match-criterias-name-to-metric-type/>
+                <text/>
+                <title/>
+            </widget-display-properties>
+            <widget-series-list>
+                <widget-series
+                        name="7882dcea-3d8e-4940-bef1-6fcabb791a83" version="6">
+                    <widget-series-data application-name="DockerMonitor" version="6">
+                        <leaf-metric-expression display-name="null" is-literal-value="false">
+                            <function-type>VALUE</function-type>
+                            <metric-definition type="ABSOLUTE_METRIC_SCOPE">
+                                <metric-name>${METRIC_PREFIX}|${INSTANCE_NAME}|Summary|Container Count</metric-name>
+                            </metric-definition>
+                        </leaf-metric-expression>
+                        <roll-up>true</roll-up>
+                        <use-active-baseline>false</use-active-baseline>
+                    </widget-series-data>
+                </widget-series>
+            </widget-series-list>
+        </widget>
+        <widget widget-ordinal="1" widget-type="metric-label">
+            <widget-display-properties height="1" width="6" x-axis="3" y-axis="6">
+                <label>Total Images  - ${v}</label>
+                <description/>
+                <drill-down-url/>
+                <use-metric-browser-as-drill-down>true</use-metric-browser-as-drill-down>
+                <background-color>ffffff</background-color>
+                <color>404040</color>
+                <font-size>25</font-size>
+                <use-automatic-font-size>true</use-automatic-font-size>
+                <border-enabled>false</border-enabled>
+                <border-thickness>0</border-thickness>
+                <border-color>dbdbdb</border-color>
+                <background-alpha>1.0</background-alpha>
+                <widget-type>METRIC_LABEL</widget-type>
+                <show-values>false</show-values>
+                <additional-styles/>
+                <start-time>12/31/1969 19:00:00</start-time>
+                <end-time>12/31/1969 19:00:00</end-time>
+                <minutes-before-anchor-time>15</minutes-before-anchor-time>
+                <is-global>true</is-global>
+                <metric-match-criterias-name-to-metric-type/>
+                <text/>
+                <title/>
+            </widget-display-properties>
+            <widget-series-list>
+                <widget-series
+                        name="e1a07421-a59c-40f2-af01-179a7a5707e5" version="6">
+                    <widget-series-data application-name="DockerMonitor" version="6">
+                        <leaf-metric-expression display-name="null" is-literal-value="false">
+                            <function-type>VALUE</function-type>
+                            <metric-definition type="ABSOLUTE_METRIC_SCOPE">
+                                <metric-name>${METRIC_PREFIX}|${INSTANCE_NAME}|Summary|Image Count</metric-name>
+                            </metric-definition>
+                        </leaf-metric-expression>
+                        <roll-up>true</roll-up>
+                        <use-active-baseline>false</use-active-baseline>
+                    </widget-series-data>
+                </widget-series>
+            </widget-series-list>
+        </widget>
+        <widget widget-ordinal="0" widget-type="image">
+            <widget-display-properties height="3" width="4" x-axis="0" y-axis="0">
+                <label/>
+                <description/>
+                <drill-down-url/>
+                <use-metric-browser-as-drill-down>true</use-metric-browser-as-drill-down>
+                <background-color>ffffff</background-color>
+                <color>404040</color>
+                <font-size>12</font-size>
+                <border-enabled>false</border-enabled>
+                <border-thickness>0</border-thickness>
+                <border-color>dbdbdb</border-color>
+                <background-alpha>1.0</background-alpha>
+                <widget-type>IMAGE</widget-type>
+                <show-values>false</show-values>
+                <additional-styles/>
+                <image-url>https://podman.io/images/podman.svg</image-url>
+                <title/>
+            </widget-display-properties>
+        </widget>
+        <widget widget-ordinal="7" widget-type="graph">
+            <widget-display-properties height="3" width="6" x-axis="7" y-axis="6">
+                <label/>
+                <description/>
+                <drill-down-url/>
+                <use-metric-browser-as-drill-down>true</use-metric-browser-as-drill-down>
+                <background-color>ffffff</background-color>
+                <color>404040</color>
+                <font-size>12</font-size>
+                <border-enabled>false</border-enabled>
+                <border-thickness>0</border-thickness>
+                <border-color>dbdbdb</border-color>
+                <background-alpha>1.0</background-alpha>
+                <widget-type>TIMESERIES_GRAPH</widget-type>
+                <show-values>false</show-values>
+                <additional-styles/>
+                <start-time>12/31/1969 19:00:00</start-time>
+                <end-time>12/31/1969 19:00:00</end-time>
+                <minutes-before-anchor-time>15</minutes-before-anchor-time>
+                <is-global>true</is-global>
+                <metric-match-criterias-name-to-metric-type>
+                    <name-value>
+                        <name>Series 7</name>
+                        <value>OTHER</value>
+                    </name-value>
+                </metric-match-criterias-name-to-metric-type>
+                <vertical-axis-label/>
+                <title>Network Receive MB Per Minute</title>
+                <hide-horizontal-axis>true</hide-horizontal-axis>
+                <compact-mode>false</compact-mode>
+                <show-legend>true</show-legend>
+                <horizontal-axis-label/>
+                <axis-type>LINEAR</axis-type>
+                <show-time-range>false</show-time-range>
+                <render-in-3d>false</render-in-3d>
+                <legend-position>POSITION_BOTTOM</legend-position>
+                <legend-column-count>1</legend-column-count>
+                <background-colors>
+                    <background-color>ffffff</background-color>
+                    <background-color>ffffff</background-color>
+                </background-colors>
+            </widget-display-properties>
+            <widget-series-list>
+                <widget-series name="Series 8" version="6">
+                    <widget-series-data application-name="DockerMonitor" version="6">
+                        <metric-data-filter>
+                            <max-results>20</max-results>
+                            <sort-ascending>false</sort-ascending>
+                        </metric-data-filter>
+                        <leaf-metric-expression display-name="null" is-literal-value="false">
+                            <function-type>VALUE</function-type>
+                            <metric-definition type="ABSOLUTE_METRIC_SCOPE">
+                                <metric-name>${METRIC_PREFIX}|${INSTANCE_NAME}|${ITEM0}|Networks|${ITEM1}|Receive|MB Per Minute</metric-name>
+                            </metric-definition>
+                        </leaf-metric-expression>
+                        <roll-up>false</roll-up>
+                        <use-active-baseline>false</use-active-baseline>
+                    </widget-series-data>
+                    <widget-series-display-properties type="LINE">
+                        <show-raw-metric-name>false</show-raw-metric-name>
+                    </widget-series-display-properties>
+                </widget-series>
+            </widget-series-list>
+        </widget>
+        <widget widget-ordinal="4" widget-type="graph">
+            <widget-display-properties height="3" width="6" x-axis="4" y-axis="0">
+                <label/>
+                <description/>
+                <drill-down-url/>
+                <use-metric-browser-as-drill-down>true</use-metric-browser-as-drill-down>
+                <background-color>ffffff</background-color>
+                <color>404040</color>
+                <font-size>12</font-size>
+                <border-enabled>false</border-enabled>
+                <border-thickness>0</border-thickness>
+                <border-color>dbdbdb</border-color>
+                <background-alpha>1.0</background-alpha>
+                <widget-type>TIMESERIES_GRAPH</widget-type>
+                <show-values>false</show-values>
+                <additional-styles/>
+                <start-time>12/31/1969 19:00:00</start-time>
+                <end-time>12/31/1969 19:00:00</end-time>
+                <minutes-before-anchor-time>15</minutes-before-anchor-time>
+                <is-global>true</is-global>
+                <metric-match-criterias-name-to-metric-type>
+                    <name-value>
+                        <name>Series 3</name>
+                        <value>OTHER</value>
+                    </name-value>
+                </metric-match-criterias-name-to-metric-type>
+                <vertical-axis-label/>
+                <title>Total CPU %</title>
+                <hide-horizontal-axis>true</hide-horizontal-axis>
+                <compact-mode>false</compact-mode>
+                <show-legend>true</show-legend>
+                <horizontal-axis-label/>
+                <axis-type>LINEAR</axis-type>
+                <show-time-range>false</show-time-range>
+                <render-in-3d>false</render-in-3d>
+                <legend-position>POSITION_BOTTOM</legend-position>
+                <legend-column-count>1</legend-column-count>
+                <background-colors>
+                    <background-color>ffffff</background-color>
+                    <background-color>ffffff</background-color>
+                </background-colors>
+            </widget-display-properties>
+            <widget-series-list>
+                <widget-series name="Series 4" version="6">
+                    <widget-series-data application-name="DockerMonitor" version="6">
+                        <metric-data-filter>
+                            <max-results>20</max-results>
+                            <sort-ascending>false</sort-ascending>
+                        </metric-data-filter>
+                        <leaf-metric-expression display-name="null" is-literal-value="false">
+                            <function-type>VALUE</function-type>
+                            <metric-definition type="ABSOLUTE_METRIC_SCOPE">
+                                <metric-name>${METRIC_PREFIX}|${INSTANCE_NAME}|${ITEM}|CPU|Total %</metric-name>
+                            </metric-definition>
+                        </leaf-metric-expression>
+                        <roll-up>false</roll-up>
+                        <use-active-baseline>false</use-active-baseline>
+                    </widget-series-data>
+                    <widget-series-display-properties type="LINE">
+                        <show-raw-metric-name>false</show-raw-metric-name>
+                    </widget-series-display-properties>
+                </widget-series>
+            </widget-series-list>
+        </widget>
+        <widget widget-ordinal="5" widget-type="graph">
+            <widget-display-properties height="3" width="6" x-axis="4" y-axis="6">
+                <label/>
+                <description/>
+                <drill-down-url/>
+                <use-metric-browser-as-drill-down>true</use-metric-browser-as-drill-down>
+                <background-color>ffffff</background-color>
+                <color>404040</color>
+                <font-size>12</font-size>
+                <border-enabled>false</border-enabled>
+                <border-thickness>0</border-thickness>
+                <border-color>dbdbdb</border-color>
+                <background-alpha>1.0</background-alpha>
+                <widget-type>TIMESERIES_GRAPH</widget-type>
+                <show-values>false</show-values>
+                <additional-styles/>
+                <start-time>12/31/1969 19:00:00</start-time>
+                <end-time>12/31/1969 19:00:00</end-time>
+                <minutes-before-anchor-time>15</minutes-before-anchor-time>
+                <is-global>true</is-global>
+                <metric-match-criterias-name-to-metric-type>
+                    <name-value>
+                        <name>Series 6</name>
+                        <value>OTHER</value>
+                    </name-value>
+                </metric-match-criterias-name-to-metric-type>
+                <vertical-axis-label/>
+                <title>Memory Usage %</title>
+                <hide-horizontal-axis>true</hide-horizontal-axis>
+                <compact-mode>false</compact-mode>
+                <show-legend>true</show-legend>
+                <horizontal-axis-label/>
+                <axis-type>LINEAR</axis-type>
+                <show-time-range>false</show-time-range>
+                <render-in-3d>false</render-in-3d>
+                <legend-position>POSITION_BOTTOM</legend-position>
+                <legend-column-count>1</legend-column-count>
+                <background-colors>
+                    <background-color>ffffff</background-color>
+                    <background-color>ffffff</background-color>
+                </background-colors>
+            </widget-display-properties>
+            <widget-series-list>
+                <widget-series name="Series 8" version="6">
+                    <widget-series-data application-name="DockerMonitor" version="6">
+                        <metric-data-filter>
+                            <max-results>20</max-results>
+                            <sort-ascending>false</sort-ascending>
+                        </metric-data-filter>
+                        <leaf-metric-expression display-name="null" is-literal-value="false">
+                            <function-type>VALUE</function-type>
+                            <metric-definition type="ABSOLUTE_METRIC_SCOPE">
+                                <metric-name>${METRIC_PREFIX}|${INSTANCE_NAME}|${ITEM}|Memory|Current %</metric-name>
+                            </metric-definition>
+                        </leaf-metric-expression>
+                        <roll-up>false</roll-up>
+                        <use-active-baseline>false</use-active-baseline>
+                    </widget-series-data>
+                    <widget-series-display-properties type="LINE">
+                        <show-raw-metric-name>false</show-raw-metric-name>
+                    </widget-series-display-properties>
+                </widget-series>
+            </widget-series-list>
+        </widget>
+        <widget widget-ordinal="6" widget-type="graph">
+            <widget-display-properties height="3" width="6" x-axis="7" y-axis="0">
+                <label/>
+                <description/>
+                <drill-down-url/>
+                <use-metric-browser-as-drill-down>true</use-metric-browser-as-drill-down>
+                <background-color>ffffff</background-color>
+                <color>404040</color>
+                <font-size>12</font-size>
+                <border-enabled>false</border-enabled>
+                <border-thickness>0</border-thickness>
+                <border-color>dbdbdb</border-color>
+                <background-alpha>1.0</background-alpha>
+                <widget-type>TIMESERIES_GRAPH</widget-type>
+                <show-values>false</show-values>
+                <additional-styles/>
+                <start-time>12/31/1969 19:00:00</start-time>
+                <end-time>12/31/1969 19:00:00</end-time>
+                <minutes-before-anchor-time>15</minutes-before-anchor-time>
+                <is-global>true</is-global>
+                <metric-match-criterias-name-to-metric-type>
+                    <name-value>
+                        <name>Series 7</name>
+                        <value>OTHER</value>
+                    </name-value>
+                </metric-match-criterias-name-to-metric-type>
+                <vertical-axis-label/>
+                <title>Network Transmit MB Per Minute</title>
+                <hide-horizontal-axis>true</hide-horizontal-axis>
+                <compact-mode>false</compact-mode>
+                <show-legend>true</show-legend>
+                <horizontal-axis-label/>
+                <axis-type>LINEAR</axis-type>
+                <show-time-range>false</show-time-range>
+                <render-in-3d>false</render-in-3d>
+                <legend-position>POSITION_BOTTOM</legend-position>
+                <legend-column-count>1</legend-column-count>
+                <background-colors>
+                    <background-color>ffffff</background-color>
+                    <background-color>ffffff</background-color>
+                </background-colors>
+            </widget-display-properties>
+            <widget-series-list>
+                <widget-series name="Series 8" version="6">
+                    <widget-series-data application-name="DockerMonitor" version="6">
+                        <metric-data-filter>
+                            <max-results>20</max-results>
+                            <sort-ascending>false</sort-ascending>
+                        </metric-data-filter>
+                        <leaf-metric-expression display-name="null" is-literal-value="false">
+                            <function-type>VALUE</function-type>
+                            <metric-definition type="ABSOLUTE_METRIC_SCOPE">
+                                <metric-name>${METRIC_PREFIX}|${INSTANCE_NAME}|${ITEM0}|Networks|${ITEM1}|Transmit|MB Per Minute</metric-name>
+                            </metric-definition>
+                        </leaf-metric-expression>
+                        <roll-up>false</roll-up>
+                        <use-active-baseline>false</use-active-baseline>
+                    </widget-series-data>
+                    <widget-series-display-properties type="LINE">
+                        <show-raw-metric-name>false</show-raw-metric-name>
+                    </widget-series-display-properties>
+                </widget-series>
+            </widget-series-list>
+        </widget>
+        <widget widget-ordinal="3" widget-type="graph">
+            <widget-display-properties height="3" width="8" x-axis="0" y-axis="4">
+                <label/>
+                <description/>
+                <drill-down-url/>
+                <use-metric-browser-as-drill-down>true</use-metric-browser-as-drill-down>
+                <background-color>ffffff</background-color>
+                <color>404040</color>
+                <font-size>12</font-size>
+                <border-enabled>false</border-enabled>
+                <border-thickness>0</border-thickness>
+                <border-color>dbdbdb</border-color>
+                <background-alpha>1.0</background-alpha>
+                <widget-type>TIMESERIES_GRAPH</widget-type>
+                <show-values>false</show-values>
+                <additional-styles/>
+                <start-time>12/31/1969 19:00:00</start-time>
+                <end-time>12/31/1969 19:00:00</end-time>
+                <minutes-before-anchor-time>15</minutes-before-anchor-time>
+                <is-global>true</is-global>
+                <metric-match-criterias-name-to-metric-type>
+                    <name-value>
+                        <name>Series 1</name>
+                        <value>OTHER</value>
+                    </name-value>
+                    <name-value>
+                        <name>Series 2</name>
+                        <value>OTHER</value>
+                    </name-value>
+                </metric-match-criterias-name-to-metric-type>
+                <vertical-axis-label/>
+                <title>Total vs Running Containers</title>
+                <hide-horizontal-axis>true</hide-horizontal-axis>
+                <compact-mode>false</compact-mode>
+                <show-legend>true</show-legend>
+                <horizontal-axis-label/>
+                <axis-type>LINEAR</axis-type>
+                <show-time-range>false</show-time-range>
+                <render-in-3d>false</render-in-3d>
+                <legend-position>POSITION_BOTTOM</legend-position>
+                <legend-column-count>1</legend-column-count>
+                <background-colors>
+                    <background-color>ffffff</background-color>
+                    <background-color>ffffff</background-color>
+                </background-colors>
+            </widget-display-properties>
+            <widget-series-list>
+                <widget-series name="Series 2" version="6">
+                    <widget-series-data application-name="DockerMonitor" version="6">
+                        <metric-data-filter>
+                            <max-results>20</max-results>
+                            <sort-ascending>false</sort-ascending>
+                        </metric-data-filter>
+                        <leaf-metric-expression display-name="null" is-literal-value="false">
+                            <function-type>VALUE</function-type>
+                            <metric-definition type="ABSOLUTE_METRIC_SCOPE">
+                                <metric-name>${METRIC_PREFIX}|${INSTANCE_NAME}|Summary|Running Container Count</metric-name>
+                            </metric-definition>
+                        </leaf-metric-expression>
+                        <roll-up>false</roll-up>
+                        <use-active-baseline>false</use-active-baseline>
+                    </widget-series-data>
+                    <widget-series-display-properties type="LINE">
+                        <show-raw-metric-name>false</show-raw-metric-name>
+                    </widget-series-display-properties>
+                </widget-series>
+                <widget-series name="Series 1" version="6">
+                    <widget-series-data application-name="DockerMonitor" version="6">
+                        <metric-data-filter>
+                            <max-results>20</max-results>
+                            <sort-ascending>false</sort-ascending>
+                        </metric-data-filter>
+                        <leaf-metric-expression display-name="null" is-literal-value="false">
+                            <function-type>VALUE</function-type>
+                            <metric-definition type="ABSOLUTE_METRIC_SCOPE">
+                                <metric-name>${METRIC_PREFIX}|${INSTANCE_NAME}|Summary|Container Count</metric-name>
+                            </metric-definition>
+                        </leaf-metric-expression>
+                        <roll-up>false</roll-up>
+                        <use-active-baseline>false</use-active-baseline>
+                    </widget-series-data>
+                    <widget-series-display-properties type="LINE">
+                        <show-raw-metric-name>false</show-raw-metric-name>
+                    </widget-series-display-properties>
+                </widget-series>
+            </widget-series-list>
+        </widget>
+        <widget widget-ordinal="9" widget-type="graph">
+            <widget-display-properties height="3" width="6" x-axis="10" y-axis="6">
+                <label/>
+                <description/>
+                <drill-down-url/>
+                <use-metric-browser-as-drill-down>true</use-metric-browser-as-drill-down>
+                <background-color>ffffff</background-color>
+                <color>404040</color>
+                <font-size>12</font-size>
+                <border-enabled>false</border-enabled>
+                <border-thickness>0</border-thickness>
+                <border-color>dbdbdb</border-color>
+                <background-alpha>1.0</background-alpha>
+                <widget-type>TIMESERIES_GRAPH</widget-type>
+                <show-values>false</show-values>
+                <additional-styles/>
+                <start-time>12/31/1969 19:00:00</start-time>
+                <end-time>12/31/1969 19:00:00</end-time>
+                <minutes-before-anchor-time>15</minutes-before-anchor-time>
+                <is-global>true</is-global>
+                <metric-match-criterias-name-to-metric-type>
+                    <name-value>
+                        <name>Series 1</name>
+                        <value>OTHER</value>
+                    </name-value>
+                </metric-match-criterias-name-to-metric-type>
+                <vertical-axis-label/>
+                <title>Network Receive Errors Per Minute</title>
+                <hide-horizontal-axis>true</hide-horizontal-axis>
+                <compact-mode>false</compact-mode>
+                <show-legend>true</show-legend>
+                <horizontal-axis-label/>
+                <axis-type>LINEAR</axis-type>
+                <show-time-range>false</show-time-range>
+                <render-in-3d>false</render-in-3d>
+                <legend-position>POSITION_BOTTOM</legend-position>
+                <legend-column-count>1</legend-column-count>
+                <background-colors>
+                    <background-color>ffffff</background-color>
+                    <background-color>ffffff</background-color>
+                </background-colors>
+            </widget-display-properties>
+            <widget-series-list>
+                <widget-series name="Series 1" version="1">
+                    <widget-series-data application-name="DockerMonitor" version="2">
+                        <metric-data-filter>
+                            <max-results>20</max-results>
+                            <sort-ascending>false</sort-ascending>
+                        </metric-data-filter>
+                        <leaf-metric-expression display-name="null" is-literal-value="false">
+                            <function-type>VALUE</function-type>
+                            <metric-definition type="ABSOLUTE_METRIC_SCOPE">
+                                <metric-name>${METRIC_PREFIX}|${INSTANCE_NAME}|${ITEM0}|Networks|${ITEM1}|Receive|Errors Per Minute</metric-name>
+                            </metric-definition>
+                        </leaf-metric-expression>
+                        <roll-up>false</roll-up>
+                        <use-active-baseline>false</use-active-baseline>
+                    </widget-series-data>
+                    <widget-series-display-properties type="LINE">
+                        <show-raw-metric-name>false</show-raw-metric-name>
+                    </widget-series-display-properties>
+                </widget-series>
+            </widget-series-list>
+        </widget>
+        <widget widget-ordinal="8" widget-type="graph">
+            <widget-display-properties height="3" width="6" x-axis="10" y-axis="0">
+                <label/>
+                <description/>
+                <drill-down-url/>
+                <use-metric-browser-as-drill-down>true</use-metric-browser-as-drill-down>
+                <background-color>ffffff</background-color>
+                <color>404040</color>
+                <font-size>12</font-size>
+                <border-enabled>false</border-enabled>
+                <border-thickness>0</border-thickness>
+                <border-color>dbdbdb</border-color>
+                <background-alpha>1.0</background-alpha>
+                <widget-type>TIMESERIES_GRAPH</widget-type>
+                <show-values>false</show-values>
+                <additional-styles/>
+                <start-time>12/31/1969 19:00:00</start-time>
+                <end-time>12/31/1969 19:00:00</end-time>
+                <minutes-before-anchor-time>15</minutes-before-anchor-time>
+                <is-global>true</is-global>
+                <metric-match-criterias-name-to-metric-type>
+                    <name-value>
+                        <name>Series 1</name>
+                        <value>OTHER</value>
+                    </name-value>
+                </metric-match-criterias-name-to-metric-type>
+                <vertical-axis-label/>
+                <title>Network Transmit Errors Per Minute</title>
+                <hide-horizontal-axis>true</hide-horizontal-axis>
+                <compact-mode>false</compact-mode>
+                <show-legend>true</show-legend>
+                <horizontal-axis-label/>
+                <axis-type>LINEAR</axis-type>
+                <show-time-range>false</show-time-range>
+                <render-in-3d>false</render-in-3d>
+                <legend-position>POSITION_BOTTOM</legend-position>
+                <legend-column-count>1</legend-column-count>
+                <background-colors>
+                    <background-color>ffffff</background-color>
+                    <background-color>ffffff</background-color>
+                </background-colors>
+            </widget-display-properties>
+            <widget-series-list>
+                <widget-series name="Series 1" version="1">
+                    <widget-series-data application-name="DockerMonitor" version="2">
+                        <metric-data-filter>
+                            <max-results>20</max-results>
+                            <sort-ascending>false</sort-ascending>
+                        </metric-data-filter>
+                        <leaf-metric-expression display-name="null" is-literal-value="false">
+                            <function-type>VALUE</function-type>
+                            <metric-definition type="ABSOLUTE_METRIC_SCOPE">
+                                <metric-name>${METRIC_PREFIX}|${INSTANCE_NAME}|${ITEM0}|Networks|${ITEM1}|Transmit|Errors Per Minute</metric-name>
+                            </metric-definition>
+                        </leaf-metric-expression>
+                        <roll-up>false</roll-up>
+                        <use-active-baseline>false</use-active-baseline>
+                    </widget-series-data>
+                    <widget-series-display-properties type="LINE">
+                        <show-raw-metric-name>false</show-raw-metric-name>
+                    </widget-series-display-properties>
+                </widget-series>
+            </widget-series-list>
+        </widget>
+    </canvas>
+</custom-dashboard>

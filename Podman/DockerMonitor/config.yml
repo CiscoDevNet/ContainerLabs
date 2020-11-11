@@ -1,0 +1,118 @@
+### ANY CHANGES TO THIS FILE DOES NOT REQUIRE A RESTART ###
+
+#This will create this metric in all the tiers, under this path
+metricPrefix: Custom Metrics|Podman
+
+#This will create it in specific Tier. Replace <TIER_ID>
+#metricPrefix: Server|Component:<TIER_ID>|Custom Metrics|Docker
+
+# If the TCP Socket is Not Enabled, use this.
+# Either the Machine Agent should be run as root,
+# Or the current user needs password-less sudo access
+# This needs curl 7.40 or higher. If not, comment this and use TCP sockets.
+unixSocket:
+    commandFile: monitors/DockerMonitor/socket-command.sh
+    name: UnixSocket
+
+# If the Docker is listening to the TCP port, use this.
+# The advantage is same machine agent can query multiple docker instances
+# Make sure that the TCP sockets are bound to the docker demon.
+#tcpSockets:
+#    - baseUrl: http://127.0.0.1:2375
+#      name: Server1
+
+#Can have multiple TCP Sockets
+#    - baseUrl: http://192.168.1.135:2375
+
+# How the container name is derived, default is ${CONTAINER_NAME}
+# Allowed variables are ${HOSTNAME} ${CONTAINER_NAME} and ${CONTAINER_ID}
+# These variables can be combined also. ${HOSTNAME} is HOSTNAME of container
+#containerNaming: "${HOSTNAME}_${CONTAINER_NAME}"
+
+# List of metrics that needs to be fetched
+metrics:
+    containers:
+        metrics:
+            - SizeRw: SizeRw
+            - SizeRootFs: SizeRootFs
+
+    info:
+        metrics:
+            - Containers: Container Count
+            - Images: Image Count
+            - MemTotal: Total Memory (MB)
+              multiplier: 0.00000095367431640625
+            - MemoryLimit: MemoryLimit
+            - SwapLimit: SwapLimit
+
+    containerStats:
+        metrics:
+            # Kept for backward compatibility
+            - network:
+                - rx_dropped: Networks|all|Receive|Dropped
+                - rx_bytes: Networks|all|Receive|MB
+                  multiplier: 0.00000095367431640625
+                - rx_errors: Networks|all|Receive|Errors
+                - rx_packets: Networks|all|Receive|Packets
+                - tx_dropped: Networks|all|Transmit|Dropped
+                - tx_bytes: Networks|all|Transmit|MB
+                  multiplier: 0.00000095367431640625
+                - tx_errors: Networks|all|Transmit|Errors
+                - tx_packets: Networks|all|Transmit|Packets
+            # New API onwards
+            - networks:
+                - $$name:
+                    - rx_dropped: Networks|$$name|Receive|Dropped
+                    - rx_bytes: Networks|$$name|Receive|MB
+                      multiplier: 0.00000095367431640625
+                    - rx_errors: Networks|$$name|Receive|Errors
+                    - rx_packets: Networks|$$name|Receive|Packets
+                    - tx_dropped: Networks|$$name|Transmit|Dropped
+                    - tx_bytes: Networks|$$name|Transmit|MB
+                      multiplier: 0.00000095367431640625
+                    - tx_errors: Networks|$$name|Transmit|Errors
+                    - tx_packets: Networks|$$name|Transmit|Packets
+            - memory_stats:
+                - max_usage: Memory|Max Usage (MB)
+                  multiplier: 0.00000095367431640625
+                - usage: Memory|Current (MB)
+                  multiplier: 0.00000095367431640625
+                - limit: Memory|Limit (MB)
+                  multiplier: 0.00000095367431640625
+                - failcnt: Memory|Fail Count
+
+            - cpu_stats:
+                - system_cpu_usage: CPU|System (Ticks)
+                - cpu_usage:
+                    - usage_in_usermode: CPU|User Mode (Ticks)
+                    - total_usage: CPU|Total (Ticks)
+                    - usage_in_kernelmode: CPU|Kernel (Ticks)
+
+perMinuteMetricSuffixes:
+    - "Receive|MB"
+    - "Transmit|MB"
+    - "Receive|Errors"
+    - "Transmit|Errors"
+
+# Generate a custom dashboard based on the provided template
+customDashboard:
+    enabled: true
+    namePrefix: Podman Monitor
+    uploadDashboard: true
+    executionFrequencyMinutes: 5
+    # To upload the dashboard, please create a user from Controller UI or
+    # add the credentials of an existing user.
+    username: "ControllerUI_user"
+    password: "PlainTextPassword"
+    account: "customer1"
+    #passwordEncrypted: "ControllerUI_password_encrypted"
+    #encryptionKey: "welcome"
+
+    # If the AppName and TierName controller-info.xml or in the startup system properties,
+    # Add them here
+    applicationName: "AppName"
+    tierName: "tierName"
+
+    # Custom Template for Dashboard
+    # If not set, the default will be used
+    templateFile: monitors/DockerMonitor/podman.xml
