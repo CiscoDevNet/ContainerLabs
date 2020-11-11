@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: appd-windows-db-agent
+spec: 
+  selector:
+    matchLabels:
+      name: appd-windows-db-agent
+  template: 
+    metadata: 
+      labels: 
+        name: appd-windows-db-agent
+    spec:
+      nodeSelector:
+        kubernetes.io/os: windows
+        kubernetes.io/arch: amd64
+      serviceAccountName: appdynamics-db-sa
+      containers:
+      - name: appd-windows-db-agent
+        image: alexappd/db-agent:20.7.0.1892-win-nano
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: windows-db-config
+        env:
+        - name: APPDYNAMICS_CONTROLLER_HOST_NAME
+          value: overriding_env_variable_value
+        - name: APPDYNAMICS_AGENT_ACCOUNT_NAME
+          value: overriding_env_variable_value
+        - name: APPDYNAMICS_CONTROLLER_PORT
+          value: overriding_env_variable_value
+        - name: APPDYNAMICS_CONTROLLER_SSL_ENABLED
+          value: overriding_env_variable_value
+        - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-access-key
+              name: appd-secrets
+        resources:
+          limits:
+            cpu: "0.6"
+            memory: "2Gi"
+          requests:
+            cpu: "0.3"
+            memory: "1G"
+      restartPolicy: Always   
