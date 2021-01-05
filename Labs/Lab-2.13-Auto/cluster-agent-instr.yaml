@@ -21,8 +21,10 @@ spec:
       image: "docker.io/appdynamics/java-agent:latest"
       agentMountPath: /opt/appdynamics
   netvizInfo:
-   bciEnabled: true
-   port: 3892 
+    bciEnabled: true
+    port: 3892
+  instrumentationRules:
+    - appName: AI-Stage 
 
 
 
