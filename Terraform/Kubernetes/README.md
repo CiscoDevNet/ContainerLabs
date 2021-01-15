@@ -10,7 +10,15 @@ export TF_VAR_APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=xxxx
 
 ## Kubernetes Cluster
 
-Modify the main.tf file to connect to k8s cluster
+Modify the main.tf file to connect to k8s cluster. 
+
+```yaml
+provider "kubernetes" {
+  config_context = "my-context"
+}
+```
+
+The example below uses minikube cluster: 
 
 ```yaml 
 
@@ -25,6 +33,9 @@ provider "kubernetes" {
 }
 
 ```
+
+Please refer to the docs for further details -
+ https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs
 
 ## Run 
 
