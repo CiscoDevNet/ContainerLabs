@@ -39,9 +39,11 @@ Please refer to the docs for further details -
 
 ## Run 
 
-terraform init  
+cd into the java or dotnetcore and run these commands in sequence: 
 
-terraform plan 
+`terraform init` 
 
-terraform apply 
+`terraform plan`
+
+`terraform apply`
 
