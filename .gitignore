@@ -1,3 +1,10 @@
+#Terraform 
+Terraform/Kubernetes/*/*.tfstate
+Terraform/Kubernetes/*/*.backup
+Terraform/Kubernetes/*/.terraform/*
+Terraform/Kubernetes/*/*.lock.hcl
+
+
 # Temporary Build Files
 build/_output
 build/_test
