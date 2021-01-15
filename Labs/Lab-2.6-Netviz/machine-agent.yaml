@@ -33,7 +33,7 @@ spec:
           hostPort: 3892
         volumeMounts:
         - name: netviz-volume
-          mountPath: /netviz-agent/conf/agent_config.lua
+          mountPath: /opt/appdynamics/netviz/conf/agent_config.lua
           subPath: agent_config.lua
       - name: appd-infra-agent
         image: appdynamics/machine-agent-analytics:4.5.16
