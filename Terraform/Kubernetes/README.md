@@ -8,6 +8,8 @@ Create an environment variable on the Terraform host machine
 
 export TF_VAR_APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=xxxx
 
+or read the value from HashipCorp Vault. 
+
 ## Kubernetes Cluster
 
 Modify the main.tf file to connect to k8s cluster. 
