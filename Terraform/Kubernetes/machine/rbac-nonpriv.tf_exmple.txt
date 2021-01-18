@@ -1,0 +1,111 @@
+resource "kubernetes_service_account" "appdynamics_infraviz" {
+  metadata {
+    name = var.service_account 
+    
+  }
+}
+
+resource "kubernetes_cluster_role" "appdynamics_infraviz" {
+  metadata {
+    name = kubernetes_service_account.appdynamics_infraviz.metadata.0.name
+  }
+
+  rule {
+    verbs      = ["get", "watch", "list"]
+    api_groups = ["", "apps", "autoscaling", "batch", "extensions", "policy", "rbac.authorization.k8s.io"]
+    resources  = ["componentstatuses", "configmaps", "daemonsets", "deployments", "events", "endpoints", "horizontalpodautoscalers", "ingress", "jobs", "limitranges", "namespaces", "nodes", "pods", "persistentvolumes", "persistentvolumeclaims", "resourcequotas", "replicasets", "replicationcontrollers", "serviceaccounts", "services"]
+  }
+
+  rule {
+    verbs             = ["get", "watch", "list"]
+    non_resource_urls = ["*"]
+  }
+}
+
+resource "kubernetes_cluster_role_binding" "appdynamics_infraviz" {
+  metadata {
+    name = kubernetes_service_account.appdynamics_infraviz.metadata.0.name
+  }
+
+  subject {
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account.appdynamics_infraviz.metadata.0.name
+    namespace = kubernetes_namespace.custom_ns.metadata.0.name
+  }
+
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = kubernetes_service_account.appdynamics_infraviz.metadata.0.name
+  }
+}
+
+resource "kubernetes_pod_security_policy" "appdynamics_infraviz" {
+  metadata {
+    name = kubernetes_service_account.appdynamics_infraviz.metadata.0.name
+
+    annotations = {
+      "seccomp.security.alpha.kubernetes.io/allowedProfileNames" = "*"
+    }
+  }
+
+  spec {
+    allowed_capabilities = ["NET_ADMIN", "NET_RAW"]
+    volumes              = ["*"]
+    host_network         = true
+    host_pid             = true
+    host_ipc             = true
+
+    se_linux {
+      rule = "RunAsAny"
+    }
+
+    run_as_user {
+      rule = "RunAsAny"
+    }
+
+    fs_group {
+      rule = "RunAsAny"
+    }
+
+    supplemental_groups {
+      rule = "RunAsAny"
+    }
+
+    allow_privilege_escalation = true
+  }
+}
+
+resource "kubernetes_role" "appdynamics_infraviz" {
+  metadata {
+    name      = kubernetes_service_account.appdynamics_infraviz.metadata.0.name
+    namespace = kubernetes_namespace.custom_ns.metadata.0.name
+  }
+
+  rule {
+    verbs          = ["use"]
+    api_groups     = ["extensions"]
+    resources      = ["podsecuritypolicies"]
+    resource_names = [kubernetes_service_account.appdynamics_infraviz.metadata.0.name]
+  }
+}
+
+resource "kubernetes_role_binding" "appdynamics_infraviz" {
+  metadata {
+    name      = kubernetes_service_account.appdynamics_infraviz.metadata.0.name
+    namespace = kubernetes_namespace.custom_ns.metadata.0.name
+  }
+
+  subject {
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account.appdynamics_infraviz.metadata.0.name
+    namespace = kubernetes_namespace.custom_ns.metadata.0.name
+  }
+
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "Role"
+    name      = kubernetes_service_account.appdynamics_infraviz.metadata.0.name
+  }
+}
+
