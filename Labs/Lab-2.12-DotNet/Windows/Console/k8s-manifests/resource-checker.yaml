@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resource-checker-service
+spec:
+  selector:
+    matchLabels:
+      app: resource-checker-service
+      tier: backend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: resource-checker-service
+        tier: backend
+        track: stable
+    spec:
+      nodeSelector:
+        kubernetes.io/os: windows
+      volumes:
+        - name: appd-dotnet-agent
+          emptyDir: {}
+      initContainers:
+        - name:  micro-dotnet-agent
+          image: appdynamics/dotnet-agent:20.6.0-micro
+          command: ["pwsh", "-command", "copy-item -path c:/appdynamics/dotnet-agent/* -destination c:/appd-dotnet-agent -Recurse"]
+          volumeMounts:
+          - mountPath: "c:/appd-dotnet-agent"
+            name: appd-dotnet-agent
+      containers:
+      - name: resource-checker-service
+        image: iogbole/console_resouce_checker:initcontainer
+        ports:
+        - name: http
+          containerPort: 80
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: "c:/appdynamics/dotnet-agent"
+            name: appd-dotnet-agent
+        resources: {}
+        env: 
+        - name: APPDYNAMICS.AGENT.ACCOUNTACCESSKEY
+          valueFrom:
+              secretKeyRef: 
+                 name: appd-secret
+                 key: appd-key
+        - name: APPDYNAMICS.AGENT.APPLICATIONNAME
+          value: aspdotnet_app
+        - name:  APPDYNAMICS_AGENT_TIER_NAME
+          value: resource-checker
+        ##### PLEASE READ #########
+        # It is recommended to hard code the value of APPDYNAMICS_AGENT_NODE_NAME env if the instrumented (.exe)
+        # app is designed and expected to always have 1 replica. For example, <tier_name>_1. 
+        # If the instrumented application scales to > 1 replicas, it is recommended to pass a dynamic node using 
+        # the pod or container information as show below. Please refer to this doc for further detail. 
+        # https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/
+        - name: APPDYNAMICS_AGENT_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: APPDYNAMICS_AGENT_UNIQUE_HOST_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName  
+        envFrom:
+          - configMapRef:
+              name: micro-dotnet-agent-config
