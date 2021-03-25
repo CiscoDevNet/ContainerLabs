@@ -122,7 +122,7 @@ spec:
   imageWin: docker.io/appdynamics/machine-agent-analytics:20.6.0-win-ltsc2019
   nodeOS: windows
   account: "customer1"
-  globalAccount: "customer1_ecb5bf4e28d5"
+  globalAccount: "customer1_GUID"
   enableDockerViz: "false"
   stdoutLogging: true
   resources:
@@ -131,4 +131,4 @@ spec:
       memory: "1G"
     requests:
       cpu: 200m
-      memory: "800M"
+      memory: "500M"
