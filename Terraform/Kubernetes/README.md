@@ -6,7 +6,7 @@ These examples contain HarshipCorp Configuration Language (HCL)  deployment file
 
 Create an environment variable on the Terraform host machine  
 
-export TF_VAR_APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=xxxx
+export `TF_VAR_APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=xxxx`
 
 or read the value from HashipCorp Vault. 
 
