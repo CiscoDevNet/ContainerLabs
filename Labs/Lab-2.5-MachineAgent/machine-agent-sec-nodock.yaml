@@ -12,9 +12,12 @@ spec:
         name: appd-infra-agent
     spec:
       serviceAccountName: appdynamics-infraviz
+      hostIPC: true
+      hostNetwork: true
+      hostPID: true
       containers:
       - name: appd-infra-agent
-        image: sashaz/machine-agent:4.5.16
+        image: docker.io/appdynamics/machine-agent:21.6.0
         imagePullPolicy: Always
         env:
         - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
@@ -25,6 +28,8 @@ spec:
         envFrom:
         - configMapRef:
             name: ma-config
+        securityContext:
+          privileged: true
         resources:
           limits:
             cpu: "0.6"
