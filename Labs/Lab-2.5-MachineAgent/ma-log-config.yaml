@@ -23,16 +23,16 @@ data:
 
         <Loggers>
             <Logger name="com.singularity" level="info" additivity="false">
-                <AppenderRef ref="FileAppender"/>
+                <AppenderRef ref="ConsoleAppender"/>
             </Logger>
             <Logger name="com.appdynamics" level="info" additivity="false">
-                <AppenderRef ref="FileAppender"/>
+                <AppenderRef ref="ConsoleAppender"/>
             </Logger>
             <Logger name="com.singularity.ee.agent.systemagent.task.sigar.SigarAppAgentMonitor" level="info" additivity="false">
-                <AppenderRef ref="FileAppender"/>
+                <AppenderRef ref="ConsoleAppender"/>
             </Logger>
             <Root level="error">
-                <AppenderRef ref="FileAppender"/>
+                <AppenderRef ref="ConsoleAppender"/>
             </Root>
         </Loggers>
 
