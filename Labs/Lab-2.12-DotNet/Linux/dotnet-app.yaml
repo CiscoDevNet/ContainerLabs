@@ -27,7 +27,7 @@ spec:
           name: appd-agent-repo
       containers:
       - name: dotnet-app
-        image: microsoft/dotnet-samples:aspnetapp
+        image: mcr.microsoft.com/dotnet/samples:aspnetapp
         imagePullPolicy: IfNotPresent
         envFrom:
            - configMapRef:
