@@ -3,7 +3,7 @@
   "version": "0.14.0-SNAPSHOT",
   "description": "The Open MCT core platform.",
   "dependencies": {
-    "appdynamics": "^4.5.17",
+    "appdynamics": "^23.5.0",
     "d3-array": "1.2.x",
     "d3-axis": "1.0.x",
     "d3-collection": "1.0.x",
